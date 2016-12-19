@@ -21,15 +21,7 @@ node {
 		linux: { node {   sh "echo building on mac now"}}
 		)	
 	}
-	/*stage ('\u2779Stage4: TestMultiSCM')	 {
-		parallel repos.collectEntries {repo -> [/*thread label */repo, {
-		node {
-			dir('sources') { // switch to subdir
-				git url: "https://github.com/user/${repo}"
-				sh 'make all -Dtarget=../build'
-			}
-		}}]}
-	}*/
+
 	}// node
 } // try end
 catch (exc) {
