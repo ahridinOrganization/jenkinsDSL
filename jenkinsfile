@@ -7,12 +7,12 @@ import java.net.URL
  
 try {
 node {
-	stage ('\u2776 PrepareEnv'){
+	stage ('\u2776Stage1: PrepareEnv'){
 		echo "\u2600 BUILD_URL=${env.BUILD_URL}"
 		def workspace = pwd()
 		echo "\u2600 workspace=${workspace}"
 		}
-	stage('Build') { /* .. snip .. */ }	
+	stage('\u2776Stage2: Build') { /* .. snip .. */ }	
 	stage ('\u2777 Stage 2') { echo "\u2600 NODE_NAME=${env.NODE_NAME}"	}
 	}// node
 } // try end
