@@ -15,10 +15,16 @@ node {
 		echo "\u2600 workspace=${workspace}"		
 		}
 	stage ('\u2777Stage2: Build') { /* .. snip .. */ }	
-	stage ('\u2778Stage3: Test') { 
-		wrap([$class: 'TimestamperBuildWrapper']) {
-			echo "\u2600 NODE_NAME=${env.NODE_NAME}"	}
-		}
+	stage ('\u2778Stage3: Test') { echo "\u2600 NODE_NAME=${env.NODE_NAME}"	}
+	stage ('\u2779Stage4: TestMultiSCM')	 {
+		parallel repos.collectEntries {repo -> [/* thread label */repo, {
+		node {
+			dir('sources') { // switch to subdir
+				git url: "https://github.com/user/${repo}"
+				sh 'make all -Dtarget=../build'
+			}
+		}}]}
+	}
 	}// node
 } // try end
 catch (exc) {
