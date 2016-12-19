@@ -16,8 +16,8 @@ try {
 		stage ('\u2777Stage2: Build') { /* .. snip .. */ }	
 		stage ('\u2778Stage3: Test') { 
 			parallel (
-			windows: { node {echo "\u2600 NODE_NAME=${env.NODE_NAME}"; sh "echo building on windows now" }},
-			linux: { node {echo "\u2600 NODE_NAME=${env.NODE_NAME}"	; sh "echo building on mac now"}}
+			windows: { node {echo "NODE_NAME=${env.NODE_NAME}"; sh "echo building on windows now" }},
+			linux: { node {echo "NODE_NAME=${env.NODE_NAME}"	; sh "echo building on mac now"}}
 			)	
 			}
 	}// node
