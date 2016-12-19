@@ -8,12 +8,12 @@ import java.net.URL
  
 try {
 
-wrap([$class: 'AnsiColorBuildWrapper']) {        
+wrap([$class: 'AnsiColorBuildWrapper']) {  
+wrap([$class: 'TimestamperBuildWrapper']) {
+          
 node {
 	stage ('\u2776Stage1: PrepareEnv'){
-		echo "\u2600BUILD_URL\t=${env.BUILD_URL}\
-		BUILD_CAUSE\t=${env.BUILD_CAUSE}
-		BUILD_ID\t=${env.BUILD_ID}"
+		echo "\u2600BUILD_URL\t=${env.BUILD_URL}\nBUILD_CAUSE\t=${env.BUILD_CAUSE}\nBUILD_ID\t=${env.BUILD_ID}"
 		def workspace = pwd()
 		echo "\u2600 workspace=${workspace}"
 		}
@@ -46,3 +46,4 @@ catch (exc) {
 if (err) {   throw err }
 }
 }
+}  
