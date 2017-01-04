@@ -1,3 +1,4 @@
+#!groovy
 /**
  * Dumps environment varibles to the log.
  */

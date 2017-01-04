@@ -1,3 +1,4 @@
+#!groovy
 /**
  * Prints a stub message for testing purposes.
  */
