@@ -24,7 +24,7 @@ try {
 } // try end
 catch (exc) {
 	/*
-	err = caughtError
+	deff err = caughtError
 	currentBuild.result = "FAILURE"
 	String recipient = 'ahridin@cisco.com'
 	mail subject: "${env.JOB_NAME} (${env.BUILD_NUMBER}) failed",
