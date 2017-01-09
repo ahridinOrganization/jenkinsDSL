@@ -9,6 +9,9 @@ def checkout() {
 	}
 
 def checkout(String scmRemote) {
+	def scmCredentialsId='29bae92d-6b9c-4f76-a54e-5b72f851a397'
+	def scmUpdater='UpdateUpdater'
+	def scmType='SubversionSCM'
 	println "========= CSM checkout ========= "
     checkout([$class: scmType, additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: scmCredentialsId, depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
 	}
