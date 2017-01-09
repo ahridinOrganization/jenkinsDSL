@@ -1,8 +1,4 @@
 #!groovy
-def scmCredentialsId='29bae92d-6b9c-4f76-a54e-5b72f851a397'
-def scmRemote='https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/acman'
-def scmUpdater='CheckoutUpdater'
-
 def call(body) {
     // evaluate the body block, and collect configuration into the object
     def config = [:]
@@ -15,7 +11,7 @@ def call(body) {
         stage('checkout') {
             println "===> CSM checkout $scmRemote"
             println "===> CSM checkout ${config.environment}"
-	        checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
+	        checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: 'https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/acman']], workspaceUpdater: [$class: 'CheckoutUpdater']])
 	       //git url: "https://github.com/jenkinsci/${config.name}-plugin.git"
         }
         stage ('build'){
