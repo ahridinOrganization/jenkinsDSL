@@ -1,19 +1,20 @@
 #!groovy
 
+#!groovy
+/**
+ * Prints a stub message for testing purposes.
+ */
+
 def version = '1.0'
 
-def run() {
-  println "Hello from STAGE-0!"  
+def printHello(String msg) {
+  //println "Hello, world!"
+  println msg;
 }
 
 return this;
 
-//def environment = load '/environment.groovy'
-//def run() { environment.dumpEnvVars()}
-//return this;
-
-
-
- //the you can call the function in file1 as
-
+/*def environment = load '/environment.groovy'
+def run() { environment.dumpEnvVars()}
+return this;*/
 
