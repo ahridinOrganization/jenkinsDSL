@@ -2,12 +2,12 @@
 /**
  * Prints a stub message for testing purposes.
  */
-
 def version = '1.0'
+def helloworld
+node {
+    helloworld = fileLoader.load('helloworld.groovy'); 
+    
+}()
 
-def printHello(String msg) {
-  //println "Hello, world!"
-  println msg;
-}
 
 return this;
