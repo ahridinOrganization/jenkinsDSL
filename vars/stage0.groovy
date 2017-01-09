@@ -6,7 +6,7 @@ def pipeline
 node {
     //pipeline = load 'pipeline.groovy'
     //pipeline.devQAStaging()
-    pipeline = load 'helloworld.groovy'
+    pipeline = load 'vars/helloworld.groovy'
     helloworld.printHello("Hello from STAGE-0!")
     
 }
