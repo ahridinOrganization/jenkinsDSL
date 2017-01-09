@@ -3,7 +3,9 @@
      //def scmRemote='https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/acman'
      def scmUpdater='UpdateUpdater'
 def checkout(String scmRemote) {
-	println "===> CSM checkout"
+	println "===> CSM checkout $scmRemote"
+	println "\t$scmCredentialsId"
+	println "\t$scmUpdater"
     	checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: scmCredentialsId, depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
 	}
 
