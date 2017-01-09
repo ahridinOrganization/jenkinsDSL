@@ -1,14 +1,19 @@
 #!groovy
-
-def scmCredentialsId='29bae92d-6b9c-4f76-a54e-5b72f851a397'
-def scmRemote='https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/acman'
-def scmUpdater='UpdateUpdater'
-def scmType='SubversionSCM'
-
 def checkout() {
+	def scmCredentialsId='29bae92d-6b9c-4f76-a54e-5b72f851a397'
+	def scmRemote='https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/acman'
+	def scmUpdater='UpdateUpdater'
+	def scmType='SubversionSCM'
+	println "========= CSM checkout ========= "
+    	checkout([$class: scmType, additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: scmCredentialsId, depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
+	}
+
+def checkout(String scmRemote) {
 	println "========= CSM checkout ========= "
     checkout([$class: scmType, additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: scmCredentialsId, depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
 	}
+return this;
+
 return this;
 
 
