@@ -7,7 +7,7 @@ def version = '1.0'
 
 def printHello(String msg) {
   //println "Hello, world!"
-  prinln msg;
+  println msg;
 }
 
 return this;
