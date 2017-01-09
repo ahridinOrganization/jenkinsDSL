@@ -2,11 +2,7 @@
 /**
  * Prints a stub message for testing purposes.
  */
-def pipeline
-
-
 def helloworld = fileLoader.load('vars/helloworld'); 
-
 node {
     //helloworld.printHello("Hello from STAGE-0!")
     //InputStream streamFileFromWorkspace('helloworld.groovy')
@@ -15,7 +11,8 @@ node {
     //pipeline = load 'pipeline.groovy'
     //pipeline.devQAStaging()
     //pipeline = load 'vars/helloworld.groovy'
-    helloworld.printHello("Hello from STAGE-0!")
+    helloworld.printHello("Hello from STAGE-00000!")
+    
     
 }
 //pipeline.production()
