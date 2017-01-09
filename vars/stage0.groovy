@@ -9,10 +9,10 @@ def helloworld = fileLoader.load('vars/helloworld');
         helloworld.printHello("Hello from STAGE-00000!")
       //  checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
    }
-def myJob = freeStyleJob('SimpleJob')
-myJob.with {
-    description 'A Simple Job'
-}
+//def myJob = freeStyleJob('SimpleJob')
+//myJob.with {
+  //  description 'A Simple Job'
+//}
 //}
 //pipeline.production()
 
