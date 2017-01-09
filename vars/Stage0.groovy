@@ -1,12 +1,9 @@
 
-jobDsl('stage-0') {
-    scm {
-        git('git://github.com/quidryan/aws-sdk-test.git')
-    }
-    triggers {
-        scm('H/15 * * * *')
-    }
-    steps {
-        maven('-e clean test')
-    }
+def helloworld = fileLoader.load('helloworld');
+def environment = fileLoader.load('environment');
+ //the you can call the function in file1 as
+
+stage ('Preparations') {
+	helloworld.printHello("Good morning!")
+	environment.dumpEnvVars()			
 }
