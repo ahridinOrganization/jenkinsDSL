@@ -1,5 +1,5 @@
 
-job('stage-0') {
+jobDsl('stage-0') {
     scm {
         git('git://github.com/quidryan/aws-sdk-test.git')
     }
