@@ -1,17 +1,13 @@
-
+#!groovy
 import com.cloudbees.groovy.cps.NonCPS
-def version = '1.0'
+
+def somename
+environment = load '/environment.groovy'
+ //the you can call the function in file1 as
+
 @NonCPS
-def run() {
-  def helloworld = fileLoader.load('helloworld');
-  def environment = fileLoader.load('environment');
-  
-  stage ('Preparations') {
-	helloworld.printHello("Good morning!")
-	environment.dumpEnvVars()			
-	}
+def run() { environment.dumpEnvVars()}
 	
-}
 return this;
 
 
