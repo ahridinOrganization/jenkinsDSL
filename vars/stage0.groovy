@@ -4,9 +4,9 @@
  */
 def pipeline
 
-fileLoader.withGit('https://github.com/ahridinOrganization/jenkinsDSL.git', 'master', null, '') {
-	helloworld = fileLoader.load('vars/helloworld'); 
-}
+
+def helloworld = fileLoader.load('vars/helloworld'); 
+
 node {
     //helloworld.printHello("Hello from STAGE-0!")
     //InputStream streamFileFromWorkspace('helloworld.groovy')
