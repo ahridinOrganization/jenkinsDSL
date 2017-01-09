@@ -17,7 +17,6 @@ def checkout(String scmRemote) {
 	}
 return this;
 
-return this;
 
 
 
