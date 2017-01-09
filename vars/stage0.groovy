@@ -3,21 +3,15 @@
  * Prints a stub message for testing purposes.
  */
 def helloworld = fileLoader.load('vars/helloworld'); 
-node {
-    //helloworld.printHello("Hello from STAGE-0!")
-    //InputStream streamFileFromWorkspace('helloworld.groovy')
-    
-    //helloworld.printHello("Hello from STAGE-0!")
-    //pipeline = load 'pipeline.groovy'
-    //pipeline.devQAStaging()
-    //pipeline = load 'vars/helloworld.groovy'
-    helloworld.printHello("Hello from STAGE-00000!")
-    
+def call () {
+    node {
+        
+        helloworld.printHello("Hello from STAGE-00000!")
+        checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
+    }
     
 }
 //pipeline.production()
 
 return this;
-
-
 
