@@ -4,7 +4,9 @@
  */
 def pipeline
 node {
-    helloworld.printHello("Hello from STAGE-0!")
+    //helloworld.printHello("Hello from STAGE-0!")
+    InputStream streamFileFromWorkspace('helloworld.groovy')
+    //helloworld.printHello("Hello from STAGE-0!")
     //pipeline = load 'pipeline.groovy'
     //pipeline.devQAStaging()
     //pipeline = load 'vars/helloworld.groovy'
