@@ -2,12 +2,17 @@
 /**
  * Prints a stub message for testing purposes.
  */
-def version = '1.0'
-def helloworld
+def pipeline
 node {
-    helloworld = fileLoader.load('helloworld.groovy'); 
+    //pipeline = load 'pipeline.groovy'
+    //pipeline.devQAStaging()
+    pipeline = load 'helloworld.groovy'
+    helloworld.printHello("Hello from STAGE-0!")
     
-}()
-
+}
+//pipeline.production()
 
 return this;
+
+
+
