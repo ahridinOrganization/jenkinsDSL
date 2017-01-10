@@ -4,8 +4,9 @@ def call(body) {
         body.resolveStrategy = Closure.DELEGATE_FIRST
         body.delegate = config
         body()
+        timestamps {
         //println(nodeNames().join(",").toString()) //getnodes        
-        //timestamps {
+        
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             try {
@@ -48,7 +49,7 @@ def call(body) {
             }
         }
 }
-
+}
 //build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
 
 // Collects a list of Node names from the current Jenkins instance
