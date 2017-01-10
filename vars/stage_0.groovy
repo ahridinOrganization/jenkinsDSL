@@ -1,5 +1,4 @@
-    
-    
+  
 def call(body) {
     try {
         def config = [:]
@@ -7,7 +6,7 @@ def call(body) {
         body.delegate = config
         body()
 
-        println(nodeNames().join(",").toString()) ////getnodes
+        println(nodeNames().join(",").toString()) //getnodes
 
         timestamps {
             //timeout(time: 180, unit: 'MINUTES')
