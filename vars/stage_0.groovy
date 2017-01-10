@@ -26,6 +26,7 @@ def call(body) {
                           mavenInstallation(config.mavenVersion)
                           goals(goals[i]) 
                           runHeadless(true)
+                          rootPOM(config.mavenPom)
                           //goals("-B -Prun-its clean verify")
                           localRepository(LocalToWorkspace)
                          }
@@ -35,14 +36,14 @@ def call(body) {
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
             stage('Promote') {
-                publishers {
+                //publishers {
                   //buildDescription('', '${BRANCH}')
                 //publishers { mailer('', true, true) findbugs('**/findbugsXml.xml', true) pmd('**/*.pmd') cobertura('**/target/site/cobertura/coverage.xml')} 
                 //println("="*80) 
                 //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
-                }
+               // }
               }
             
             } catch (e) {  // if any exception occurs, mark the build as failed
