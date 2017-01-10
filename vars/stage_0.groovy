@@ -1,6 +1,5 @@
   
 def call(body) {
-    try {
         def config = [:]
         body.resolveStrategy = Closure.DELEGATE_FIRST
         body.delegate = config
@@ -11,6 +10,7 @@ def call(body) {
         timestamps {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
+            try {
             println("="*80)
             println(config.mavenGoals)
             (config.mavenGoals).split(",").each { goal -> println ("===>$goal") }
@@ -32,16 +32,16 @@ def call(body) {
                 //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
-            //}         
+            //}
+            } catch (e) {  // if any exception occurs, mark the build as failed
+              currentBuild.result = 'FAILURE'
+              throw e
+            } finally {
+              step([$class: 'WsCleanup', cleanWhenFailure: false])
+            }
         }
         }
-    } catch (e) {  // if any exception occurs, mark the build as failed
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
-         step([$class: 'WsCleanup', cleanWhenFailure: false])
-    }
-}
+ }
 //build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
 
 // Collects a list of Node names from the current Jenkins instance
