@@ -9,10 +9,10 @@ def call(body) {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             try {
-            currentBuild.displayName = "fooName"
-            currentBuild.description = "fooDescription"
+              //currentBuild.displayName = "${BUILD_USER_ID}."
+              currentBuild.description = "${BUILD_ID}.${BUILD_TIMESTAMP}.${NODE_NAME}.${BUILD_USER_ID}"
               //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
-            //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
+              //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
             jdk(config.jdkVersion)
             stage("Checkout") {
               checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])
@@ -22,8 +22,9 @@ def call(body) {
                 for (int i=0;i<goals.length;++i)
                   maven {
                           mavenInstallation(config.mavenVersion)
-                          goals(goals[i])} 
+                          goals(goals[i]) 
                           runHeadless(true)
+                  }
                 //def mvnHome = tool 'M2'
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
