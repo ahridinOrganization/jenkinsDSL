@@ -7,7 +7,7 @@ def call(body) {
     
     //getnodes
     //out.println(nodeNames().join(",").toString())
-   
+    try {
     node (){
         out.println("="*80)    
         stage("Checkout") {
@@ -24,6 +24,12 @@ def call(body) {
              step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
         }
    }
+   } catch (e) {  // if any exception occurs, mark the build as failed
+         currentBuild.result = 'FAILURE'
+            throw e
+        } finally {
+          step([$class: 'WsCleanup', cleanWhenFailure: false])
+        }     
 }
 //build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
 
