@@ -1,14 +1,15 @@
     
 def call(body) {
-    def config = [:]
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = config
-    body()
-    
-    //getnodes
-    //out.println(nodeNames().join(",").toString())
-    node (){
-        try {
+    try {
+        def config = [:]
+        body.resolveStrategy = Closure.DELEGATE_FIRST
+        body.delegate = config
+        body()
+
+        timestamps {
+        println(nodeNames().join(",").toString()) ////getnodes
+        node (){
+        
             println("="*80)    
             stage("Checkout") {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
@@ -22,13 +23,14 @@ def call(body) {
             stage('Promote') { 
                 step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
-            }
-        } catch (e) {  // if any exception occurs, mark the build as failed
-            currentBuild.result = 'FAILURE'
-            throw e
-        } finally {
-          step([$class: 'WsCleanup', cleanWhenFailure: false])
-        } 
+            }         
+        }
+        }
+    } catch (e) {  // if any exception occurs, mark the build as failed
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
+         step([$class: 'WsCleanup', cleanWhenFailure: false])
     }
 }
 //build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
