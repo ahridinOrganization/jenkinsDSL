@@ -7,17 +7,17 @@ def call(body) {
         body()
 
         timestamps {
+            //timeout(time: 180, unit: 'MINUTES') 
         println(nodeNames().join(",").toString()) ////getnodes
         node (){
-        
             println("="*80)    
             stage("Checkout") {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
-                timeout(time: 180, unit: 'MINUTES') 
                 //docker.image(config.environment).inside { sh config.mainScript}            
                 def mvnHome = tool 'M2'
+                //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
             stage('Promote') { 
