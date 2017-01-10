@@ -13,14 +13,16 @@ def call(body) {
         node () {
             println("="*80) 
             println ("Checkout") 
+            jdk(config.jdkVersion)            
             stage("Checkout") {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
                 //def mvnHome = tool 'M2'
-                (config.goals).split(",").each { goal -> println ("===>$goal") 
-                                              maven { mavenInstallation('maven-3x')
-                                              goals(goal) } 
+                (config.mavenGoals).split(",").each { goal -> println ("===>$goal") 
+                                              maven { 
+                                                mavenInstallation(config.mavenVersion)
+                                                 goals(goal) } 
                 }
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
