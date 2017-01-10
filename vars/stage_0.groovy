@@ -11,16 +11,13 @@ def call(body) {
             try {
             //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
             //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
-              
-            jdk(config.jdkVersion)            
+            jdk(config.jdkVersion)
             stage("Checkout") {
-              //wrappers {credentialsBinding { file('SIGNING_KEY_FILE', 'fusesource-gpg-signing-key') string('SIGNING_KEY_PASSPHRASE', 'fusesource-gpg-signing-key-passphrase')}
-              checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
-             }
+              checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])
             }
             stage('Build') {
-              goals=config.mavenGoals.split(",")
-              for (int i=0;i<goals.length;++i)  
+                goals=config.mavenGoals.split(",")
+                for (int i=0;i<goals.length;++i)
                   maven {mavenInstallation(config.mavenVersion) goals(goals[i])}            
                 //def mvnHome = tool 'M2'
                 //maven("test -Dproject.name=${project}/${branchName}")
@@ -40,7 +37,7 @@ def call(body) {
               step([$class: 'WsCleanup', cleanWhenFailure: false])
             }
         }
-        }
+}
 
 //build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
 
