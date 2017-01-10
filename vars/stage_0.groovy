@@ -6,24 +6,23 @@ def call(body) {
         body.delegate = config
         body()
 
-        println(nodeNames().join(",").toString()) //getnodes
+        //println(nodeNames().join(",").toString()) //getnodes
 
         timestamps {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
-            println("="*80) 
-            println ("Checkout") 
+            println("="*80)
+            (config.mavenGoals).split(",").each { goal -> println ("===>$goal") }
             jdk(config.jdkVersion)            
             stage("Checkout") {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
                 //def mvnHome = tool 'M2'
-                (config.mavenGoals).split(",").each { goal -> println ("===>$goal") 
-                                              maven { 
-                                                mavenInstallation(config.mavenVersion)
-                                                 goals(goal) } 
-                }
+                (config.mavenGoals).split(",").each { goal -> 
+                                                      println ("===>$goal") 
+                                                      maven { mavenInstallation(config.mavenVersion) goals(goal) } 
+                                                     }
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
@@ -47,7 +46,7 @@ def call(body) {
 // Collects a list of Node names from the current Jenkins instance
 @NonCPS
 def nodeNames() {
-  return jenkins.model.Jenkins.instance.nodes.collect { node -> (node.name=="linux")? node:null}
+  return jenkins.model.Jenkins.instance.nodes.collect { node -> (node.name==config.slave)? node:null}
 }
 /*
 publishers {
