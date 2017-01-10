@@ -9,11 +9,14 @@ def call(body) {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             try {
-                multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
-            println("="*80)
+            //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
+            //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
+              
             jdk(config.jdkVersion)            
             stage("Checkout") {
-                //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
+              //wrappers {credentialsBinding { file('SIGNING_KEY_FILE', 'fusesource-gpg-signing-key') string('SIGNING_KEY_PASSPHRASE', 'fusesource-gpg-signing-key-passphrase')}
+              checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
+             }
             }
             stage('Build') {
               goals=config.mavenGoals.split(",")
@@ -47,7 +50,7 @@ def nodeNames() {
   return jenkins.model.Jenkins.instance.nodes.collect { node -> (node.name==config.slave)? node:null}
 }
 
-def multiwrap(wrappers, body) { _multiwrap(wrappers, 0, body)}
+def multiwrap(wrappers, body) {_multiwrap(wrappers, 0, body)}
 
 /*
 publishers {
