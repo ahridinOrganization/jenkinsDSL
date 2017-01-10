@@ -4,13 +4,12 @@ def call(body) {
         body.resolveStrategy = Closure.DELEGATE_FIRST
         body.delegate = config
         body()
-
-        //println(nodeNames().join(",").toString()) //getnodes
-        
-        timestamps {
+        //println(nodeNames().join(",").toString()) //getnodes        
+        //timestamps {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             try {
+                multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) {
             println("="*80)
             jdk(config.jdkVersion)            
             stage("Checkout") {
@@ -25,7 +24,8 @@ def call(body) {
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
             //stage('Promote') {
-                 //println("="*80) 
+                //publishers { mailer('', true, true) findbugs('**/findbugsXml.xml', true) pmd('**/*.pmd') cobertura('**/target/site/cobertura/coverage.xml')} 
+                //println("="*80) 
                 //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
@@ -47,6 +47,7 @@ def nodeNames() {
   return jenkins.model.Jenkins.instance.nodes.collect { node -> (node.name==config.slave)? node:null}
 }
 
+def multiwrap(wrappers, body) { _multiwrap(wrappers, 0, body)}
 
 /*
 publishers {
