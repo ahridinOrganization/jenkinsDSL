@@ -9,7 +9,7 @@ def call(body) {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             try {
-                multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) {
+                multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
             println("="*80)
             jdk(config.jdkVersion)            
             stage("Checkout") {
