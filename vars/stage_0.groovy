@@ -38,7 +38,7 @@ def call(body) {
             }
         }
         }
- }
+
 //build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
 
 // Collects a list of Node names from the current Jenkins instance
