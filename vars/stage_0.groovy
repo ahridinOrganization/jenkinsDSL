@@ -17,8 +17,11 @@ def call(body) {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
-                def mvnHome = tool 'M2'
-                goals.each { goal -> maven { mavenInstallation('maven-3x') goals(goal) } }
+                //def mvnHome = tool 'M2'
+                (config.goals).each { goal -> println ("===>$goal") 
+                                              maven { mavenInstallation('maven-3x')
+                                              goals(goal) } 
+                }
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
