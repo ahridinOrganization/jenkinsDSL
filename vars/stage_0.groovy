@@ -9,17 +9,15 @@ def call(body) {
         timestamps {
             //timeout(time: 180, unit: 'MINUTES') 
         println(nodeNames().join(",").toString()) ////getnodes
-        node (){
+        node () {
             println("="*80) 
             println ("Checkout") 
             stage("Checkout") {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
-                println("="*80) 
-                println ("Build") 
-                //docker.image(config.environment).inside { sh config.mainScript}            
                 def mvnHome = tool 'M2'
+                goals.each { goal -> maven { mavenInstallation('maven-3x') goals(goal) }
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
@@ -28,7 +26,7 @@ def call(body) {
                 //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
-            }         
+            //}         
         }
         }
     } catch (e) {  // if any exception occurs, mark the build as failed
