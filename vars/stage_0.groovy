@@ -27,7 +27,7 @@ def call(body) {
                           mavenInstallation(config.mavenVersion)
                           goals(goals[i]) 
                           runHeadless(true)
-                          rootPOM("${workspace}/pom.xml")
+                          //rootPOM("pom.xml")
                           //goals("-B -Prun-its clean verify")
                           localRepository(LocalToWorkspace)
                          }
