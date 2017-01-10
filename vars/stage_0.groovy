@@ -1,15 +1,22 @@
+import hudson.model.*
+    
 def call(body) {
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
     println (nodeNames().join(",").toString())
+    
+//Debug
+Executor.currentExecutor().currentExecutable.getAction(ParametersAction).parameters.each { ParameterValue v -> println v)}
+    
     node (){
          stage("Checkout") {
-            checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: 'CheckoutUpdater']])        
+            checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
          }
         stage('Main') {
-            docker.image(config.environment).inside { sh config.mainScript}
+           timeout(time: 180, unit: 'MINUTES') 
+           docker.image(config.environment).inside { sh config.mainScript}
         }
         stage('Post') { 
             sh config.postScript
@@ -23,5 +30,25 @@ def call(body) {
 def nodeNames() {
   return jenkins.model.Jenkins.instance.nodes.collect { node -> (node.name=="linux")? node:null}
 }
-
+/*
+publishers {
+        extendedEmail {
+            recipientList('me@halfempty.org')
+            defaultSubject('Oops')
+            defaultContent('Something broken')
+            contentType('text/html')
+            triggers {
+                beforeBuild()
+                stillUnstable {
+                    subject('Subject')
+                    content('Body')
+                    sendTo {
+                        developers()
+                        requester()
+                        culprits()
+                    }
+                }
+            }
+        }
+    }*/
 
