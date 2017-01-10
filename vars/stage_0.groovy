@@ -1,23 +1,30 @@
-import hudson.model.*
+import java.util.logging.Logger
+Logger logger = Logger.getLogger('org.example.jobdsl')
+logger.info('Hello from a Job DSL script!')
     
 def call(body) {
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    println (nodeNames().join(",").toString())
     
+    //getnodes
+    //out.println(nodeNames().join(",").toString())
+   
     node (){
-        println "="*80    
+        out.println("="*80)    
         stage("Checkout") {
-            checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
+            //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
          }
-        stage('Main') {
+        stage('Build') {
            timeout(time: 180, unit: 'MINUTES') 
-           docker.image(config.environment).inside { sh config.mainScript}
+           //docker.image(config.environment).inside { sh config.mainScript}            
+            def mvnHome = tool 'M2'
+            //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
         }
-        stage('Post') { 
-            sh config.postScript
+        stage('Promote') { 
+             step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
+             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
         }
    }
 }
