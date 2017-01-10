@@ -12,6 +12,7 @@ def call(body) {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             println("="*80)
+            println(config.mavenGoals)
             (config.mavenGoals).split(",").each { goal -> println ("===>$goal") }
             jdk(config.jdkVersion)            
             stage("Checkout") {
