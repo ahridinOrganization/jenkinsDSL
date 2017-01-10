@@ -19,7 +19,7 @@ def call(body) {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
-                runGoals()
+                runGoals(config.mavenGoals)
                 //def mvnHome = tool 'M2'
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
@@ -48,8 +48,8 @@ def nodeNames() {
 }
 
 @NonCPS
-def runGoals() {
-    (config.mavenGoals).split(",").each{ goal -> println ("===>${goal}") maven {mavenInstallation(config.mavenVersion) goals(goal)}}
+def runGoals(mavenGoals) {
+    (mavenGoals).split(",").each{ goal -> println ("===>${goal}") maven {mavenInstallation(config.mavenVersion) goals(goal)}}
 }
 /*
 publishers {
