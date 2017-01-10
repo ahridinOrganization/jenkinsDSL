@@ -9,7 +9,9 @@ def call(body) {
             //timeout(time: 180, unit: 'MINUTES')
         node () {
             try {
-            //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
+            currentBuild.displayName = "fooName"
+            currentBuild.description = "fooDescription"
+              //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
             //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
             jdk(config.jdkVersion)
             stage("Checkout") {
@@ -23,13 +25,16 @@ def call(body) {
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
-            //stage('Promote') {
+            stage('Promote') {
+                publishers {
+                  //buildDescription('', '${BRANCH}')
                 //publishers { mailer('', true, true) findbugs('**/findbugsXml.xml', true) pmd('**/*.pmd') cobertura('**/target/site/cobertura/coverage.xml')} 
                 //println("="*80) 
                 //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
-            //}
+                }
+              }
             } catch (e) {  // if any exception occurs, mark the build as failed
               currentBuild.result = 'FAILURE'
               throw e
