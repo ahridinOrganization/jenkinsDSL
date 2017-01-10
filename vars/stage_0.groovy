@@ -20,7 +20,10 @@ def call(body) {
             stage('Build') {
                 goals=config.mavenGoals.split(",")
                 for (int i=0;i<goals.length;++i)
-                  maven {mavenInstallation(config.mavenVersion) goals(goals[i])}            
+                  maven {
+                          mavenInstallation(config.mavenVersion)
+                          goals(goals[i])} 
+                          runHeadless(true)
                 //def mvnHome = tool 'M2'
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
@@ -35,6 +38,7 @@ def call(body) {
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
                 }
               }
+            
             } catch (e) {  // if any exception occurs, mark the build as failed
               currentBuild.result = 'FAILURE'
               throw e
