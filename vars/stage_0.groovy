@@ -1,6 +1,3 @@
-import java.util.logging.Logger
-Logger logger = Logger.getLogger('org.example.jobdsl')
-logger.info('Hello from a Job DSL script!')
     
 def call(body) {
     def config = [:]
