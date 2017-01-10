@@ -7,8 +7,8 @@ def call(body) {
         timestamps {
         //println(nodeNames().join(",").toString()) //getnodes        
         
-            //timeout(time: 180, unit: 'MINUTES')
-        node () {
+        //timeout(time: 180, unit: 'MINUTES')
+        node (getNode(config.slaveName, config.slaveLabel)) {
             try {
               //currentBuild.displayName = "${BUILD_USER_ID}."
               currentBuild.description = "${BUILD_ID}.${NODE_NAME}"
@@ -58,9 +58,16 @@ def call(body) {
 
 // Collects a list of Node names from the current Jenkins instance
 @NonCPS
-def nodeNames() {
-  return jenkins.model.Jenkins.instance.nodes.collect { node -> (node.name==config.slave)? node:null}
+def getNode(string name, string label) {
+  def list
+  return jenkins.model.Jenkins.instance.nodes.collect { node -> 
+    jenkins.model.Jenkins.instance.nodes.collect { node -> 
+      if (node.name==name) && !node.getComputer().isOffline()) return node
+      if (node.getLabelString()=~(?i)${label} && !node.getComputer().isOffline()) return node   
+  }
 }
+  
+  
 
 def multiwrap(wrappers, body) {_multiwrap(wrappers, 0, body)}
 
