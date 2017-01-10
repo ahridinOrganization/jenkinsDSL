@@ -9,11 +9,12 @@ def call(body) {
     
 //Debug
     //binding.variables.each {println "${it.key} = ${it.value}"}
-    println "="*80
-    Executor.currentExecutor().currentExecutable.getAction(ParametersAction).parameters.each { ParameterValue v -> println v}
     
     node (){
-         stage("Checkout") {
+         println "="*80
+    Executor.currentExecutor().currentExecutable.getAction(ParametersAction).parameters.each { ParameterValue v -> println v}
+    
+        stage("Checkout") {
             checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
          }
         stage('Main') {
