@@ -12,14 +12,17 @@ def call(body) {
         node () {
             try {
             println("="*80)
-            println(config.mavenGoals)
-            //(config.mavenGoals).split(",").each { goal -> println ("===>$goal") }
             jdk(config.jdkVersion)            
             stage("Checkout") {
                 //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])        
             }
             stage('Build') {
-                runGoals(config.mavenGoals)
+                //runGoals(config.mavenGoals)
+              goals=config.mavenGoals.split(",")
+              for (int i=0;i<goals.length;++i) { 
+                println(goals[i])
+                maven {mavenInstallation(config.mavenVersion) goals(goals[i])}
+            }
                 //def mvnHome = tool 'M2'
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
