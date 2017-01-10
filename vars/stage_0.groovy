@@ -18,7 +18,7 @@ def call(body) {
             }
             stage('Build') {
                 //def mvnHome = tool 'M2'
-                (config.goals)split(",").each { goal -> println ("===>$goal") 
+                (config.goals).split(",").each { goal -> println ("===>$goal") 
                                               maven { mavenInstallation('maven-3x')
                                               goals(goal) } 
                 }
