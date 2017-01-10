@@ -21,14 +21,15 @@ def call(body) {
             stage('Build') {
                  goals=config.mavenGoals.split(",")
                  for (int i=0;i<goals.length;++i) {
-                 maven {
+                 steps {  maven {
                           mavenInstallation(config.mavenVersion)
                           goals(goals[i]) 
                           runHeadless(true)
                           //rootPOM("pom.xml")
                           localRepository(LocalToWorkspace)
                          }
-            }
+                  }
+                }
                 //def mvnHome = tool 'M2'
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
