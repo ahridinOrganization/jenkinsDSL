@@ -23,9 +23,9 @@ def call(body) {
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
-            stage('Promote') { 
-                 println("="*80) 
-                println ("Promote") 
+            //stage('Promote') { 
+                 //println("="*80) 
+                //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
             }         
