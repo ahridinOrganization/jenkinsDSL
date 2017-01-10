@@ -22,7 +22,7 @@ def call(body) {
                  goals=config.mavenGoals.split(",")
                  for (int i=0;i<goals.length;++i) {
                  println (goals[i])
-                 hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
+                 //hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
                  maven {
                           mavenInstallation(config.mavenVersion)
                           goals(goals[i]) 
