@@ -21,14 +21,11 @@ def call(body) {
             stage('Build') {
                  goals=config.mavenGoals.split(",")
                  for (int i=0;i<goals.length;++i) {
-                 println (goals[i])
-                 //hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
                  maven {
                           mavenInstallation(config.mavenVersion)
                           goals(goals[i]) 
                           runHeadless(true)
                           //rootPOM("pom.xml")
-                          //goals("-B -Prun-its clean verify")
                           localRepository(LocalToWorkspace)
                          }
             }
