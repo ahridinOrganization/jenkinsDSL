@@ -8,7 +8,9 @@ def call(body) {
     println (nodeNames().join(",").toString())
     
 //Debug
-Executor.currentExecutor().currentExecutable.getAction(ParametersAction).parameters.each { ParameterValue v -> println v)}
+    binding.variables.each {println "${it.key} = ${it.value}"}
+    println "="*80
+    Executor.currentExecutor().currentExecutable.getAction(ParametersAction).parameters.each { ParameterValue v -> println v}
     
     node (){
          stage("Checkout") {
