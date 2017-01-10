@@ -1,4 +1,5 @@
     
+    
 def call(body) {
     try {
         def config = [:]
@@ -6,9 +7,10 @@ def call(body) {
         body.delegate = config
         body()
 
-        timestamps {
-            //timeout(time: 180, unit: 'MINUTES') 
         println(nodeNames().join(",").toString()) ////getnodes
+
+        timestamps {
+            //timeout(time: 180, unit: 'MINUTES')
         node () {
             println("="*80) 
             println ("Checkout") 
@@ -17,11 +19,11 @@ def call(body) {
             }
             stage('Build') {
                 def mvnHome = tool 'M2'
-                goals.each { goal -> maven { mavenInstallation('maven-3x') goals(goal) }
+                goals.each { goal -> maven { mavenInstallation('maven-3x') goals(goal) } }
                 //maven("test -Dproject.name=${project}/${branchName}")
                 //sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
             }
-            //stage('Promote') { 
+            //stage('Promote') {
                  //println("="*80) 
                 //println ("Promote") 
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
