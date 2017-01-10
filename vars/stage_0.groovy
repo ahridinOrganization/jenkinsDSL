@@ -11,7 +11,7 @@ def call(body) {
         node () {
             try {
               //currentBuild.displayName = "${BUILD_USER_ID}."
-              currentBuild.description = "${BUILD_ID}.${NODE_NAME}.${BUILD_USER_ID}"
+              currentBuild.description = "${BUILD_ID}.${NODE_NAME}"
               //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
               //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
             jdk(config.jdkVersion)
