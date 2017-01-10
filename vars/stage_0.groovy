@@ -3,7 +3,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    def slave = nodeNames()
+    def slave = (nodeNames()[0]==null ? "":nodeNames()[0])
     node (slave){
          build job: 'test_jobs', parameters: [[$class: 'StringParameterValue', name: 'param1', value:'test_param'], [$class: 'StringParameterValue', name:'dummy', value: "${index}"]]
          stage("Checkout") {
