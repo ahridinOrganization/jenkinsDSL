@@ -63,7 +63,7 @@ def getNode(string name, string label) {
   return jenkins.model.Jenkins.instance.nodes.collect { node -> 
     jenkins.model.Jenkins.instance.nodes.collect { node -> 
       if (node.name==name && !node.getComputer().isOffline()) return node
-      if (node.getLabelString()=~(?i)${label} && !node.getComputer().isOffline()) return node   
+      if (node.getLabelString()=~/(?i)${label}/ && !node.getComputer().isOffline()) return node   
   }
 }
   
