@@ -8,7 +8,7 @@ def call(body) {
         //println(nodeNames().join(",").toString()) //getnodes        
         
         //timeout(time: 180, unit: 'MINUTES')
-        node (getNode(config.slaveName, config.slaveLabel)) {
+        node ('windows') {
             try {
               //currentBuild.displayName = "${BUILD_USER_ID}."
               currentBuild.description = "${BUILD_ID}.${NODE_NAME}"
