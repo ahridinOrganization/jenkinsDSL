@@ -22,9 +22,8 @@ def call(body) {
        
     node {
         def stage0_job = freeStyleJob(config.componentName) { }
-       
-         
-        } //end freeStyleJob
+          
+        
         
         
 }
