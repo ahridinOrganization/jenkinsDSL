@@ -5,8 +5,8 @@ def call(body) {
     body()
 node {
     jobDsl scriptText: '''
-    freeStyleJob(config.componentName) {
-        description(config.componentName+'_stage-0')
+    freeStyleJob(/'Test/') {
+        description('test')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
         jdk(config.jdkVersion)
@@ -90,7 +90,7 @@ node {
         publishers {
             archiveArtifacts('build/test-output/**/*.html')
             archiveJunit('**/target/surefire-reports/*.xml')
-            buildDescription('', config.componentName+'_stage-0')
+            buildDescription('', 'stage-0')
             //analysisCollector { checkstyle() findbugs() pmd() warnings()}
             //consoleParsing {projectRules('xxx.parser')}
             extendedEmail {
