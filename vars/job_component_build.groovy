@@ -16,7 +16,7 @@ node {
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                    location(config.repoUrl){
+                    location('$config.repoUrl'){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
