@@ -5,7 +5,7 @@ def call(body) {
     body()
 node {
     jobDsl scriptText: '''
-    freeStyleJob(/'Test/') {
+    freeStyleJob(\'Test\') {
         description('test')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
