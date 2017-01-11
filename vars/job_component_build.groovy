@@ -5,18 +5,18 @@ def call(body) {
     body()
 node {
     jobDsl scriptText: '''
-    freeStyleJob(\'Test\') {
-        description('test')
+    freeStyleJob(\'freeStyleJob_from_pipeline_1\') {
+        description('My first job')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-        jdk(config.jdkVersion)
+        jdk('${JDK_VERISON}')
         concurrentBuild()
         quietPeriod(5)
         // ====================== SCM =============================
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                location(config.repoUrl){
+                location('https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/trunk/vgs3/deviceman'){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
@@ -27,7 +27,7 @@ node {
             colorizeOutput()
             timestamps()
             buildUserVars()
-            buildName('#${BUILD_NUMBER}.${BUILD_USER}')
+            buildName('#${BUILD_NUMBER}.${ENV,var="BRANCH"}.${BUILD_USER}')
             maskPasswords()
             /*credentialsBinding { 
                 file('KEYSTORE', 'keystore.jks')
@@ -38,19 +38,19 @@ node {
                 deleteDirectories()
                 cleanupParameter('CLEANUP')
             }
-            timeout {absolute(config.timeout)}
+            timeout {absolute('${JOB_TIMEOUT}')}
         } //end wrappers
         // ====================== PARAMETERS =============================
         parameters {
-            /*listTagsParam('REPO_URL', 'https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/trunk/vgs3') {
+            listTagsParam('REPO_URL', 'https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/trunk/vgs3') {
                 //tagFilterRegex(/^mytagsfilterregex/)
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 sortZtoA(true)
-                }*/
-            listTagsParam('TAG_URL', config.tagUrl) {
+                }
+            listTagsParam('TAG_URL', 'https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/deviceman') {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 //tagFilterRegex(/^mytagsfilterregex/)
-                defaultValue(config.tagUrl)
+                //defaultValue()
                 sortNewestFirst()
                 }
             credentialsParam('CREDENTIALS') {
@@ -75,10 +75,10 @@ node {
                     fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk1.7.0_05 64bit","jdk1.8.0_05 64bit"]')
                     }   
                 }
-            //textParam('ROOT_POM', config.mavenPom)
-            //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
+            textParam('ROOT_POM', 'pom.xml')
+            booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
             booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
-            labelParam('SLAVE_LABEL') { defaultValue(config.slaveLabel) }
+            labelParam('SLAVE_LABEL') { defaultValue('linux') }
         } //end parameters
          // ====================== PROPERTIES =============================
         properties {
@@ -90,7 +90,7 @@ node {
         publishers {
             archiveArtifacts('build/test-output/**/*.html')
             archiveJunit('**/target/surefire-reports/*.xml')
-            buildDescription('', 'stage-0')
+            buildDescription('', '${BRANCH}')
             //analysisCollector { checkstyle() findbugs() pmd() warnings()}
             //consoleParsing {projectRules('xxx.parser')}
             extendedEmail {
@@ -106,12 +106,12 @@ node {
         steps {
         //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
             maven {
-                goals(config.mavenGoals) //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
+                goals('clean verify') //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
                 mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                 localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                //properties(skipTests: true)
-                mavenInstallation(config.mavenVersion)
-                rootPOM(config.mavenPom)
+                properties(skipTests: true)
+                mavenInstallation('Maven 3.0.4')
+                rootPOM(rootPOM)
                 //providedSettings('central-mirror')
             } 
         } //end steps 
