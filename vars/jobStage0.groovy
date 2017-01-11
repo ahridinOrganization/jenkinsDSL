@@ -1,4 +1,10 @@
-freeStyleJob(\'job-stage0\') {
+def call(body) {
+    def config = [:]
+        body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+    node {
+    freeStyleJob(\'freeStyleJob_from_pipeline_1\') {
         description('My first job')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
@@ -9,7 +15,7 @@ freeStyleJob(\'job-stage0\') {
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                location(config.repoUrl){
+                    location(config.repoUrl){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
@@ -102,10 +108,12 @@ freeStyleJob(\'job-stage0\') {
                 goals('clean verify') //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
                 mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                 localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                properties(skipTests: true)
+                properties(skipTests: false)
                 mavenInstallation('Maven 3.0.4')
                 rootPOM(rootPOM)
                 //providedSettings('central-mirror')
             } 
         } //end steps 
     } //end freeStyleJob
+}
+}
