@@ -1,4 +1,4 @@
-def basicConfiguration() {
+/*def basicConfiguration() {
     return {
         description('foo')
         scm {
@@ -6,13 +6,13 @@ def basicConfiguration() {
         }
     }
 }
-
-def myJob = freeStyleJob('example') {
+*/
+/*def myJob = freeStyleJob('example') {
     publishers {
         // more config
     }
-}
-myJob.with basicConfiguration()
+}*/
+//myJob.with basicConfiguration()
 
 def call(body) {
     def config = [:]
@@ -22,7 +22,7 @@ def call(body) {
        
     node {
         def stage0_job = freeStyleJob(config.componentName) { }
-        /*
+       
          
         } //end freeStyleJob
         
