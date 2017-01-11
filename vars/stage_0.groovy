@@ -1,30 +1,31 @@
   
 def call(body) {
-        def config = [:]
+    def config = [:]
         body.resolveStrategy = Closure.DELEGATE_FIRST
-        body.delegate = config
-        body()
+    body.delegate = config
+    body()
         timestamps {
-        //println(nodeNames().join(",").toString()) //getnodes        
+    //println(nodeNames().join(",").toString()) //getnodes
         
         //timeout(time: 180, unit: 'MINUTES')
         node ('windows') {
             try {
-              //currentBuild.displayName = "${BUILD_USER_ID}."
+                currentBuild.description = "${BUILD_ID}.${BUILD_TIMESTAMP}.${NODE_NAME}.${BUILD_USER_ID}"
+                //currentBuild.displayName = "${BUILD_USER_ID}."
               currentBuild.description = "${BUILD_ID}.${NODE_NAME}"
-              //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]]) 
-              //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }           
+                //multiwrap([[$class: 'TimestamperBuildWrapper'],[$class: 'ConfigFileBuildWrapper', managedFiles: [[fileId: 'myfile', variable: 'FILE']]]])
+                //wrappers{ credentialsBinding{  usernamePassword('userVar', 'passwordVar', '${cred}')  } }
               jdk(config.jdkVersion)
               stage("Checkout") {
               //checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: config.repoUrl]], workspaceUpdater: [$class: config.checkoutMode]])
-            }
-            stage('Build') {
+                }
+                stage('Build') {
                  goals=config.mavenGoals.split(",")
                  for (int i=0;i<goals.length;++i) {
                   /*maven {
-                          mavenInstallation(config.mavenVersion)
-                          goals(goals[i]) 
-                          runHeadless(true)
+                            mavenInstallation(config.mavenVersion)
+                            goals(goals[i])
+                            runHeadless(true)
                           //rootPOM("pom.xml")
                           localRepository(LocalToWorkspace)
                          }*/
@@ -45,7 +46,7 @@ def call(body) {
                // step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
                 //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml']) 
                // }
-              }
+                }
             
             } catch (e) {  // if any exception occurs, mark the build as failed
               currentBuild.result = 'FAILURE'
@@ -65,9 +66,9 @@ def getNode(String name, String label) {
       if (node.name==name && !node.getComputer().isOffline()) return node
       if (node.getLabelString()=~/(?i)${label}/ && !node.getComputer().isOffline()) return node
       return ""
-  }
 }
-  
+}
+
   
 
 def multiwrap(wrappers, body) {_multiwrap(wrappers, 0, body)}
