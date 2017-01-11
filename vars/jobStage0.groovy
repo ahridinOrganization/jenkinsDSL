@@ -4,19 +4,14 @@ def param = { name , val -> new hudson.model.StringParameterValue(name, val) }
 @com.cloudbees.groovy.cps.NonCPS
 def paramBool = { name , val -> new hudson.model.BooleanParameterValue(name, val) }
 
-
 def call(body) {
     def config = [:]
-        body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
     
-    //uild job: "CA/VGS3/check_for_repodata", parameters: [param('version', HE_version), param('repository_location', product_artifactory + "vgs3-product/"), paramBool("wait_for_publish",false), paramBool("wait_for_repodata",false)]
-    //Expected named arguments but got [deviceman, org.jenkinsci.plugins.workflow.cps.CpsClosure2@23dd9007]
-   // build job: 'My Test Job', parameters: [new hudson.model.StringParameterValue('version', 'master')]
-    //parameters: [param('version', HE_version), param('repository_location', product_artifactory + "vgs3-product/"), paramBool("wait_for_publish",false), paramBool("wait_for_repodata",false)]
     node {
-        freeStyleJob('${config.componentName}') {
+         freeStyleJob(config.componentName) {
             description('My first job')
             disabled()
             logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
