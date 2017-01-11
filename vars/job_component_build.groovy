@@ -16,7 +16,7 @@ node {
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                location('https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/trunk/vgs3/deviceman'){
+                location(config.repoUrl){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
@@ -47,7 +47,7 @@ node {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 sortZtoA(true)
                 }
-            listTagsParam('TAG_URL', 'https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/tags/vgs3/deviceman') {
+            listTagsParam('TAG_URL', config.tagUrl) {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 //tagFilterRegex(/^mytagsfilterregex/)
                 //defaultValue()
@@ -90,7 +90,7 @@ node {
         publishers {
             archiveArtifacts('build/test-output/**/*.html')
             archiveJunit('**/target/surefire-reports/*.xml')
-            buildDescription('', '${BRANCH}')
+            buildDescription('', '${BUILD_ID}.${BUILD_TIMESTAMP}.${NODE_NAME}.${BUILD_USER_ID}')
             //analysisCollector { checkstyle() findbugs() pmd() warnings()}
             //consoleParsing {projectRules('xxx.parser')}
             extendedEmail {
