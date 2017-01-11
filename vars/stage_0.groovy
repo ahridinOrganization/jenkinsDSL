@@ -58,7 +58,7 @@ def call(body) {
 
 // Collects a list of Node names from the current Jenkins instance
 @NonCPS
-def getNode(string name, string label) {
+def getNode(String name, String label) {
   jenkins.model.Jenkins.instance.nodes.collect { node -> 
       if (node.name==name && !node.getComputer().isOffline()) return node
       if (node.getLabelString()=~/(?i)${label}/ && !node.getComputer().isOffline()) return node
