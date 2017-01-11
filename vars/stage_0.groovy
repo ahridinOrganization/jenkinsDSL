@@ -28,8 +28,8 @@ def call(body) {
                           //rootPOM("pom.xml")
                           localRepository(LocalToWorkspace)
                          }*/
-                 withMaven() {
-                      goals('clean') 
+                      withMaven() {
+                         goals(goals[i]) 
                   } 
                  }
                 }
