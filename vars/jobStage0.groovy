@@ -16,7 +16,7 @@ def call(body) {
    // build job: 'My Test Job', parameters: [new hudson.model.StringParameterValue('version', 'master')]
     //parameters: [param('version', HE_version), param('repository_location', product_artifactory + "vgs3-product/"), paramBool("wait_for_publish",false), paramBool("wait_for_repodata",false)]
     node {
-        freeStyleJob('${config.componentName}) {
+        freeStyleJob('${config.componentName}') {
             description('My first job')
             disabled()
             logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
