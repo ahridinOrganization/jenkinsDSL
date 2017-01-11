@@ -13,6 +13,12 @@
     }
 }*/
 //myJob.with basicConfiguration()
+@NonCPS
+def myJobFactory(def dslFactory, def jobName) {
+    dslFactory.freeStyleJob(jobName) {
+        description('foo')
+    }
+}
 
 def call(body) {
     def config = [:]
@@ -21,7 +27,8 @@ def call(body) {
     body()
        
     node {
-        def stage0_job = freeStyleJob(config.componentName) { }
+        def myJob = myJobFactory(this, config.componentName)
+        //def stage0_job = freeStyleJob(config.componentName) { }
           
         
         
