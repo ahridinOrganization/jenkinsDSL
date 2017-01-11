@@ -4,7 +4,7 @@ def call(body) {
     body.delegate = config
     body()
 node {
-    jobDsl scriptText:"""
+    jobDsl scriptText:/
     freeStyleJob(\'freeStyleJob_from_pipeline_1\') {
         description('My first job')
         disabled()
@@ -116,6 +116,6 @@ node {
             } 
         } //end steps 
     } //end freeStyleJob
-    """
+    /
 }
 }
