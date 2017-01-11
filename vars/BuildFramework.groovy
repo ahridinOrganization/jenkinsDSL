@@ -1,6 +1,6 @@
 class BuildFramework {
     static ant(dslFactory, jobName, antTargets) {
-        dslFactory.job(jobName) {
+        dslFactory.freeStyleJob(jobName) {
             steps {
                 ant(antTargets)
             }
