@@ -4,7 +4,7 @@ def call(body) {
     body.delegate = config
     body()
     node {
-    freeStyleJob(\'freeStyleJob_from_pipeline_1\') {
+    freeStyleJob(config.componentName) {
         description('My first job')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
