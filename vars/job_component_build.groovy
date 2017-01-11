@@ -9,14 +9,14 @@ node {
         description('My first job')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-        jdk('${JDK_VERISON}')
+        jdk('${config.jdkVersion}')
         concurrentBuild()
         quietPeriod(5)
         // ====================== SCM =============================
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                location('https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/trunk/vgs3/deviceman'){
+                location('${config.repoUrl}'){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
@@ -106,7 +106,7 @@ node {
         steps {
         //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
             maven {
-                goals('clean verify') //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
+                goals('${config.mavenGoals}') //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
                 mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                 localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                 properties(skipTests: true)
