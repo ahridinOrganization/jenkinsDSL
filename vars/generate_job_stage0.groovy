@@ -107,7 +107,7 @@ node {
         steps {
         //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
             maven {
-                goals("${config.mavenGoals}") //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
+                goals("-X -e ${config.mavenGoals}") //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
                 mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                 localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                 //properties(skipTests: true)
