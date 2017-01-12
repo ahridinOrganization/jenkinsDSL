@@ -16,7 +16,7 @@ node {
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                    location(${config.repoUrl}){
+                    location("${config.repoUrl}"){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
@@ -47,7 +47,7 @@ node {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 sortZtoA(true)
                 }
-                listTagsParam('TAG_URL', ${config.tagUrl}) {
+                listTagsParam('TAG_URL',"${config.tagUrl}") {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 //tagFilterRegex(/^mytagsfilterregex/)
                 //defaultValue()
