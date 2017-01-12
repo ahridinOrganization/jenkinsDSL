@@ -90,7 +90,7 @@ node {
         publishers {
             archiveArtifacts('build/test-output/**/*.html')
             archiveJunit('**/target/surefire-reports/*.xml')
-            buildDescription('', '${BUILD_ID}.${NODE_NAME}.${BUILD_USER_ID}')
+            buildDescription('', '${BUILD_ID}.${NODE_NAME}')
             //analysisCollector { checkstyle() findbugs() pmd() warnings()}
             //consoleParsing {projectRules('xxx.parser')}
             extendedEmail {
