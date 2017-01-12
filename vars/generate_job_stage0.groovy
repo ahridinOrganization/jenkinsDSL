@@ -4,7 +4,7 @@ def call(body) {
     body.delegate = config
     body()
 node {
-    jobDsl scriptText:"""folder('STAGE-0') { configure { folder -> folder / icon(class: 'org.example.MyFolderIcon')}}"""
+    //jobDsl scriptText:"""folder('STAGE-0') {configure {folder -> folder / icon(class: 'org.example.MyFolderIcon')}}"""
     jobDsl scriptText:"""
     freeStyleJob("STAGE-0/${config.jobName}") {
         description("Auto generated ${config.jobName} stage-0 job")
