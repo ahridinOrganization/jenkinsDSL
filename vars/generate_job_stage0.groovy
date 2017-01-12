@@ -7,7 +7,7 @@ node {
     jobDsl scriptText:"""
     freeStyleJob("${config.jobName}") {
         description('My first job')
-        disabled()
+        //disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
         jdk("${config.jdkVersion}")
         concurrentBuild()
