@@ -27,7 +27,7 @@ node {
             colorizeOutput()
             timestamps()
             buildUserVars()
-            buildName('#${BUILD_NUMBER}.${ENV,var="BRANCH"}.${BUILD_USER}')
+            buildName('#${BUILD_NUMBER}.${BUILD_USER}')
             maskPasswords()
             /*credentialsBinding { 
                 file('KEYSTORE', 'keystore.jks')
