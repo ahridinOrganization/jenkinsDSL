@@ -9,7 +9,7 @@ node {
         description('My first job')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-        jdk(${config.jdkVersion})
+        jdk("${config.jdkVersion}")
         concurrentBuild()
         quietPeriod(5)
         // ====================== SCM =============================
