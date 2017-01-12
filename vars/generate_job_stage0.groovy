@@ -6,7 +6,7 @@ def call(body) {
 node {
     jobDsl scriptText:"""
     freeStyleJob("${config.jobName}") {
-        description("auto generated ${config.jobName} stage-0 job")
+        description("Auto generated ${config.jobName} stage-0 job")
         //disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
         jdk("${config.jdkVersion}")
@@ -117,6 +117,10 @@ node {
             } 
         } //end steps 
     } //end freeStyleJob
-    """
+    "ignore-existing: "true"
+    "removed-job-action: "DISABLE"
+    "removed-view-action: "DELETE"
+    "lookup-strategy: "SEED_JOB"
+    "additional-classpath: "*.jar"    
 }
 }
