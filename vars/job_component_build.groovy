@@ -27,7 +27,7 @@ node {
             colorizeOutput()
             timestamps()
             buildUserVars()
-            buildName('#${BUILD_NUMBER}.${BUILD_USER}')
+            buildName('#${BUILD_NUMBER}')
             maskPasswords()
             /*credentialsBinding { 
                 file('KEYSTORE', 'keystore.jks')
@@ -38,7 +38,7 @@ node {
                 deleteDirectories()
                 cleanupParameter('CLEANUP')
             }
-            timeout {absolute('${JOB_TIMEOUT}')}
+            timeout {absolute(${config.timeout})}
         } //end wrappers
         // ====================== PARAMETERS =============================
         parameters {
@@ -47,7 +47,7 @@ node {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 sortZtoA(true)
                 }
-            listTagsParam('TAG_URL', '$config.tagUrl') {
+                listTagsParam('TAG_URL', ${config.tagUrl}) {
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 //tagFilterRegex(/^mytagsfilterregex/)
                 //defaultValue()
