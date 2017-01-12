@@ -6,7 +6,7 @@ def call(body) {
 node {
     //jobDsl scriptText:"""folder('STAGE-0') {configure {folder -> folder / icon(class: 'org.example.MyFolderIcon')}}"""
     jobDsl scriptText:"""
-    freeStyleJob("STAGE-0/${config.jobName}") {
+    freeStyleJob("STAGE-0//${config.jobName}") {
         description("Auto generated ${config.jobName} stage-0 job")
         //disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
