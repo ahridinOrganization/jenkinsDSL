@@ -116,11 +116,6 @@ node {
                 //providedSettings('central-mirror')
             } 
         } //end steps 
-    } //end freeStyleJob
-    //"ignore-existing: "true"
-    //"removed-job-action: "DISABLE"
-    //"removed-view-action: "DELETE"
-    //"lookup-strategy: "SEED_JOB"
-    //"additional-classpath: "*.jar"    
+    } //end freeStyleJob        
 }
 }
