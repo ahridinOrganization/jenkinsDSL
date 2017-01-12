@@ -5,13 +5,14 @@ def call(body) {
     body()
 node {
     jobDsl scriptText:"""
-    freeStyleJob(\'freeStyleJob_from_pipeline_1\') {
+    freeStyleJob("${config.jobName}") {
         description('My first job')
         disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
         jdk("${config.jdkVersion}")
         concurrentBuild()
         quietPeriod(5)
+        label("${config.slaveLabel}")
         // ====================== SCM =============================
         scm {
             svn {
@@ -42,7 +43,7 @@ node {
         } //end wrappers
         // ====================== PARAMETERS =============================
         parameters {
-            listTagsParam('REPO_URL', 'https://wwwin-svn-jrsm.cisco.com/nds/ch_repo/trunk/vgs3') {
+            /*listTagsParam('REPO_URL', "${config.repoUrl}") {
                 //tagFilterRegex(/^mytagsfilterregex/)
                 credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                 sortZtoA(true)
@@ -52,12 +53,12 @@ node {
                 //tagFilterRegex(/^mytagsfilterregex/)
                 //defaultValue()
                 sortNewestFirst()
-                }
-            credentialsParam('CREDENTIALS') {
+                }*/
+            /*credentialsParam('CREDENTIALS') {
                 type('com.cloudbees.plugins.credentials.common.StandardCredentials')
                 required()
                 defaultValue('29bae92d-6b9c-4f76-a54e-5b72f851a397')
-            }    
+            }*/    
             /*activeChoiceParam('CHECKOUT_STRATEGY') {
                 filterable()
                 choiceType('SINGLE_SELECT')
@@ -67,23 +68,23 @@ node {
                     }   
                 }
             */    
-            activeChoiceParam('JDK_VERISON') {
+            /*activeChoiceParam('JDK_VERISON') {
                 filterable()
                 choiceType('SINGLE_SELECT')
                 groovyScript {
                     script('["jdk6_32bit", "jdk7_32bit","jdk1.7.0_05 64bit","jdk1.8.0_05 64bit"]')
                     fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk1.7.0_05 64bit","jdk1.8.0_05 64bit"]')
                     }   
-                }
-            textParam('ROOT_POM', 'pom.xml')
-            booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
+                }*/
+            //textParam('ROOT_POM', 'pom.xml')
+            //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
             booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
-            labelParam('SLAVE_LABEL') { defaultValue('linux') }
+            //labelParam('SLAVE_LABEL') { defaultValue('linux') }
         } //end parameters
          // ====================== PROPERTIES =============================
         properties {
             rebuild {autoRebuild(false)  }
-            properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')   }
+            //properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')   }
             zenTimestamp('yyyy-MM-dd-HH-mmm')
         }
         // ====================== PUBLISHERS =============================
@@ -106,12 +107,12 @@ node {
         steps {
         //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
             maven {
-                goals('clean verify') //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
+                goals("${config.mavenGoals}") //clean install pmd:pmd findbugs:findbugs clover2:instrument clover2:clover
                 mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                 localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                properties(skipTests: true)
-                mavenInstallation('Maven 3.0.4')
-                rootPOM(rootPOM)
+                //properties(skipTests: true)
+                mavenInstallation("${config.mavenVersion}")
+                rootPOM("${config.mavenPom}")
                 //providedSettings('central-mirror')
             } 
         } //end steps 
