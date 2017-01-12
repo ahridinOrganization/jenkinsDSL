@@ -17,7 +17,7 @@ node {
         scm {
             svn {
                 checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                    location("${config.repoUrl}"){
+                location("${config.repoUrl}"){
                     credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
                     ignoreExternals(true)
                     }   
@@ -72,8 +72,8 @@ node {
                 filterable()
                 choiceType('SINGLE_SELECT')
                 groovyScript {
-                    script('["jdk6_32bit", "jdk7_32bit","jdk1.7.0_05 64bit","jdk1.8.0_05 64bit"]')
-                    fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk1.7.0_05 64bit","jdk1.8.0_05 64bit"]')
+                    script('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
+                    fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
                     }   
                 }*/
             //textParam('ROOT_POM', 'pom.xml')
