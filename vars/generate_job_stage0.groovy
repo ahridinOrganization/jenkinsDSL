@@ -117,5 +117,6 @@ node {
             } 
         } //end steps 
     } //end freeStyleJob        
+"""
 }
 }
