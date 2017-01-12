@@ -6,7 +6,7 @@ def call(body) {
 node {
     jobDsl scriptText:"""
     freeStyleJob("${config.jobName}") {
-        description('My first job')
+        description("auto generated ${config.jobName} stage-0 job")
         //disabled()
         logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
         jdk("${config.jdkVersion}")
