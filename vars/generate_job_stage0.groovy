@@ -74,7 +74,7 @@ def call(body) {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
-                            script('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
+                            script('["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
                             }   
                     }
