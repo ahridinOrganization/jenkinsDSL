@@ -82,7 +82,7 @@ def call(body) {
                         localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         //properties(skipTests: true)
                         mavenInstallation("${config.MVN_VERSION}")
-                        rootPOM("${env.WORKSPACE}/${config.MVN_POM}")
+                        rootPOM("${config.MVN_POM}")
                         //providedSettings('central-mirror')
                     } 
                 } //end steps 
