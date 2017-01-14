@@ -118,5 +118,12 @@ def call(body) {
             } //end freeStyleJob        
         """
         //build job: "STAGE-0/${config.jobName}"
-    }    
+    }  
+    node (config.slaveLabel) {
+        tools {
+            maven "mvn"
+            jdk "${config.jdkVersion}"
+        }        
+        build job: "STAGE-0/build_deviceman"
+        }
 }
