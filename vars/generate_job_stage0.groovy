@@ -7,7 +7,7 @@ def call(body) {
     node {
         jobDsl scriptText:"""
             folder('jobFolder')
-freeStyleJob("${jobFolder}/${config.jobName}") {
+            freeStyleJob("${jobFolder}/${config.jobName}") {
                 description("Auto generated ${config.jobName} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 jdk("${config.jdkVersion}")
@@ -107,7 +107,7 @@ freeStyleJob("${jobFolder}/${config.jobName}") {
                 } //end publishers
                 steps {
                 //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                systemGroovyCommand(println(${env.JDK_VERISON})
+                systemGroovyCommand(println("${env.JDK_VERISON}"))
                                    
                     maven {
                         goals("-X -e ${config.mavenGoals}") 
