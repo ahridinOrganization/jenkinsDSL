@@ -49,13 +49,13 @@ def call(body) {
                         //tagFilterRegex(/^mytagsfilterregex/)
                         credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         sortZtoA(true)
-                        }
+                        }*/
                         listTagsParam('TAG_URL',"${config.tagUrl}") {
                         credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
                         //defaultValue()
                         sortNewestFirst()
-                        }*/
+                        }
                     credentialsParam('CREDENTIALS') {
                         type('com.cloudbees.plugins.credentials.common.StandardCredentials')
                         required()
@@ -107,7 +107,8 @@ def call(body) {
                 } //end publishers
                 steps {
                 //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}"))                                   
+                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}" )
+                                                           
                     maven {
                         goals("-B -V -X -e ${config.mavenGoals}") 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
@@ -115,7 +116,7 @@ def call(body) {
                         //properties(skipTests: true)
                         mavenInstallation("${config.mavenVersion}")
                         rootPOM("${config.mavenPom}")
-                        providedSettings('central-mirror')
+                        //providedSettings('central-mirror')
                     } 
                 } //end steps 
             } //end freeStyleJob        
