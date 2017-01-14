@@ -107,7 +107,7 @@ def call(body) {
                 } //end publishers
                 steps {
                 //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}" )
+                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}" ))
                                                            
                     maven {
                         goals("-B -V -X -e ${config.mavenGoals}") 
