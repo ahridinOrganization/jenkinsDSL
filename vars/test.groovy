@@ -4,7 +4,7 @@ def call(body) {
     body.delegate = config
     body()
     node {
-        def job=stage0(this, config)
+        def job=stage0(MESSAGE:config.MESSAGE)
         //jobDsl scriptText:
-}
+    }
 }
