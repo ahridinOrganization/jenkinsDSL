@@ -1,20 +1,61 @@
 #!groovy
-/**
- * Prints a stub message for testing purposes.
- */
-def helloworld = fileLoader.load('vars/helloworld'); 
-//def call() {
-    node {
-    //    echo ("Hello I am stage0 groovy and I am calling helloworld")
-        helloworld.printHello("Hello from STAGE-00000!")
-      //  checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '29bae92d-6b9c-4f76-a54e-5b72f851a397', depthOption: 'infinity', ignoreExternalsOption: false, local: '.', remote: scmRemote]], workspaceUpdater: [$class: scmUpdater]])
-   }
-//def myJob = freeStyleJob('SimpleJob')
-//myJob.with {
-  //  description 'A Simple Job'
-//}
-//}
-//pipeline.production()
+freeStyleJob("STAGE-0/${config.jobName}") {
+           description("Auto generated ${config.jobName} stage-0 job")
+           logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
+           jdk("${config.jdkVersion}")
+           concurrentBuild()
+                quietPeriod(5) 
+                label("${config.slaveLabel}")
+                // ====================== SCM =============================
+                scm {
+                    svn {
+                        checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
+                        location("${config.repoUrl}"){
+                            credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
+                            ignoreExternals(true)
+                            }   
+                        }
+                    }
+                // ====================== WRAPPERS =============================
+                wrappers {
+                    colorizeOutput()
+                    timestamps()
+                    buildUserVars()
+                    buildName('#${BUILD_NUMBER}')
+                    maskPasswords()
+                    /*credentialsBinding { 
+                        file('KEYSTORE', 'keystore.jks')
+                        usernamePassword('PASSWORD', 'keystore password')
+                    }*/
+                    preBuildCleanup {
+                        includePattern('**/*')
+                        deleteDirectories()
+                        cleanupParameter('CLEANUP')
+                    }
+                    timeout {absolute(${config.timeout})}
+                } //end wrappers
+                // ====================== PARAMETERS =============================
+                parameters {
+                    booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
+                 } //end parameters
+                 // ====================== PROPERTIES =============================
+                properties {
+                    rebuild {autoRebuild(false)  }
+                    zenTimestamp('yyyy-MM-dd-HH-mmm')
+                }
+                // ====================== PUBLISHERS =============================
+                steps {
+                    maven {
+                        goals("-X -e ${config.mavenGoals}") 
+                        mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
+                        localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+                        //properties(skipTests: true)
+                        mavenInstallation("${config.mavenVersion}")
+                        rootPOM("${config.mavenPom}")
+                        //providedSettings('central-mirror')
+                    } 
+                } //end steps 
+            } //end freeStyleJob   
 
 return this;
 
