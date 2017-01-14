@@ -11,7 +11,7 @@ def call(body) {
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 jdk("${config.jdkVersion}")
                 concurrentBuild()
-                quietPeriod(5)
+                quietPeriod(5) 
                 label("${config.slaveLabel}")
                 // ====================== SCM =============================
                 scm {
@@ -117,5 +117,6 @@ def call(body) {
                 } //end steps 
             } //end freeStyleJob        
         """
-    }
+        build job: "STAGE-0/${config.jobName}"
+    }    
 }
