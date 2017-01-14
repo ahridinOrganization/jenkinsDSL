@@ -7,3 +7,4 @@ def call(body) {
         def job=stage0(this, config)
         //jobDsl scriptText:
 }
+}
