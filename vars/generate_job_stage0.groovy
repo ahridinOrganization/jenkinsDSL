@@ -4,7 +4,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    node {
+    node ("${config.slaveLabel}") {
         jobDsl scriptText:"""
             folder("${jobFolder}")
             freeStyleJob("${jobFolder}/${config.jobName}") {
@@ -56,11 +56,11 @@ def call(body) {
                         //defaultValue()
                         sortNewestFirst()
                         }*/
-                    /*credentialsParam('CREDENTIALS') {
+                    credentialsParam('CREDENTIALS') {
                         type('com.cloudbees.plugins.credentials.common.StandardCredentials')
                         required()
                         defaultValue('29bae92d-6b9c-4f76-a54e-5b72f851a397')
-                    }*/    
+                    }    
                     /*activeChoiceParam('CHECKOUT_STRATEGY') {
                         filterable()
                         choiceType('SINGLE_SELECT')
@@ -75,7 +75,7 @@ def call(body) {
                         choiceType('SINGLE_SELECT')
                         groovyScript {
                             script('["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
-                            fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
+                            fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
                     }
                     //textParam('ROOT_POM', 'pom.xml')
@@ -107,23 +107,19 @@ def call(body) {
                 } //end publishers
                 steps {
                 //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                systemGroovyCommand(println("${env.JDK_VERISON}"))
-                                   
+                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}"))                                   
                     maven {
-                        goals("-X -e ${config.mavenGoals}") 
+                        goals("-B -V -X -e ${config.mavenGoals}") 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                         localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         //properties(skipTests: true)
                         mavenInstallation("${config.mavenVersion}")
                         rootPOM("${config.mavenPom}")
-                        //providedSettings('central-mirror')
+                        providedSettings('central-mirror')
                     } 
                 } //end steps 
             } //end freeStyleJob        
         """
-        //build job: "STAGE-0/${config.jobName}"
-    }  
-    node (config.slaveLabel) {
         build job: "${jobFolder}/${config.jobName}"
-        }
+    }      
 }
