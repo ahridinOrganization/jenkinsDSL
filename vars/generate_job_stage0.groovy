@@ -19,7 +19,7 @@ def call(body) {
                     svn {
                         checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
                         location("${config.repoUrl}"){
-                            credentials('29bae92d-6b9c-4f76-a54e-5b72f851a397')
+                            credentials('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                             ignoreExternals(true)
                             }   
                         }
@@ -47,11 +47,11 @@ def call(body) {
 
                     /*listTagsParam('REPO_URL', "${config.repoUrl}") {
                         //tagFilterRegex(/^mytagsfilterregex/)
-                        credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
+                        credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         sortZtoA(true)
                         }
                         listTagsParam('TAG_URL',"${config.tagUrl}") {
-                        credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
+                        credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
                         //defaultValue()
                         sortNewestFirst()
