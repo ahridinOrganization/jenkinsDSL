@@ -1,6 +1,6 @@
 #!groovy
 
-job('testMe') {
+freeStyleJob('testMe') {
    parameters {
      stringParam('MESSAGE', 'Hello world!') 
    }
@@ -10,6 +10,6 @@ job('testMe') {
      }
    }
   steps {
-    shell('echo $MESSAGE')
+    bat('echo $MESSAGE')
   }
 }
