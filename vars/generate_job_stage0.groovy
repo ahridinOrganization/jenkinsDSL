@@ -44,7 +44,7 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-                    stringParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
+stringParam('test', "${JDK_VERISON}" )
                     /*listTagsParam('REPO_URL', "${config.repoUrl}") {
                         //tagFilterRegex(/^mytagsfilterregex/)
                         credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
