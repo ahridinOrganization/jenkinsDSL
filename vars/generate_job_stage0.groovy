@@ -10,7 +10,7 @@ def call(body) {
             freeStyleJob("${jobFolder}/${config.jobName}") {
                 description("Auto generated ${config.jobName} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                jdk("${config.jdkVersion}")
+                jdk("${JDK_VERISON}")
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.slaveLabel}")
@@ -74,8 +74,8 @@ def call(body) {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
-                            script('["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
-                            fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
+                            script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"]')
+                            fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
                     }
                     //textParam('ROOT_POM', 'pom.xml')
