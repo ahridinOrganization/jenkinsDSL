@@ -6,7 +6,7 @@ def call(body) {
     body()
     node {
         jobDsl scriptText:"""
-            folder('jobFolder')
+            folder("${jobFolder}")
             freeStyleJob("${jobFolder}/${config.jobName}") {
                 description("Auto generated ${config.jobName} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
