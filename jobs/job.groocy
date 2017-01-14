@@ -1,0 +1,15 @@
+#!groovy
+
+job('parameterized-hello-world') {
+   parameters {
+     stringParam('MESSAGE', 'Hello world!') 
+   }
+   properties {
+     rebuild {
+       autoRebuild()
+     }
+   }
+  steps {
+    shell('echo $MESSAGE')
+  }
+}
