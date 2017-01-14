@@ -4,21 +4,21 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    node ("${config.slaveLabel}") {
+    node ("${config.SLAVE_LABEL}") {
         jobDsl scriptText:"""
             folder("${jobFolder}")
-            freeStyleJob("${jobFolder}/${config.jobName}") {
-                description("Auto generated ${config.jobName} stage-0 job")
+            freeStyleJob("${jobFolder}/${config.NAME}") {
+                description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 jdk("${config.JDK_VERISON}")
                 concurrentBuild()
                 quietPeriod(5) 
-                label("${config.slaveLabel}")
+                label("${config.SLAVE_LABEL}")
                 // ====================== SCM =============================
                 scm {
                     svn {
                         checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                        location("${config.repoUrl}"){
+                        location("${config.REPO_URL}"){
                             credentials('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                             ignoreExternals(true)
                             }   
@@ -29,59 +29,27 @@ def call(body) {
                     colorizeOutput()
                     timestamps()
                     buildUserVars()
-                    buildName('#${BUILD_NUMBER}')
+                    //buildName('#${BUILD_NUMBER}')
                     maskPasswords()
-                    /*credentialsBinding { 
-                        file('KEYSTORE', 'keystore.jks')
-                        usernamePassword('PASSWORD', 'keystore password')
-                    }*/
                     preBuildCleanup {
                         includePattern('**/*')
                         deleteDirectories()
                         cleanupParameter('CLEANUP')
                     }
-                    timeout {absolute(${config.timeout})}
+                    timeout {absolute(${config.TIMEOUT})}
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-
-                    /*listTagsParam('REPO_URL', "${config.repoUrl}") {
-                        //tagFilterRegex(/^mytagsfilterregex/)
-                        credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
-                        sortZtoA(true)
-                        }*/
-                        listTagsParam('TAG_URL',"${config.tagUrl}") {
-                        credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
-                        //tagFilterRegex(/^mytagsfilterregex/)
-                        //defaultValue()
-                        sortNewestFirst()
-                        }
-                    credentialsParam('CREDENTIALS') {
-                        type('com.cloudbees.plugins.credentials.common.StandardCredentials')
-                        required()
-                        defaultValue('29bae92d-6b9c-4f76-a54e-5b72f851a397')
-                    }    
-                    /*activeChoiceParam('CHECKOUT_STRATEGY') {
+                    /*activeChoiceParam('JDK_VERISON') {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
-                            script('["UPDATE","CHECKOUT","UPDATE_WITH_CLEAN","UPDATE_WITH_REVERT"]')
-                            fallbackScript('["UPDATE","CHECKOUT","UPDATE_WITH_CLEAN","UPDATE_WITH_REVERT"]')
-                            }   
-                        }
-                    */    
-                    activeChoiceParam('JDK_VERISON') {
-                        filterable()
-                        choiceType('SINGLE_SELECT')
-                        groovyScript {
-                        script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit","${config.jdkVersion}:selected"]')
+                        script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit","${config.JDK_VERSION}:selected"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
-                    }
-                    //textParam('ROOT_POM', 'pom.xml')
+                    }*/
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
-                   //labelParam('SLAVE_LABEL') { defaultValue('linux') }
                 } //end parameters
                  // ====================== PROPERTIES =============================
                 properties {
@@ -106,21 +74,20 @@ def call(body) {
                     }
                 } //end publishers
                 steps {
-                //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}" ))
-                                                           
+                    //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
+                    systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}"))                                                           
                     maven {
-                        goals("-B -V -X -e ${config.mavenGoals}") 
+                        goals("-B -V -X -e ${config.MVN_GOALS}") 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                         localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         //properties(skipTests: true)
-                        mavenInstallation("${config.mavenVersion}")
-                        rootPOM("${config.mavenPom}")
+                        mavenInstallation("${config.MVN_VERSION}")
+                        rootPOM("${config.MVN_POM}")
                         //providedSettings('central-mirror')
                     } 
                 } //end steps 
             } //end freeStyleJob        
         """
-        build job: "${jobFolder}/${config.jobName}"
+        build job: "${jobFolder}/${config.NAME}"
     }      
 }
