@@ -4,6 +4,6 @@ def call(body) {
     body.delegate = config
     body()
     node {
-        def job=stage0(this, config.componentName)
+        def job=stage0(this, config)
         //jobDsl scriptText:
 }
