@@ -117,6 +117,6 @@ def call(body) {
                 } //end steps 
             } //end freeStyleJob        
         """
-        build job: "STAGE-0/${config.jobName}"
+        //build job: "STAGE-0/${config.jobName}"
     }    
 }
