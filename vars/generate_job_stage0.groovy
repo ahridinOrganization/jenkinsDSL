@@ -44,7 +44,7 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-stringParam('test', "${JDK_VERISON}" )
+
                     /*listTagsParam('REPO_URL', "${config.repoUrl}") {
                         //tagFilterRegex(/^mytagsfilterregex/)
                         credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
@@ -107,7 +107,7 @@ stringParam('test', "${JDK_VERISON}" )
                 } //end publishers
                 steps {
                 //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                //systemGroovyCommand(println("${env.JDK_VERISON}"))
+                systemGroovyCommand(println("${env.JDK_VERISON}"))
                                    
                     maven {
                         goals("-X -e ${config.mavenGoals}") 
