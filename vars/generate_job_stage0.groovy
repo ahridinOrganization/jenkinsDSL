@@ -74,7 +74,7 @@ def call(body) {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
-                            script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"]')
+                        script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit","${config.jdkVersion}:selected"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
                     }
