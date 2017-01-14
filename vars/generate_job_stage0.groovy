@@ -1,12 +1,13 @@
 def call(body) {
     def config = [:]
+    def jobFolder="STAGE-0"
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
     node {
         jobDsl scriptText:"""
-            folder('STAGE-0')
-            freeStyleJob("STAGE-0/${config.jobName}") {
+            folder('jobFolder')
+freeStyleJob("${jobFolder}/${config.jobName}") {
                 description("Auto generated ${config.jobName} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 jdk("${config.jdkVersion}")
@@ -120,10 +121,6 @@ def call(body) {
         //build job: "STAGE-0/${config.jobName}"
     }  
     node (config.slaveLabel) {
-        tools {
-            maven "mvn"
-            jdk "${config.jdkVersion}"
-        }        
-        build job: "STAGE-0/build_deviceman"
+        build job: "${jobFolder}/${config.jobName}"
         }
 }
