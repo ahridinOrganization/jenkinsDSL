@@ -1,6 +1,6 @@
 #!groovy
 
-job('parameterized-hello-world') {
+job('testMe') {
    parameters {
      stringParam('MESSAGE', 'Hello world!') 
    }
