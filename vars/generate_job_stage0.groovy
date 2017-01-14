@@ -81,8 +81,7 @@ def call(body) {
                     //textParam('ROOT_POM', 'pom.xml')
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
-stringParam('testpaaram', "${JDK_VERISON}", 'my description')
-                    //labelParam('SLAVE_LABEL') { defaultValue('linux') }
+                   //labelParam('SLAVE_LABEL') { defaultValue('linux') }
                 } //end parameters
                  // ====================== PROPERTIES =============================
                 properties {
