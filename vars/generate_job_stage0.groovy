@@ -44,6 +44,7 @@ freeStyleJob("${jobFolder}/${config.jobName}") {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
+                    stringParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
                     /*listTagsParam('REPO_URL', "${config.repoUrl}") {
                         //tagFilterRegex(/^mytagsfilterregex/)
                         credentialsId('29bae92d-6b9c-4f76-a54e-5b72f851a397')
@@ -69,14 +70,14 @@ freeStyleJob("${jobFolder}/${config.jobName}") {
                             }   
                         }
                     */    
-                    /*activeChoiceParam('JDK_VERISON') {
+                    activeChoiceParam('JDK_VERISON') {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
                             script('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
                             fallbackScript('["jdk6_32bit", "jdk7_32bit","jdk8_32bit","jdk8_64bit"]')
                             }   
-                        }*/
+                    }
                     //textParam('ROOT_POM', 'pom.xml')
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
@@ -106,6 +107,8 @@ freeStyleJob("${jobFolder}/${config.jobName}") {
                 } //end publishers
                 steps {
                 //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
+                systemGroovyCommand(println(${env.JDK_VERISON})
+                                   
                     maven {
                         goals("-X -e ${config.mavenGoals}") 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
