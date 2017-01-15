@@ -5,14 +5,13 @@ def call(body) {
     body.delegate = config
     body()
     node ("${config.SLAVE_LABEL}") {
-        def myjob=freeStyleJob("${config.NAME}")
-        //jdk("${config.JDK_VERISON}")
+        def myjob=freeStyleJob("${config.NAME}")        
         jobDsl scriptText:"""
             folder("${jobFolder}")
             freeStyleJob("${jobFolder}/${config.NAME}") {
                 description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                jdk('''\${JDK_VERISON}''')                
+                jdk('\${JDK_VERISON}')                
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.SLAVE_LABEL}")
@@ -51,9 +50,9 @@ def call(body) {
                             }   
                     }                    
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
-                    stringParam("MVN_POM", "${config.MVN_POM}")
-                    stringParam("MVN_GOALS", "${config.MVN_GOALS}")
-                    stringParam("TAG_URL", "${config.TAG_URL}")                        
+                    stringParam("MVN_POM", "${config.MVN_POM}"."Root POM name")
+                    stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
+                    stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")                        
                     /*listTagsParam('TAG_URL',"${config.TAG_URL}") {
                         credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
