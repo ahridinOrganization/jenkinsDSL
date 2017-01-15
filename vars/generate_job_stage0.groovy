@@ -73,8 +73,7 @@ def call(body) {
                 publishers {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
-                    //buildDescription('', '${BUILD_ID}.${NODE_NAME}')
-                    buildDescription('', '#${BUILD_NUMBER}ver:${ENV,var="POM_VERSION"}')
+                    buildDescription('', '${BUILD_ID}.${NODE_NAME}')
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         disabled(true)
@@ -95,8 +94,8 @@ def call(body) {
                         //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
                         //properties(skipTests: true)
-                                              
-                        mavenInstallation('Maven 3.0.4')
+                        mavenName("${config.MVN_VERSION}")                        
+                        mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
