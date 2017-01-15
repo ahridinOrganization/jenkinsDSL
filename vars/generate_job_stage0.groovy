@@ -49,7 +49,7 @@ def call(body) {
         				overridingCredentials 'false'
 				}	
 				useSpecs 'true'
-				uploadSpec {spec('''{"files": [{"pattern": "(.*tokenGenerator.*).(jar|rpm)","regexp":"true"}]}''')}
+				uploadSpec {spec('''{"files": [{"pattern": "${config.ARTIFACTS_REGEX}","regexp":"true"}]}''')}
                       		deployBuildInfo 'true'
                       		includeEnvVars 'false'
         	      }
