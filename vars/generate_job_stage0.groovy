@@ -98,7 +98,7 @@ def call(body) {
 			def parameters = Thread.currentThread().executable?.actions.find{ it instanceof ParametersAction }?.parameters
 			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
 			out.println "=" * 25 + job + "=" * 25
-   			parameters.each { println "parameter \${it.name}=\t\${it.value}" }
+   			parameters.each { println "\t\${it.name}=\t\${it.value}" }
 			out.println "=" * (50 + job.size())
 			''')
                     maven {
