@@ -12,7 +12,7 @@ def call(body) {
             freeStyleJob("${jobFolder}/${config.NAME}") {
                 description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                jdk('\$\{JDK_VERISON\}')
+                jdk('\${JDK_VERISON}')
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.SLAVE_LABEL}")
