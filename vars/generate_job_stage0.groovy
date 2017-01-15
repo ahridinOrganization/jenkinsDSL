@@ -41,15 +41,15 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-                    activeChoiceParam('JDK_VERISON') {
+                    /*activeChoiceParam('JDK_VERISON') {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
                         script('return ["${config.JDK_VERSION}","jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
-                    }
-                    choiceParam('JDK_VERISON_2', ['${config.JDK_VERSION}', "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
+                    } */
+                    choiceParam('JDK_VERISON', ['${config.JDK_VERSION}', "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
@@ -73,7 +73,7 @@ def call(body) {
                 publishers {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
-                    //buildDescription('', '#\${BUILD_ID}.$\{ENV,var="POM_VERSION"}.\${NODE_NAME}')                    
+                    buildDescription('', '${BUILD_ID}.${NODE_NAME}')
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         disabled(true)
@@ -91,9 +91,10 @@ def call(body) {
                     maven {
                         goals('\${MVN_GOALS} -B -X -V') 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
-                        localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                        //localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
+                        //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+                        localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
                         //properties(skipTests: true)
+                        mavenName("${config.MVN_VERSION}")                        
                         mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
                         rootPOM('\${MVN_POM}')
