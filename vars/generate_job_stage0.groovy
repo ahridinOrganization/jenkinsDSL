@@ -49,18 +49,10 @@ def call(body) {
         				overridingCredentials 'false'
 				}	
 				useSpecs 'true'
-				uploadSpec {
-					spec {
-						files: [
-						{			            
-						pattern: '(.*tokenGenerator.*).(jar|rpm)',
-						target: '',
-						regexp: 'true'
-						}            
-        					]
-					 }					
-				}
-        	    	}
+				uploadSpec {spec('''{"files": [{"pattern": "(.*tokenGenerator.*).(jar|rpm)","regexp":"true"]}''')}
+                      		deployBuildInfo 'true'
+                      		includeEnvVars 'false'
+        	      }
     		    }
                 } //end wrappers
                 // ====================== PARAMETERS =============================
