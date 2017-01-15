@@ -11,7 +11,7 @@ def call(body) {
             freeStyleJob("${jobFolder}/${config.NAME}") {
                 description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                jdk("${config.JDK_VERISON}")
+                jdk('''${JDK_VERISON}''')
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.SLAVE_LABEL}")
@@ -41,14 +41,14 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-                    /*activeChoiceParam('JDK_VERISON') {
+                    activeChoiceParam('JDK_VERISON') {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
                         script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit","${config.JDK_VERSION}:selected"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
-                    }*/
+                    }
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
                 } //end parameters
