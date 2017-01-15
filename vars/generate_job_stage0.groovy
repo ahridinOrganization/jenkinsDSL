@@ -53,12 +53,13 @@ def call(body) {
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     stringParam("MVN_POM", "${config.MVN_POM}")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}")
-                    listTagsParam('TAG_URL',"${config.TAG_URL}") {
+                    stringParam("TAG_URL", "${config.TAG_URL}")                        
+                    /*listTagsParam('TAG_URL',"${config.TAG_URL}") {
                         credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
                         defaultValue("${config.TAG_URL}")
                         sortNewestFirst()
-                    }            
+                    }*/            
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
                 } //end parameters
                  // ====================== PROPERTIES =============================
