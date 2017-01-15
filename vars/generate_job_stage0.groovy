@@ -5,6 +5,7 @@ def call(body) {
     body.delegate = config
     body()
     node ("${config.SLAVE_LABEL}") {
+        def myjob=freeStyleJob("${config.NAME}")
         jobDsl scriptText:"""
             folder("${jobFolder}")
             freeStyleJob("${jobFolder}/${config.NAME}") {
