@@ -1,7 +1,7 @@
 #!groovy
-package utilities
+//package utilities
 
-public class Defaults {
+//public class Defaults {
    static def getBaseJob(def job, Closure optionalClosure = null){
       job.with {
          description 'A default description.'
@@ -11,4 +11,4 @@ public class Defaults {
          optionalClosure.run()
       }
    }
-}
+//}
