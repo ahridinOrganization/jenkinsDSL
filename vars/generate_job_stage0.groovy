@@ -51,7 +51,7 @@ def call(body) {
                     } */
                     //choiceParam('JDK_VERISON', ["${config.JDK_VERSION}", "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
-		    stringParam("JDK_VERISON", "${config.JDK_VERISON}","JDK Version")
+		    stringParam("JDK_VERSION", "${config.JDK_VERSION}","JDK Version")
 		    stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
                     stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")                        
@@ -71,7 +71,7 @@ def call(body) {
                     zenTimestamp('yyyy-MM-dd-HH-mmm')
                 }
                 // ====================== PUBLISHERS =============================
-		jdk('\${JDK_VERISON}')  
+		jdk('\${JDK_VERSION}')  
                 publishers {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
