@@ -1,6 +1,6 @@
 #!groovy
 //package utilities
-
+@NonCPS method
 //public class Defaults {
    static def getBaseJob(def job, Closure optionalClosure = null){
       job.with {
