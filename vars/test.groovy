@@ -13,7 +13,8 @@ def call(body) {
     node {
     //    def job=stage0(MESSAGE:config.MESSAGE)
         //jobDsl scriptText:
-   jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage0.groovy', unstableOnDeprecation: true
+   def job = jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage0.groovy', unstableOnDeprecation: true
+   build job:  job    
    //jobDsl lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText: 'stage0.groovy', unstableOnDeprecation: true
    /*jobDsl targets: ['stage0.groovy'].join('\n'),
            removedJobAction: 'DELETE',
