@@ -50,7 +50,7 @@ def call(body) {
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
                     } */
-                    choiceParam('JDK_VERISON', ['${config.JDK_VERSION}', "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
+                    choiceParam('JDK_VERISON', ["${config.JDK_VERSION}", "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
@@ -67,7 +67,7 @@ def call(body) {
                  // ====================== PROPERTIES =============================
                 properties {
                     rebuild {autoRebuild(false)  }
-                    //properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')   }
+                    //properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')}
                     zenTimestamp('yyyy-MM-dd-HH-mmm')
                 }
                 // ====================== PUBLISHERS =============================
@@ -86,6 +86,7 @@ def call(body) {
                         //}
                     }*/
                 } //end publishers
+		// ====================== STEPS =============================
                 steps {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
                     //systemGroovyCommand { println("JDK_VERISON = '\${JDK_VERISON}'") binding('computerName', 'ubuntu-04') }                                                          
@@ -100,16 +101,16 @@ def call(body) {
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
-                    shell('''echo ${POM_VERSION} arrIN=(${POM_VERSION//-/ })
+                    /*shell('''echo ${POM_VERSION} arrIN=(${POM_VERSION//-/ })
                         NEW_POM_VERSION=${arrIN[0]}-$((${arrIN[1]} + 1))
-                        echo $NEW_POM_VERSION''')
+                        echo $NEW_POM_VERSION''')*/
                     maven {
 			 goals('build-helper:parse-version -B -X -V')
 			 goals('versions:set -B -X -V')
 			 goals('-DnewVersion=$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
 			 mavenInstallation("${config.MVN_VERSION}")                       
                         }
-                    shell('''export POM_VERSION=${POM_VERSION}
+                    /*shell('''export POM_VERSION=${POM_VERSION}
                            if [[ -n ${MVN_RELEASE_VERSION} ]]; then
 	                          myversion=${MVN_RELEASE_VERSION}
                            else
@@ -121,8 +122,7 @@ def call(body) {
                             PROP_VER=${POM_VERSION}
                             component_version=${myversion}
                             EOF
-                            cat params.properties''')
-                
+                            cat params.properties''')*/                
                 } //end steps 
             } //end freeStyleJob        
         """
