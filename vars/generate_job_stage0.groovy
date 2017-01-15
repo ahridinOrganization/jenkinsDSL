@@ -50,7 +50,15 @@ def call(body) {
 				}	
 				useSpecs 'true'
 				uploadSpec {
-					spec { }
+					spec {
+						files: [
+						{			            
+						pattern: '(.*tokenGenerator.*).(jar|rpm)',
+						target: '',
+						regexp: 'true'
+						}            
+        					]
+					 }					
 				}
         	    	}
     		    }
