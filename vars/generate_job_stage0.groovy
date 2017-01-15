@@ -104,7 +104,7 @@ def call(body) {
                         } 
 		    systemGroovyCommand('''
                        def version = \${POM_VERSION}
-                       build.addAction(new ParametersAction([new StringParameterValue("NEW_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger())))]))
+                       build.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger())))]))
 		    ''') 			
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
