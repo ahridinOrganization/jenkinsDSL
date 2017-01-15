@@ -37,7 +37,7 @@ def call(body) {
                         cleanupParameter('CLEANUP')
                     }
                     timeout {absolute(${config.TIMEOUT})}
-                    credentialsBinding{usernamePassword('usernameVar', 'passwordVar', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}
+                    credentialsBinding{usernamePassword('username', 'password', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
