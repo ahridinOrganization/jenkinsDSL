@@ -73,7 +73,7 @@ def call(body) {
                 publishers {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
-                    buildDescription('', '${BUILD_ID}.${NODE_NAME}')
+                    buildDescription('', '#\${BUILD_ID}.$\{ENV,var="POM_VERSION"}.\${NODE_NAME}')                    
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         disabled(true)
