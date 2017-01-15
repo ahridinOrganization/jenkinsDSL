@@ -41,14 +41,15 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-                    activeChoiceParam('JDK_VERISON') {
+                    /*activeChoiceParam('JDK_VERISON') {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
                         script('return ["${config.JDK_VERSION}","jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
-                    }                    
+                    } */
+                    choiceParam('JDK_VERISON', ['${config.JDK_VERSION} (default)', "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
