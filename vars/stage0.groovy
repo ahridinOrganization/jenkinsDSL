@@ -1,4 +1,11 @@
-freeStyleJob("${config.jobName}_stage0.groovy") {
+@Library('github.com/ahridinOrganization/jenkinsDSL') _
+def call(body) {
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+    node {
+    freeStyleJob("${config.jobName}_stage0.groovy") {
            description("Auto generated ${config.jobName} stage-0 job")
            logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
            jdk("${config.jdkVersion}")
@@ -55,5 +62,6 @@ freeStyleJob("${config.jobName}_stage0.groovy") {
                     } 
                 } //end steps 
             } //end freeStyleJob 
+    }
 return this;
 
