@@ -88,7 +88,7 @@ def call(body) {
                     }*/
                 } //end publishers
 		// ====================== CONFIGURE =============================
-		configure { project ->  project/ 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator'{
+		/*configure { project ->  project/ 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator'{
 			details {
 				artifactoryName('-1891791470@1452687536055')
 				artifactoryUrl 'http://engci-maven-master.cisco.com/artifactory'					
@@ -102,7 +102,7 @@ def call(body) {
 			uploadSpec {spec {'''{"files":[{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}'''}}
 			deployBuildInfo 'true'
 			includeEnvVars 'false'
-		}}
+		}}*/
 		// ====================== STEPS =============================
                 steps {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
