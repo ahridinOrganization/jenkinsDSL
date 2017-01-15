@@ -101,6 +101,12 @@ def call(body) {
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
+		    maven {
+			 goals('build-helper:parse-version -B -X -V')
+			 goals('versions:set -B -X -V')
+			 goals('-DnewVersion=$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+			 mavenInstallation("${config.MVN_VERSION}")                       
+                        }	
                                  
                 } //end steps 
             } //end freeStyleJob        
