@@ -6,7 +6,7 @@ def call(body) {
     body()
     node ("${config.SLAVE_LABEL}") {
         def myjob=freeStyleJob("${config.NAME}")
-        jdk("${config.JDK_VERISON}")
+        //jdk("${config.JDK_VERISON}")
         jobDsl scriptText:"""
             folder("${jobFolder}")
             freeStyleJob("${jobFolder}/${config.NAME}") {
