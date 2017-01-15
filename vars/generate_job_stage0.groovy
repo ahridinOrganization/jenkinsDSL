@@ -45,7 +45,7 @@ def call(body) {
                         filterable()
                         choiceType('SINGLE_SELECT')
                         groovyScript {
-                        script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit","${config.JDK_VERSION}:selected"]')
+                        script('return ["${config.JDK_VERSION}","jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
                     }                    
@@ -90,9 +90,11 @@ def call(body) {
                     maven {
                         goals('\${MVN_GOALS} -B -X -V') 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
-                        localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+                        //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+                        localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
                         //properties(skipTests: true)
                         mavenInstallation("${config.MVN_VERSION}")
+                        injectBuildVariables(true)
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
                     } 
