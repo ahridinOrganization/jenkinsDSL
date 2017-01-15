@@ -54,6 +54,7 @@ def call(body) {
 		    stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
                     stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")                        
+		    stringParam("ARTIFACTS", "${config.ARTIFACTS_REGEX}","Artifacts (regex)")                        
                     /*listTagsParam('TAG_URL',"${config.TAG_URL}") {
                         credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
@@ -98,7 +99,7 @@ def call(body) {
         				overridingCredentials 'false'
 				}	
 				useSpecs 'true'
-				uploadSpec {spec('''{"files": [{"pattern": "${config.ARTIFACTS_REGEX}","regexp":"true"}]}''')}
+				uploadSpec {spec('''{"files": [{"pattern": "\${ARTIFACTS}","regexp":"true"}]}''')}
                       		deployBuildInfo 'true'
                       		includeEnvVars 'false'
         	      }
