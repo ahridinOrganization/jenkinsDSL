@@ -99,7 +99,7 @@ def call(body) {
         				overridingCredentials 'false'
 				}	
 				useSpecs 'true'
-				uploadSpec {spec('''{"files": [{"pattern": "\${ARTIFACTS}","regexp":"true"}]}''')}
+				uploadSpec {spec('''{"files": [{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}''')}
                       		deployBuildInfo 'true'
                       		includeEnvVars 'false'
         	      }
