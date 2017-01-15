@@ -38,6 +38,7 @@ def call(body) {
                         cleanupParameter('CLEANUP')
                     }
                     timeout {absolute(${config.TIMEOUT})}
+                    credentialsBinding{usernamePassword('usernameVar', 'passwordVar', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
@@ -98,7 +99,33 @@ def call(body) {
                         injectBuildVariables(true)
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
-                    } 
+                        } 
+                    shell("""echo \$POM_VERSION
+                             arrIN=(\${POM_VERSION//-/ })
+                             NEW_POM_VERSION=\${arrIN[0]}-\$((\${arrIN[1]} + 1))
+                             echo \$NEW_POM_VERSION                    
+                    """)
+                    maven {
+                        goals('build-helper:parse-version -B -X -V')
+                        goals('versions:set -B -X -V')
+                        goals('-DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+                        mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
+                        mavenInstallation("${config.MVN_VERSION}")                        
+                        }
+                    shell("""export POM_VERSION=\${POM_VERSION}
+                           if [[ -n \${MVN_RELEASE_VERSION} ]]; then
+	                          myversion=\${MVN_RELEASE_VERSION}
+                           else
+	                          myversion=\${POM_VERSION}
+                            fi 
+                            cat > \${WORKSPACE}/params.properties <<EOF
+                            SGW_VERSION=\${POM_VERSION}
+                            POM_PROP=sgw.version
+                            PROP_VER=\${POM_VERSION}
+                            component_version=\${myversion}
+                            EOF
+                            cat params.propertie""")
+                
                 } //end steps 
             } //end freeStyleJob        
         """
