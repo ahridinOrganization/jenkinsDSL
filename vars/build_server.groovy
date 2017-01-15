@@ -76,7 +76,7 @@ def call(body) {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
                     buildDescription('', '${BUILD_ID}.${NODE_NAME}')
-                    analysisCollector { checkstyle() findbugs() pmd() warnings()}                
+                    //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         disabled(true)
                         defaultSubject('Oops')
