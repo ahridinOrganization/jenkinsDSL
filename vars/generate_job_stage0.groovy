@@ -104,12 +104,12 @@ def call(body) {
                     maven {
                         goals('\${MVN_GOALS} -B -X -V') 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
-                        localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                        //localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
+                        //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+                        localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
                         properties(skipTests: true)                                              
                         mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
-                        rootPOM('\${WORKSPACE}\${MVN_POM}')
+                        rootPOM('\${WORKSPACE}/\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
 		    systemGroovyCommand('''
