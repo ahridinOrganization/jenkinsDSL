@@ -94,8 +94,8 @@ def call(body) {
                         //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
                         //properties(skipTests: true)
-                        mavenName("${config.MVN_VERSION}")                        
-                        mavenInstallation("${config.MVN_VERSION}")
+                                              
+                        mavenInstallation('Maven 3.0.4')
                         injectBuildVariables(true)
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
