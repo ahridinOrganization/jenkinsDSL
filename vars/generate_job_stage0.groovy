@@ -11,7 +11,6 @@ def call(body) {
             freeStyleJob("${jobFolder}/${config.NAME}") {
                 description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                jdk('\${JDK_VERISON}')                
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.SLAVE_LABEL}")
@@ -72,6 +71,7 @@ def call(body) {
                     zenTimestamp('yyyy-MM-dd-HH-mmm')
                 }
                 // ====================== PUBLISHERS =============================
+		jdk('\${JDK_VERISON}')  
                 publishers {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
