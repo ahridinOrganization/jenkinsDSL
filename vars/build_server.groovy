@@ -96,9 +96,10 @@ def call(body) {
 			deployerCredentialsConfig {
 				credentialsId '688d3adb-743f-4e05-90b8-2fa826dc860c'
 				overridingCredentials 'false'
-			}	
+				ignoreCredentialPluginDisabled 'false'
+			}
 			useSpecs 'true'
-			uploadSpec '''{"files":[{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}'''
+			uploadSpec {spec {'''{"files":[{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}'''}}
 			deployBuildInfo 'true'
 			includeEnvVars 'false'
 		}}
