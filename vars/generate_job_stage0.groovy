@@ -90,7 +90,17 @@ def call(body) {
 		// ====================== STEPS =============================
                 steps {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                    //systemGroovyCommand { println("JDK_VERISON = '\${JDK_VERISON}'") binding('computerName', 'ubuntu-04') }                                                          
+                    systemGroovyCommand ('''
+			import hudson.model.*
+			import hudson.util.*
+			import hudson.node_monitors.*
+			hudson = hudson.model.Hudson.instance			
+			def parameters = Thread.currentThread().executable?.actions.find{ it instanceof ParametersAction }?.parameters
+			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
+			out.println "=" * 25 + job + "=" * 25
+   			parameters.each { println "parameter \${it.name}=\t\${it.value}" }
+			out.println "=" * (50 + job.size())
+			''')
                     maven {
                         goals('\${MVN_GOALS} -B -X -V') 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
