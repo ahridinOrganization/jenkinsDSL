@@ -106,7 +106,7 @@ def call(body) {
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                         localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         //localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
-                        //properties(skipTests: true)                                              
+                        properties(skipTests: true)                                              
                         mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
                         rootPOM('\${MVN_POM}')
