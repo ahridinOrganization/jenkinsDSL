@@ -104,8 +104,8 @@ def call(body) {
                     maven {
                         goals('\${MVN_GOALS} -B -X -V') 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
-                        //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                        localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
+                        localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+                        //localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
                         //properties(skipTests: true)                                              
                         mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
@@ -117,8 +117,8 @@ def call(body) {
 			import hudson.util.*
 			hudson = hudson.model.Hudson.instance
 			try {
-        			def version = build.getEnvVars()['POM_VERSION'] //${POM_VERSION}
-        			Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
+        			def version = build.getEnvVars()['POM_VERSION'] 
+                                Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
 			} catch(Error e) { out.println e.toString()} ''') 					    	
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
