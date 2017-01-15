@@ -102,9 +102,10 @@ def call(body) {
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
-		    shell('''echo ${POM_VERSION} arrIN=(${POM_VERSION//-/ })
-                        NEW_POM_VERSION=${arrIN[0]}-$((${arrIN[1]} + 1))
-                        echo $NEW_POM_VERSION''')
+		    systemGroovyCommand('''
+                       def version = \${POM_VERSION}
+                       build.addAction(new ParametersAction([new StringParameterValue("NEW_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger())))]))
+		    ''') 			
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
 			 goals('versions:set -B -X -V')
