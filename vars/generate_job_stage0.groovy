@@ -51,6 +51,7 @@ def call(body) {
                             }   
                     }
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
+                    stringParam("MVN_POM", "${config.MVN_POM}")
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
                 } //end parameters
                  // ====================== PROPERTIES =============================
@@ -84,7 +85,7 @@ def call(body) {
                         localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         //properties(skipTests: true)
                         mavenInstallation("${config.MVN_VERSION}")
-                        rootPOM("${config.MVN_POM}")
+                        rootPOM("/${MVN_POM}")
                         //providedSettings('central-mirror')
                     } 
                 } //end steps 
