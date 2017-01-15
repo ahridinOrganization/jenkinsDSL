@@ -109,7 +109,7 @@ def call(body) {
                         properties(skipTests: true)                                              
                         mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
-                        rootPOM('\${MVN_POM}')
+                        rootPOM('\${WORKSPACE}\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
 		    systemGroovyCommand('''
