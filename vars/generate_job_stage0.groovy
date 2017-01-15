@@ -38,22 +38,7 @@ def call(body) {
                     }
                     timeout {absolute(${config.TIMEOUT})}
                     credentialsBinding{usernamePassword('username', 'password', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}
-		    configure { project ->
-        		project / 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator' {
-				details {
-					artifactoryName '-1891791470@1452687536055'
-					artifactoryUrl 'http://engci-maven-master.cisco.com/artifactory'					
-				}
-				deployerCredentialsConfig {
-					credentialsId '688d3adb-743f-4e05-90b8-2fa826dc860c'
-        				overridingCredentials 'false'
-				}	
-				useSpecs 'true'
-				uploadSpec {spec('''{"files": [{"pattern": "${config.ARTIFACTS_REGEX}","regexp":"true"}]}''')}
-                      		deployBuildInfo 'true'
-                      		includeEnvVars 'false'
-        	      }
-    		    }
+		    
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
