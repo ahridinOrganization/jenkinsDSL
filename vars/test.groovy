@@ -1,6 +1,10 @@
-@Library('github.com/ahridinOrganization/jenkinsDSL') _
+//@Library('github.com/ahridinOrganization/jenkinsDSL') _
 
-import utilities.Defaults
+//import utilities.Defaults
+fileLoader.withGit('https://github.com/ahridinOrganization/jenkinsDSL.git', 'master', null, '') {
+	//def stage0 = fileLoader.load('vars/stage0'); 
+	utilities = fileLoader.load('vars/utilities'); 
+}
 
 def call(body) {
     def config = [:]
@@ -12,7 +16,7 @@ def call(body) {
         //jobDsl scriptText:
   
  
-    Defaults.getBaseJob(freeStyleJob('myJob')){
+    utilities.Defaults.getBaseJob(freeStyleJob('myJob')){
     scm {
       git ('git@github.com/william/the-juggler.git')
    }
