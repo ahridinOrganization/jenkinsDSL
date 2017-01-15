@@ -49,16 +49,12 @@ def call(body) {
                         script('return ["jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit","${config.JDK_VERSION}:selected"]')
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
-                    }
-                    credentialsParam('CREDENTIALS') {
-                        type('com.cloudbees.plugins.credentials.common.StandardCredentials')
-                        required()
-                        defaultValue('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
-                    }
+                    }                    
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     stringParam("MVN_POM", "${config.MVN_POM}")
+                    stringParam("MVN_GOALS", "${config.MVN_GOALS}")
                     listTagsParam('TAG_URL',"${config.TAG_URL}") {
-                        credentialsId('\${CREDENTIALS}')
+                        credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
                         defaultValue("${config.TAG_URL}")
                         sortNewestFirst()
@@ -91,7 +87,7 @@ def call(body) {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
                     systemGroovyCommand(println("JDK_VERISON = ${env.JDK_VERISON}"))                                                           
                     maven {
-                        goals("-B -V -X -e ${config.MVN_GOALS}") 
+                        goals("-B -V -X -e '\${MVN_GOALS}'") 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                         localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         //properties(skipTests: true)
