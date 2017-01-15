@@ -85,7 +85,7 @@ def call(body) {
                 } //end publishers
                 steps {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
-                    systemGroovyCommand { println("JDK_VERISON = '\${JDK_VERISON}'") binding('computerName', 'ubuntu-04') }                                                          
+                    //systemGroovyCommand { println("JDK_VERISON = '\${JDK_VERISON}'") binding('computerName', 'ubuntu-04') }                                                          
                     maven {
                         goals('-B -V -X -e \${MVN_GOALS}') 
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
