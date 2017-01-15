@@ -12,7 +12,7 @@ def call(body) {
             freeStyleJob("${jobFolder}/${config.NAME}") {
                 description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                jdk('\${JDK_VERISON}')
+                jdk('''\${JDK_VERISON}''')                
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.SLAVE_LABEL}")
@@ -50,8 +50,19 @@ def call(body) {
                             fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
                             }   
                     }
+                    credentialsParam('CREDENTIALS') {
+                        type('com.cloudbees.plugins.credentials.common.StandardCredentials')
+                        required()
+                        defaultValue('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
+                    }
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
                     stringParam("MVN_POM", "${config.MVN_POM}")
+                    listTagsParam('TAG_URL',"${config.tagUrl}") {
+                    credentialsId('\${CREDENTIALS}')
+                        //tagFilterRegex(/^mytagsfilterregex/)
+                        defaultValue("${config.tagUrl}")
+                        sortNewestFirst()
+                    }            
                     booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
                 } //end parameters
                  // ====================== PROPERTIES =============================
