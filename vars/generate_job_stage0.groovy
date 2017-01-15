@@ -4,7 +4,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    node ("${config.SLAVE_LABEL}") {
+    node () {
         def myjob=freeStyleJob("${config.NAME}")        
         jobDsl scriptText:"""
             folder("${jobFolder}")
