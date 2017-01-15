@@ -8,12 +8,13 @@ def call(body) {
         jobDsl scriptText:"""
             folder("${jobFolder}")
             freeStyleJob("${jobFolder}/${config.NAME}") {
-                description("Auto generated ${config.NAME} stage-0 job")
+		description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 concurrentBuild()
                 quietPeriod(5) 
                 label("${config.SLAVE_LABEL}")
-                // ====================== SCM =============================
+		jdk('\${JDK_VERSION}')                  
+		// ====================== SCM =============================
                 scm {
                     svn {
                         checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
@@ -70,13 +71,12 @@ def call(body) {
                     //properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')}
                     zenTimestamp('yyyy-MM-dd-HH-mmm')
                 }
-                // ====================== PUBLISHERS =============================
-		jdk('\${JDK_VERSION}')  
+                // ====================== PUBLISHERS =============================		
                 publishers {
                     //archiveArtifacts('build/test-output/**/*.html')
                     //archiveJunit('**/target/surefire-reports/*.xml')
                     buildDescription('', '${BUILD_ID}.${NODE_NAME}')
-                    //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
+                    analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         disabled(true)
                         defaultSubject('Oops')
@@ -88,22 +88,7 @@ def call(body) {
                     }*/
                 } //end publishers
 		// ====================== CONFIGURE =============================
-		configure { project ->
-        		project / 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator' {
-				details {
-					artifactoryName '-1891791470@1452687536055'
-					artifactoryUrl 'http://engci-maven-master.cisco.com/artifactory'					
-				}
-				deployerCredentialsConfig {
-					credentialsId '688d3adb-743f-4e05-90b8-2fa826dc860c'
-        				overridingCredentials 'false'
-				}	
-				useSpecs 'true'
-				uploadSpec {spec('''{"files": [{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}''')}
-                      		deployBuildInfo 'true'
-                      		includeEnvVars 'false'
-        	      }
-    		    }
+		
 		// ====================== STEPS =============================
                 steps {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
