@@ -16,7 +16,7 @@ def call(body) {
         //jobDsl scriptText:
   
  
-    utilities.Defaults.getBaseJob(freeStyleJob('myJob')){
+    utilities.getBaseJob(freeStyleJob('myJob')){
     scm {
       git ('git@github.com/william/the-juggler.git')
    }
