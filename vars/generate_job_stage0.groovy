@@ -70,11 +70,11 @@ def call(body) {
                 }
                 // ====================== PUBLISHERS =============================
                 publishers {
-                    archiveArtifacts('build/test-output/**/*.html')
-                    archiveJunit('**/target/surefire-reports/*.xml')
+                    //archiveArtifacts('build/test-output/**/*.html')
+                    //archiveJunit('**/target/surefire-reports/*.xml')
                     buildDescription('', '${BUILD_ID}.${NODE_NAME}')
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
-                    extendedEmail {
+                    /*extendedEmail {
                         disabled(true)
                         defaultSubject('Oops')
                         defaultContent('Something broken')
@@ -82,7 +82,7 @@ def call(body) {
                         //triggers {
                             //failure { sendTo {   developers() requester()  culprits()}}
                         //}
-                    }
+                    }*/
                 } //end publishers
                 steps {
                     //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
