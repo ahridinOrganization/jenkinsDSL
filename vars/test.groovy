@@ -15,8 +15,12 @@ def call(body) {
     //    def job=stage0(MESSAGE:config.MESSAGE)
         //jobDsl scriptText:
   
- 
-    utilities.getBaseJob(freeStyleJob('myJob')){
+   jobDsl targets: ['stage0.groovy'].join('\n'),
+           removedJobAction: 'DELETE',
+           removedViewAction: 'DELETE',
+           lookupStrategy: 'SEED_JOB',
+           //additionalClasspath: ['libA.jar', 'libB.jar'].join('\n')
+    //utilities.getBaseJob(freeStyleJob('myJob')){
     scm {
       git ('git@github.com/william/the-juggler.git')
    }
