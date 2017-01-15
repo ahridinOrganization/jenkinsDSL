@@ -103,9 +103,13 @@ def call(body) {
                         //providedSettings('central-mirror')
                         } 
 		    systemGroovyCommand('''
-                       def version = \${POM_VERSION}
-                       build.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger())))]))
-		    ''') 			
+			import hudson.model.*
+			import hudson.util.*
+			hudson = hudson.model.Hudson.instance
+			try {
+        			def version = build.getEnvVars()['POM_VERSION'] //${POM_VERSION}
+        			Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
+			} catch(Error e) { out.println e.toString()} ''') 					    	
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
 			 goals('versions:set -B -X -V')
