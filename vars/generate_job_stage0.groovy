@@ -101,6 +101,9 @@ def call(body) {
                         rootPOM('\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
+		    shell('''echo ${POM_VERSION} arrIN=(${POM_VERSION//-/ })
+                        NEW_POM_VERSION=${arrIN[0]}-$((${arrIN[1]} + 1))
+                        echo $NEW_POM_VERSION''')
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
 			 goals('versions:set -B -X -V')
