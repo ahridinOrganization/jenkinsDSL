@@ -50,7 +50,7 @@ def call(body) {
                             }   
                     }                    
                     //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
-                    stringParam("MVN_POM", "${config.MVN_POM}"."Root POM name")
+                    stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
                     stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")                        
                     /*listTagsParam('TAG_URL',"${config.TAG_URL}") {
