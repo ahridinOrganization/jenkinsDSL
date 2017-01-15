@@ -38,6 +38,22 @@ def call(body) {
                     }
                     timeout {absolute(${config.TIMEOUT})}
                     credentialsBinding{usernamePassword('username', 'password', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}
+		    configure { project ->
+        		project / 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator' {
+				details {
+					artifactoryName '-1891791470@1452687536055'
+					artifactoryUrl 'http://engci-maven-master.cisco.com/artifactory'					
+				}
+				deployerCredentialsConfig {
+					credentialsId '688d3adb-743f-4e05-90b8-2fa826dc860c'
+        				overridingCredentials 'false'
+				}	
+				useSpecs 'true'
+				uploadSpec {
+					spec { }
+				}
+        	    	}
+    		    }
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
@@ -118,7 +134,8 @@ def call(body) {
 			hudson = hudson.model.Hudson.instance
 			try {
         			def version = build.getEnvVars()['POM_VERSION'] 
-                                Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
+                                if (version!=null) 
+					Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
 			} catch(Error e) { out.println e.toString()} ''') 					    	
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
@@ -131,5 +148,6 @@ def call(body) {
             } //end freeStyleJob        
         """
         build job: "${jobFolder}/${config.NAME}"
+	    
     }      
 }
