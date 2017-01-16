@@ -90,11 +90,9 @@ def call(body) {
     					echo "using project_name=\${PROJECT}"
     				fi
     				./build.sh push
-			fi)'''
+			fi''')
                 } //end steps 
             } //end freeStyleJob        
-        """
-        //build job: "${jobFolder}/${config.NAME}"
-	    
+        """       	    
     }      
 }
