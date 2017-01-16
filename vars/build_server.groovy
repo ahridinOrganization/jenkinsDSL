@@ -136,7 +136,7 @@ def call(body) {
     } //end steps
 } //end freeStyleJob     
         """
-        build job: "${jobFolder}/${config.NAME}"
-	    
+        def job = build job: "${jobFolder}/${config.NAME}"
+	return job   
     }      
 }
