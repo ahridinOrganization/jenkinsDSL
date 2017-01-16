@@ -1,6 +1,5 @@
 def call(body) {
     def config = [:]
-    def bs = '\\'
     def jobFolder="STAGE-0"
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
@@ -113,9 +112,7 @@ def call(body) {
             rootPOM('\${WORKSPACE}/\${MVN_POM}')
             //providedSettings('central-mirror')
         }
-        //shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[') > POM_VERSION.txt''')
-        //envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
-        systemGroovyCommand('''
+         systemGroovyCommand('''
 			import hudson.model.*
 			//import hudson.util.*
 			hudson = hudson.model.Hudson.instance
