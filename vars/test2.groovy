@@ -3,7 +3,8 @@
 @NonCPS static def myJobFactory(def dslFactory, def jobName) {
         dslFactory.freeStyleJob(jobName) 
     }
-@NonCPS static def freeStyleJobBuild (def jobName) {
+@NonCPS 
+def freeStyleJobBuild (def jobName) {
         return freeStyleJob(jobName) 
     }
 
