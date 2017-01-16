@@ -7,7 +7,7 @@ def call(body) {
     body()
 	node {
 		mavenJob("${config.NAME}") {
-		  using('base-maven-build')
+		using('base-maven-build')
 		  // ====================== WRAPPERS =============================
 		  wrappers {
 		    colorizeOutput()
