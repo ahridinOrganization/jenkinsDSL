@@ -49,11 +49,7 @@ def call(body) {
         stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")
         stringParam("ARTIFACTS", "${config.ARTIFACTS_REGEX}","Artifacts (regex)")
         labelParam('SLAVE_LABEL') { defaultValue("${config.SLAVE_LABEL}") }
-        booleanParam('SKIP_TESTS', false, "check to disable tests")
-        listTagsParam('TAG_URL',"${config.TAG_URL}") {
-            credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
-            sortNewestFirst()
-        }
+        booleanParam('SKIP_TESTS', false, "check to disable tests")        
         booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
     } //end parameters
     // ====================== PROPERTIES =============================
