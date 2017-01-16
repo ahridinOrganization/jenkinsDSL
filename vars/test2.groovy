@@ -17,10 +17,10 @@ def call(body) {
                             'Git repo containing the analytics pipeline configuration automation.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
-            }
+                 }
         }
                               
-            /*
+ }     /*
                Run arbitrary remote commands on a host belonging to a target environment, deployment and cluster,
                in a specified region.
              */
