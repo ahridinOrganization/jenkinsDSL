@@ -66,7 +66,10 @@ def call(body) {
                 // ====================== PUBLISHERS =============================		
                 publishers {
                     groovyPostBuild("manager.addShortText(manager.build.getEnvironment(manager.listener)[\'NEW_POM_VERSION\'])")
-		    archiveArtifacts('build/**/*.')                    
+		    archiveArtifacts { 
+			pattern('target/*.*,pom.xml,POM_VERSION.txt')
+			onlyIfSuccessful()
+        	    }
 		    buildDescription('', '#\${BUILD_ID}.\${POM_VERSION}'.\${NODE_NAME})
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
