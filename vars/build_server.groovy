@@ -7,95 +7,95 @@ def call(body) {
     node () {
         jobDsl scriptText:"""
             folder("${jobFolder}")
-            freeStyleJob("${jobFolder}/${config.NAME}") {
-		description("Auto generated ${config.NAME} build job")
-                logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
-                concurrentBuild()
-                quietPeriod(2) 
-                label('\${SLAVE_LABEL}')
-		jdk('\${JDK_VERSION}')                  
-		// ====================== SCM =============================
-                scm {
-                    svn {
-                        checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
-                        location("${config.REPO_URL}"){
-                            credentials('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
-                            ignoreExternals(true)
-                            }   
-                        }
-                    }
-                // ====================== WRAPPERS =============================
-                wrappers {
-                    colorizeOutput()
-                    timestamps()
-                    buildUserVars()
-                    buildName('#\${BUILD_NUMBER}.\${NODE_NAME}')
-                    maskPasswords()
-                    preBuildCleanup {
-                        includePattern('**/*')
-                        deleteDirectories()
-                        cleanupParameter('CLEANUP')
-                    }
-                    timeout {absolute(${config.TIMEOUT})}
-                    credentialsBinding{usernamePassword('username', 'password', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}		    
-                } //end wrappers
-                // ====================== PARAMETERS =============================
-                parameters {
-                    //choiceParam('JDK_VERISON', ["${config.JDK_VERSION}", "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
-                    stringParam("JDK_VERSION", "${config.JDK_VERSION}","JDK Version")
-		    stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
-                    stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
-                    stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")                        
-		    stringParam("ARTIFACTS", "${config.ARTIFACTS_REGEX}","Artifacts (regex)")                        
-		    labelParam("SLAVE_LABEL", "${config.SLAVE_LABEL}","")
-		    booleanParam('SKIP_TESTS', false, "check to disable tests")
-                    listTagsParam('TAG_URL',"${config.TAG_URL}") {
-                        credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')                                                
-                        sortNewestFirst()
-                    }                               
-		    booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
-                } //end parameters
-                 // ====================== PROPERTIES =============================
-                properties {
-                    rebuild {autoRebuild(false)  }
-                    //properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')}
-                    zenTimestamp('yyyy-MM-dd-HH-mmm')
-                }
-                // ====================== PUBLISHERS =============================		
-                publishers {
-                    groovyPostBuild("manager.addShortText(manager.build.getEnvironment(manager.listener)[\'NEW_POM_VERSION\'])")
-		    archiveArtifacts { 
-			pattern('target/*.*,pom.xml,POM_VERSION.txt')
-			onlyIfSuccessful()
-        	    }
-		    buildDescription('', '\${POM_VERSION}')
-                    //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
-                    /*extendedEmail {
-                        defaultSubject('Oops')
-                        defaultContent('Something broken')
-                        contentType('text/html')
-                        triggers { failure { sendTo { developers() requester() culprits() }}}
-                    }*/
-                } //end publishers
-		// ====================== CONFIGURE =============================
-		/*configure { project ->  project/ 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator'{
-			details {
-				artifactoryName('-1891791470@1452687536055')
-				artifactoryUrl 'http://engci-maven-master.cisco.com/artifactory'					
-			}
-			deployerCredentialsConfig {
-				credentialsId '688d3adb-743f-4e05-90b8-2fa826dc860c'
-				overridingCredentials 'false'
-				ignoreCredentialPluginDisabled 'false'
-			}
-			useSpecs 'true'
-			uploadSpec {spec {'''{"files":[{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}'''}}
-			deployBuildInfo 'true'
-			includeEnvVars 'false'
-		}}*/
-		// ====================== STEPS =============================
-                steps {
-                    systemGroovyCommand ('''
+           freeStyleJob("${jobFolder}/${config.NAME}") {
+    description("Auto generated ${config.NAME} build job")
+    logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
+    concurrentBuild()
+    quietPeriod(2)
+    label('\${SLAVE_LABEL}')
+    jdk('\${JDK_VERSION}')
+    // ====================== SCM =============================
+    scm {
+        svn {
+            checkoutStrategy(SvnCheckoutStrategy.CHECKOUT)
+            location("${config.REPO_URL}"){
+                credentials('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
+                ignoreExternals(true)
+            }
+        }
+    }
+    // ====================== WRAPPERS =============================
+    wrappers {
+        colorizeOutput()
+        timestamps()
+        buildUserVars()
+        buildName('#\${BUILD_NUMBER}.\${NODE_NAME}')
+        maskPasswords()
+        preBuildCleanup {
+            includePattern('**/*')
+            deleteDirectories()
+            cleanupParameter('CLEANUP')
+        }
+        timeout {absolute(${config.TIMEOUT})}
+        credentialsBinding{usernamePassword('username', 'password', 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e')}
+    } //end wrappers
+    // ====================== PARAMETERS =============================
+    parameters {
+        //choiceParam('JDK_VERISON', ["${config.JDK_VERSION}", "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
+        stringParam("JDK_VERSION", "${config.JDK_VERSION}","JDK Version")
+        stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
+        stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
+        stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")
+        stringParam("ARTIFACTS", "${config.ARTIFACTS_REGEX}","Artifacts (regex)")
+        labelParam("SLAVE_LABEL", "${config.SLAVE_LABEL}","")
+        booleanParam('SKIP_TESTS', false, "check to disable tests")
+        listTagsParam('TAG_URL',"${config.TAG_URL}") {
+            credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
+            sortNewestFirst()
+        }
+        booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
+    } //end parameters
+    // ====================== PROPERTIES =============================
+    properties {
+        rebuild {autoRebuild(false)  }
+        //properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')}
+        zenTimestamp('yyyy-MM-dd-HH-mmm')
+    }
+    // ====================== PUBLISHERS =============================
+    publishers {
+        groovyPostBuild("manager.addShortText(manager.build.getEnvironment(manager.listener)[\'NEW_POM_VERSION\'])")
+        archiveArtifacts {
+            pattern('target/*.*,pom.xml,POM_VERSION.txt')
+            onlyIfSuccessful()
+        }
+        buildDescription('', '\${POM_VERSION}')
+        //analysisCollector { checkstyle() findbugs() pmd() warnings()}
+        /*extendedEmail {
+            defaultSubject('Oops')
+            defaultContent('Something broken')
+            contentType('text/html')
+            triggers { failure { sendTo { developers() requester() culprits() }}}
+        }*/
+    } //end publishers
+    // ====================== CONFIGURE =============================
+    /*configure { project ->  project/ 'buildWrappers' / 'org.jfrog.hudson.generic.ArtifactoryGenericConfigurator'{
+        details {
+            artifactoryName('-1891791470@1452687536055')
+            artifactoryUrl 'http://engci-maven-master.cisco.com/artifactory'
+        }
+        deployerCredentialsConfig {
+            credentialsId '688d3adb-743f-4e05-90b8-2fa826dc860c'
+            overridingCredentials 'false'
+            ignoreCredentialPluginDisabled 'false'
+        }
+        useSpecs 'true'
+        uploadSpec {spec {'''{"files":[{"pattern": "(.*).(jar|rpm)","regexp":"true"}]}'''}}
+        deployBuildInfo 'true'
+        includeEnvVars 'false'
+    }}*/
+    // ====================== STEPS =============================
+    steps {
+        systemGroovyCommand ('''
 			import hudson.model.*
 			import hudson.util.*
 			import hudson.node_monitors.*
@@ -106,34 +106,34 @@ def call(body) {
    			parameters.each { if (\${it.value} != null) println "\t\${it.name}=\t\${it.value}" }
 			out.println "=" * (50 + job.size())
 			''')
-                    maven {
-                        goals('\${MVN_GOALS} -B -X -V') 
-                        mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
-                        //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-                        localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
-			properties(skipTests: $\{SKIP_TESTS})                                              
-                        mavenInstallation("${config.MVN_VERSION}")
-                        injectBuildVariables(true)
-                        rootPOM('\${WORKSPACE}/\${MVN_POM}')
-                        //providedSettings('central-mirror')
-                        } 
-		    shell ('''echo POM_VERSION=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\['` > POM_VERSION.txt''')
-		    envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
-		    systemGroovyCommand('''
+        maven {
+            goals('\${MVN_GOALS} -B -X -V')
+            mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
+            //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+            localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
+            properties(skipTests: '\${SKIP_TESTS}')
+            mavenInstallation("${config.MVN_VERSION}")
+            injectBuildVariables(true)
+            rootPOM('\${WORKSPACE}/\${MVN_POM}')
+            //providedSettings('central-mirror')
+        }
+        shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[') > POM_VERSION.txt''')
+        envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
+        systemGroovyCommand('''
 			import hudson.model.*
 			//import hudson.util.*
 			hudson = hudson.model.Hudson.instance
 			def version = build.getEnvVars()['POM_VERSION']                                 
 			Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
-			''') 					    	
-		    maven {
-			 goals('build-helper:parse-version -B -X -V')
-			 goals('versions:set -B -X -V')
-			 //goals('-DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
-			 mavenInstallation("${config.MVN_VERSION}")                       
-                        }                                 
-                } //end steps 
-            } //end freeStyleJob        
+			''')
+        maven {
+            goals('build-helper:parse-version -B -X -V')
+            goals('versions:set -B -X -V')
+            //goals('-DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+            mavenInstallation("${config.MVN_VERSION}")
+        }
+    } //end steps
+} //end freeStyleJob     
         """
         build job: "${jobFolder}/${config.NAME}"
 	    
