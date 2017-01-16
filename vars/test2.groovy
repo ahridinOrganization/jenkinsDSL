@@ -6,13 +6,13 @@ def call(body) {
     body.delegate = config
     body()
     
-    
+    node {
     jobDsl targets: ['mavenJob.groovy'].join('\n'),
            removedJobAction: 'DISABLE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',
            additionalClasspath: ['libA.jar', 'libB.jar'].join('\n')
-    
+    }
     
     /*jobDsl targets: "mavenJob.groovy",
            removedJobAction: 'DELETE',
