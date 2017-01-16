@@ -7,6 +7,8 @@ def call(body) {
     body.delegate = config
     body()
    
+    folder(String name, Closure closure = null) // since 1.30
+    freeStyleJob('project-a/compile')
     def myJob = freeStyleJob('SimpleJob')
     myJob.with {
       description 'A Simple Job'
