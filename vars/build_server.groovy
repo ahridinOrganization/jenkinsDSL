@@ -98,7 +98,10 @@ def call(body) {
 			def parameters = Thread.currentThread().executable?.actions.find{ it instanceof ParametersAction }?.parameters
 			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
 			out.println "=" * 25 + job + "=" * 25
-   			parameters.each { if (\${it.value} != null) println "\t\${it.name}=\t\${it.value}" }
+			for (i = 0; i <parameters.size; ++i) {
+				if (parameters[i].value} != null) println "\t\${parameters[i].name}=\t\${parameters[i].value}")
+			}
+   			//parameters.each { if (\${it.value} != null) println "\t\${it.name}=\t\${it.value}" }
 			out.println "=" * (50 + job.size())
 			''')
         maven {
@@ -112,8 +115,8 @@ def call(body) {
             rootPOM('\${WORKSPACE}/\${MVN_POM}')
             //providedSettings('central-mirror')
         }
-	/*shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\\[') > POM_VERSION.txt''')
-        envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}*/
+	shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\\[') > POM_VERSION.txt''')
+        envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
         systemGroovyCommand('''
 			import hudson.model.*
 			//import hudson.util.*
