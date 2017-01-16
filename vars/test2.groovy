@@ -1,7 +1,7 @@
 #!groovy
 
 @NonCPS static def myJobFactory(def dslFactory, def jobName) {
-        dslFactory.freeStyleJob("${config.Name}") 
+        dslFactory.freeStyleJob(jobName) 
     }
     
 def call(body) {
