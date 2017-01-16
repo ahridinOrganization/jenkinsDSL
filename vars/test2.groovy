@@ -9,40 +9,8 @@ def call(body) {
     node {
         def job1 = makeMeABasicJob(this) //Passing the groovy file class as the resolution context
         job1.with({ steps {  shell('echo Hello') }  })
-        
- /*       jobDsl targets: ['*.groovy'].join('\n'),
-           removedJobAction: 'DELETE',
-           removedViewAction: 'DELETE',
-           lookupStrategy: 'SEED_JOB',
-   */        
+        BuildFramework.ant(this, 'my-ant-project', 'clean build')
     }
 }
-@com.cloudbees.groovy.cps.NonCPS
-static def makeMeABasicJob(def context) {
-        context.freeStyleJob() {
-            //generic stuff
-            name "something"
-            description "something else"
-        }
 
-    }
-    /*jobDsl targets: "mavenJob.groovy",
-           removedJobAction: 'DELETE',
-           removedViewAction: 'DELETE',
-           lookupStrategy: 'SEED_JOB',           
-*/
- /*public static def job = { 
-     
-     dslFactory, jobName -> return dslFactory.job("MyJob") {
-          parameters {
-            stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')                      
-            stringParam('CONFIGURATION_BRANCH', 'master')                      
-                 }
-           }
-                              
-     }     /*
-               Run arbitrary remote commands on a host belonging to a target environment, deployment and cluster,
-               in a specified region.
-             */
-   
 
