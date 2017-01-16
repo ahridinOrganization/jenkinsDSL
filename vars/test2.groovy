@@ -8,7 +8,7 @@ def call(body) {
     body()
     println "${config.Name}"
     node () {  
-        listView(${config.Name}, config)  
+        listView("${config.Name}", config)  
         freeStyleJob("${jobFolder}/${config.Name}")
         git url: 'https://github.com/jfrogdev/project-examples.git'
         buildFlowJob(String name, Closure closure = null)
