@@ -10,7 +10,7 @@ def call(body) {
     node () {  
         listView("${config.Name}", config)  
         freeStyleJob("${jobFolder}/${config.Name}")
-        git url: 'https://github.com/jfrogdev/project-examples.git'
+        //git url: 'https://github.com/jfrogdev/project-examples.git'
         buildFlowJob(String name, Closure closure = null)
         
         }
