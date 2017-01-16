@@ -113,14 +113,15 @@ def call(body) {
             rootPOM('\${WORKSPACE}/\${MVN_POM}')
             //providedSettings('central-mirror')
         }
-        //shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v "${bs}[") > POM_VERSION.txt''')
-        envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
+        //shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[') > POM_VERSION.txt''')
+        //envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
         systemGroovyCommand('''
 			import hudson.model.*
 			//import hudson.util.*
 			hudson = hudson.model.Hudson.instance
-			def version = build.getEnvVars()['POM_VERSION']                                 
-			Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
+			def version = build.getEnvVars()['POM_VERSION'] 
+                        if (version ~=null)
+				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
 			''')
         maven {
             goals('build-helper:parse-version -B -X -V')
