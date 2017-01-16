@@ -124,11 +124,9 @@ def call(body) {
                         if (version)
 				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
 			''')
-        maven {
-            goals('build-helper:parse-version -B -X -V')
-            goals('versions:set -B -X -V')
-            //goals('-DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
-            mavenInstallation("${config.MVN_VERSION}")
+        //maven {
+            //goals('build-helper:parse-version versions:set -DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+          //  mavenInstallation("${config.MVN_VERSION}")
         }
     } //end steps
 } //end freeStyleJob     
