@@ -1,3 +1,13 @@
+class Utils {
+    static def makeMeABasicJob(def context) {
+        context.freeStyleJob() {
+            //generic stuff
+            name "something"
+            description "something else"
+        }
+
+    }
+}
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -7,6 +17,16 @@ def call(body) {
     body()
     
     node {
+        def job1 = Utils.makeMeABasicJob(this) //Passing the groovy file class as the resolution context
+job1.with({
+    //custom stuff
+    scm {
+        svn {
+            //etc....
+        }
+    }
+})
+
     
     jobDsl targets: ['*.groovy'].join('\n'),
            removedJobAction: 'DELETE',
