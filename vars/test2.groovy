@@ -6,6 +6,15 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
+    
+    def myJobFactory(def dslFactory, def jobName) {
+        dslFactory.freeStyleJob(jobName) 
+    }
+
+    def myJob = myJobFactory(this, "${config.Name}")
+    
+    //def myJob = freeStyleJob("${config.Name}")
+    
     println "${config.Name}"
     node () {  
         listView("${config.Name}", config)  
