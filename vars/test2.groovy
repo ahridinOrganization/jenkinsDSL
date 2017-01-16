@@ -14,7 +14,7 @@ def call(body) {
    
     def myJob = myJobFactory(this, "${config.Name}")
     
-        job1.with(
+        myJob.with(
                 {    description('foo') }
     )
     
