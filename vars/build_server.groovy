@@ -122,7 +122,7 @@ def call(body) {
 				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_BUILD_NUMBER",(build.getEnvVars()['BUILD_TIMESTAMP'].replaceAll("-",""))]))
 				''')
 		//maven {
-//goals('build-helper:parse-version versions:set -DnewVersion=\${NEW_BUILD_NUMBER} scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+               //goals('build-helper:parse-version versions:set -DnewVersion=\${NEW_BUILD_NUMBER} scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
 		  //  mavenInstallation("${config.MVN_VERSION}")
 		//}
 	    } //end steps
@@ -130,5 +130,5 @@ def call(body) {
 	"""
         job = build job: "${jobFolder}/${config.NAME}"	  
     }   
-	return job 
+	return '1.6.4-123' 
 }
