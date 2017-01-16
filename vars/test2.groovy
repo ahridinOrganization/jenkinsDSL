@@ -7,15 +7,16 @@ def call(body) {
     body.delegate = config
     body()
    
-    dslFactory.job("ANNA") 
+    def myJob = freeStyleJob('SimpleJob')
+    myJob.with {
+      description 'A Simple Job'
+    }
             
             
            //def myJob = myJobFactory(this, "${config.Name}")
     //        myJob.with(
     //            {    description('foo') }
     //)
-        def mJob=freeStyleJobBuild("${config.Name}")
-        mJob.with ( {description('foo') } )
-    
+       
  }
 return this;
