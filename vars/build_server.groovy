@@ -12,7 +12,7 @@ def call(body) {
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 concurrentBuild()
                 quietPeriod(2) 
-                label("${config.SLAVE_LABEL}")
+                label('\${SLAVE_LABEL}')
 		jdk('\${JDK_VERSION}')                  
 		// ====================== SCM =============================
                 scm {
