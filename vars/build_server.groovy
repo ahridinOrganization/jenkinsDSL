@@ -29,7 +29,7 @@ def call(body) {
                     colorizeOutput()
                     timestamps()
                     buildUserVars()
-                    //buildName('#${BUILD_NUMBER}')
+                    buildName('#\${BUILD_NUMBER}.\${NODE_NAME}')
                     maskPasswords()
                     preBuildCleanup {
                         includePattern('**/*')
@@ -68,7 +68,7 @@ def call(body) {
 			pattern('target/*.*,pom.xml,POM_VERSION.txt')
 			onlyIfSuccessful()
         	    }
-		    buildDescription('', '#\${BUILD_ID}.\${POM_VERSION}.\${NODE_NAME}')
+		    buildDescription('', '\${POM_VERSION}')
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         defaultSubject('Oops')
