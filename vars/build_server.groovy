@@ -121,7 +121,7 @@ def call(body) {
 			//import hudson.util.*
 			hudson = hudson.model.Hudson.instance
 			def version = build.getEnvVars()['POM_VERSION'] 
-                        if (version ~=null)
+                        if (version)
 				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
 			''')
         maven {
