@@ -11,7 +11,7 @@ def call(body) {
            removedJobAction: 'DISABLE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',
-           additionalClasspath: ['libA.jar', 'libB.jar'].join('\n')
+           
     }
     
     /*jobDsl targets: "mavenJob.groovy",
