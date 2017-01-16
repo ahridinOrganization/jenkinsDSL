@@ -58,7 +58,7 @@ def call(body) {
     }
     // ====================== PUBLISHERS =============================
     publishers {
-        groovyPostBuild("manager.addShortText(manager.build.getEnvironment(manager.listener)[\'NEW_POM_VERSION\'])")
+        //groovyPostBuild("manager.addShortText(manager.build.getEnvironment(manager.listener)[\'NEW_POM_VERSION\'])")
         archiveArtifacts {
             pattern('target/*.*,pom.xml,POM_VERSION.txt')
             onlyIfSuccessful()
@@ -98,9 +98,8 @@ def call(body) {
 			def parameters = Thread.currentThread().executable?.actions.find{ it instanceof ParametersAction }?.parameters
 			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
 			out.println "=" * 25 + job + "=" * 25
-			for (i = 0; i <parameters.size; ++i) {
-				if (parameters[i].value} != null) println "\t\${parameters[i].name}=\t\${parameters[i].value}")
-			}
+			for (i = 0; i <parameters.size; ++i) 
+			    if (parameters[i].value} != null) println "\t\"+parameters[i].name+"=\t"+parameters[i].value")			
    			//parameters.each { if (\${it.value} != null) println "\t\${it.name}=\t\${it.value}" }
 			out.println "=" * (50 + job.size())
 			''')
