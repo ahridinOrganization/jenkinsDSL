@@ -68,7 +68,7 @@ def call(body) {
 			pattern('target/*.*,pom.xml,POM_VERSION.txt')
 			onlyIfSuccessful()
         	    }
-		    buildDescription('', '#\${BUILD_ID}.\${POM_VERSION}'.\${NODE_NAME})
+		    buildDescription('', '#\${BUILD_ID}.\${POM_VERSION}.\${NODE_NAME}')
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
                         defaultSubject('Oops')
