@@ -1,15 +1,3 @@
-@com.cloudbees.groovy.cps.NonCPS
-class Utils {
-    static def makeMeABasicJob(def context) {
-        context.freeStyleJob() {
-            //generic stuff
-            name "something"
-            description "something else"
-        }
-
-    }
-}
-
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -19,7 +7,7 @@ def call(body) {
     body()
     
     node {
-        def job1 = Utils.makeMeABasicJob(this) //Passing the groovy file class as the resolution context
+        def job1 = makeMeABasicJob(this) //Passing the groovy file class as the resolution context
         job1.with({ steps {  shell('echo Hello') }  })
         
  /*       jobDsl targets: ['*.groovy'].join('\n'),
@@ -29,6 +17,15 @@ def call(body) {
    */        
     }
 }
+@com.cloudbees.groovy.cps.NonCPS
+static def makeMeABasicJob(def context) {
+        context.freeStyleJob() {
+            //generic stuff
+            name "something"
+            description "something else"
+        }
+
+    }
     /*jobDsl targets: "mavenJob.groovy",
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
