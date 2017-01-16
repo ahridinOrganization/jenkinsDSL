@@ -1,4 +1,3 @@
-@Library('github.com/ahridinOrganization/jenkinsDSL') _
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -8,6 +7,7 @@ def call(body) {
     body()
     
     node {
+        jobDsl scriptText: 'job("example-2")'
     jobDsl targets: 'mavenJob.groovy',
            removedJobAction: 'DISABLE',
            removedViewAction: 'DELETE',
