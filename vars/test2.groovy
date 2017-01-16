@@ -7,11 +7,11 @@ def call(body) {
     body()
     
     node {
-        jobDsl scriptText: 'job("example-2")'
-    jobDsl targets: 'mavenJob.groovy',
-           removedJobAction: 'DISABLE',
+    
+    jobDsl targets: ['*.groovy'].join('\n'),
+           removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
-           lookupStrategy: 'SEED_JOB'
+           lookupStrategy: 'SEED_JOB',
            
     }
     
