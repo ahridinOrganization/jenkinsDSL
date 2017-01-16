@@ -115,18 +115,14 @@ def call(body) {
 		    rootPOM('\${WORKSPACE}/\${MVN_POM}')
 		    //providedSettings('central-mirror')
 		}
-		//shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\\[') > POM_VERSION.txt''')
-		//envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
 		systemGroovyCommand('''
 				import hudson.model.*
 				//import hudson.util.*
 				hudson = hudson.model.Hudson.instance
-				def version = build.getEnvVars()['POM_VERSION'] 
-				if (version)
-					Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
+				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_BUILD_NUMBER",(build.getEnvVars()['BUILD_TIMESTAMP'].replaceAll("-",""))]))
 				''')
 		//maven {
-		    //goals('build-helper:parse-version versions:set -DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+//goals('build-helper:parse-version versions:set -DnewVersion=\${NEW_BUILD_NUMBER} scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
 		  //  mavenInstallation("${config.MVN_VERSION}")
 		//}
 	    } //end steps
