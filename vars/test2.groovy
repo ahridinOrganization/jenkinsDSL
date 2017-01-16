@@ -8,6 +8,7 @@ class Utils {
 
     }
 }
+
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -18,16 +19,11 @@ def call(body) {
     
     node {
         def job1 = Utils.makeMeABasicJob(this) //Passing the groovy file class as the resolution context
-job1.with({
-    //custom stuff
-    scm {
-        svn {
-            //etc....
-        }
-    }
-})
-
-    
+        job1.with({ 
+               steps {
+        shell(readFileFromWorkspace('build.sh'))
+    }     
+      })
     jobDsl targets: ['*.groovy'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
@@ -40,7 +36,7 @@ job1.with({
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',           
 */
- public static def job = { 
+ /*public static def job = { 
      
      dslFactory, jobName -> return dslFactory.job("MyJob") {
           parameters {
@@ -53,4 +49,5 @@ job1.with({
                Run arbitrary remote commands on a host belonging to a target environment, deployment and cluster,
                in a specified region.
              */
+    */
 }
