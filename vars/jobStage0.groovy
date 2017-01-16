@@ -27,7 +27,7 @@ def call(body) {
     body()
        
     node {
-        def myJob = myJobFactory(this)
+        def myJob = myJobFactory(delegate,${config.Name})
         //def stage0_job = freeStyleJob(config.componentName) { }
           
         
