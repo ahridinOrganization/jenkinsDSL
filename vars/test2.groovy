@@ -7,7 +7,7 @@ def call(body) {
     body()
     
     node {
-    jobDsl targets: ['mavenJob.groovy'].join('\n'),
+    jobDsl targets: 'mavenJob.groovy',
            removedJobAction: 'DISABLE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB'
