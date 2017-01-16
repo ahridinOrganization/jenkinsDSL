@@ -128,7 +128,7 @@ def call(body) {
 		//maven {
 		    //goals('build-helper:parse-version versions:set -DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
 		  //  mavenInstallation("${config.MVN_VERSION}")
-		}
+		//}
 	    } //end steps
 	} //end freeStyleJob     
 	"""
