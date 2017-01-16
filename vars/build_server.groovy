@@ -1,6 +1,6 @@
 def call(body) {
     def config = [:]
-    def bs = '\'
+    def bs = '\\'
     def jobFolder="STAGE-0"
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
