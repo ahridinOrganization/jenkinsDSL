@@ -7,7 +7,7 @@ def call(body) {
     body()
     
     println "${config.Name}"
-    node {    
-        freeStyleJob("${jobFolder}/${config.NAME}")
+    node () {    
+        freeStyleJob("${jobFolder}/${config.Name}")
          }
  }
