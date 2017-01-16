@@ -99,7 +99,7 @@ def call(body) {
 			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
 			out.println "=" * 25 + job + "=" * 25
 			for (i = 0; i <parameters.size; ++i) 
-			  if (parameters[i].value != null) println "\t\"+parameters[i].name+"=\t"+parameters[i].value)			
+				if (parameters[i].value != null) println ("\t\${parameters[i].name}=\t\${parameters[i].value})			
    			//parameters.each { if (\${it.value} != null) println "\t\${it.name}=\t\${it.value}" }
 			out.println "=" * (50 + job.size())
 			''')
