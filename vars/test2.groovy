@@ -1,3 +1,4 @@
+@Library('github.com/ahridinOrganization/jenkinsDSL') _
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
