@@ -119,7 +119,7 @@ def call(body) {
 				import hudson.model.*
 				//import hudson.util.*
 				hudson = hudson.model.Hudson.instance
-				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_BUILD_NUMBER",(build.getEnvVars()['BUILD_TIMESTAMP'].replaceAll("-",""))]))
+				Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_BUILD_NUMBER",(build.getEnvVars()['BUILD_TIMESTAMP'].replaceAll("-","")))]))
 				''')
 		//maven {
                //goals('build-helper:parse-version versions:set -DnewVersion=\${NEW_BUILD_NUMBER} scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
