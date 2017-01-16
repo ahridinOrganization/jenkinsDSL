@@ -1,3 +1,4 @@
+@com.cloudbees.groovy.cps.NonCPS
 class Utils {
     static def makeMeABasicJob(def context) {
         context.freeStyleJob() {
