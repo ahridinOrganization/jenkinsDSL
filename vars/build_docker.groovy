@@ -53,8 +53,8 @@ def call(body) {
                 }
                 // ====================== PUBLISHERS =============================
 		publishers {
-                    archiveArtifacts('build/test-output/**/*.html')                
-                    buildDescription('', '${BUILD_ID}.${config.COMPONENT_NAME}.${config.COMPONENT_VERSION}.${config.PROJECT}')
+                    //archiveArtifacts('build/test-output/**/*.html')                
+                    buildDescription('', '\${BUILD_ID}.\${config.NAME}.\${config.VERSION}.\${config.PROJECT}')
                     /*extendedEmail {
                         disabled(true)
                         defaultSubject('Oops')
@@ -75,7 +75,8 @@ def call(body) {
 			def parameters = Thread.currentThread().executable?.actions.find{ it instanceof ParametersAction }?.parameters
 			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
 			out.println "=" * 25 + job + "=" * 25
-   			parameters.each { println "\t\${it.name}=\t\${it.value}" }
+			for (i = 0; i <parameters.size(); ++i) 
+				if (parameters[i].value != null) println ("\t" + parameters[i].name + "=\t" + parameters[i].value)			   			
 			out.println "=" * (50 + job.size())
 			''')
 		shell ('''
@@ -89,10 +90,7 @@ def call(body) {
     					echo "using project_name=\${PROJECT}"
     				fi
     				./build.sh push
-			fi
-
-			'''
-                                 
+			fi)'''
                 } //end steps 
             } //end freeStyleJob        
         """
