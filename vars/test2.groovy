@@ -1,7 +1,3 @@
-#!groovy
-
-
-    
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -13,5 +9,5 @@ def call(body) {
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',           
- }
 return this;
+}
