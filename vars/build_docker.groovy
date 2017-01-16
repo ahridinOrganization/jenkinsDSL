@@ -39,7 +39,7 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-                    stringParam("COMPONENT", "${config.COMPONENT}","")		    
+                    stringParam("COMPONENT", "${config.NAME}","")		    
 		    stringParam("VERSION", "${config.VERSION}","")		    
 		    stringParam("PROJECT", "${config.PROJECT}","")                    
                     labelParam("SLAVE_LABEL") { defaultValue("${config.SLAVE_LABEL}") }
@@ -96,7 +96,7 @@ def call(body) {
                 } //end steps 
             } //end freeStyleJob        
         """
-        build job: "${jobFolder}/${config.NAME}"
+        //build job: "${jobFolder}/${config.NAME}"
 	    
     }      
 }
