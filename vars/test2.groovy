@@ -19,16 +19,15 @@ def call(body) {
     
     node {
         def job1 = Utils.makeMeABasicJob(this) //Passing the groovy file class as the resolution context
-        job1.with({ 
-               steps {  shell('echo Hello') }     
-      })
-    jobDsl targets: ['*.groovy'].join('\n'),
+        job1.with({ steps {  shell('echo Hello') }  })
+        
+ /*       jobDsl targets: ['*.groovy'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',
-           
+   */        
     }
-    
+}
     /*jobDsl targets: "mavenJob.groovy",
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
