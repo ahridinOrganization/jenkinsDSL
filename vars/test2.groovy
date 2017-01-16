@@ -13,7 +13,7 @@ def call(body) {
     body.delegate = config
     body()
     
-   def job1 = Utils.makeMeABasicJob(this) //Passing the groovy file class as the resolution context
+   def job1 = makeMeABasicJob(this) //Passing the groovy file class as the resolution context
     job1.with({
     //custom stuff
     scm {
