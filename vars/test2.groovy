@@ -2,7 +2,7 @@
 def myJobFactory(def dslFactory, def jobName) {
         dslFactory.freeStyleJob("${config.Name}") 
     }
-
+@NonCPS
 static def makeMeABasicJob(def context) { context.freeStyleJob() }
     
 def call(body) {
