@@ -1,9 +1,8 @@
 #!groovy
-def myJobFactory(def dslFactory, def jobName) {
+
+@NonCPS static def myJobFactory(def dslFactory, def jobName) {
         dslFactory.freeStyleJob("${config.Name}") 
     }
-@NonCPS
-static def makeMeABasicJob(def context) { context.freeStyleJob() }
     
 def call(body) {
     def config = [:]
@@ -12,19 +11,8 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    
-   def job1 = makeMeABasicJob(this) //Passing the groovy file class as the resolution context
-    job1.with({
-    //custom stuff
-    scm {
-        svn {
-            //etc....
-                }
-        }
-     })
-
+   
     def myJob = myJobFactory(this, "${config.Name}")
-    
     //def myJob = freeStyleJob("${config.Name}")
     
     println "${config.Name}"
