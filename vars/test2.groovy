@@ -9,5 +9,5 @@ def call(body) {
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',           
-return this;
+
 }
