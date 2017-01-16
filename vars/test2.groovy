@@ -1,4 +1,8 @@
 #!groovy
+def myJobFactory(def dslFactory, def jobName) {
+        dslFactory.freeStyleJob(jobName) 
+    }
+
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -7,9 +11,7 @@ def call(body) {
     body.delegate = config
     body()
     
-    def myJobFactory(def dslFactory, def jobName) {
-        dslFactory.freeStyleJob(jobName) 
-    }
+   
 
     def myJob = myJobFactory(this, "${config.Name}")
     
