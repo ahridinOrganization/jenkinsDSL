@@ -6,5 +6,5 @@ def call(body) {
     body.delegate = config
     body()
     
-    println ${config.Name}
+    println "${config.Name}"
  }
