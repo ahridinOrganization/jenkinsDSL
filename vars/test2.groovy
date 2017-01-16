@@ -9,19 +9,9 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-   
-    folder('project-a') // since 1.30
-    freeStyleJob('project-a/compile')
-    def myJob = freeStyleJob('SimpleJob')
-    myJob.with {
-      description 'A Simple Job'
-    }
-            
-            
-           //def myJob = myJobFactory(this, "${config.Name}")
-    //        myJob.with(
-    //            {    description('foo') }
-    //)
-       
+    jobDsl targets: "mavenJob.groovy",
+           removedJobAction: 'DELETE',
+           removedViewAction: 'DELETE',
+           lookupStrategy: 'SEED_JOB',           
  }
 return this;
