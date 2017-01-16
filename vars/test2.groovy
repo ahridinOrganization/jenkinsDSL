@@ -13,16 +13,10 @@ def call(body) {
     body()
    
     def myJob = myJobFactory(this, "${config.Name}")
-    //def myJob = freeStyleJob("${config.Name}")
     
-    println "${config.Name}"
-    node () {  
-        listView("${config.Name}", config)  
-        freeStyleJob("${jobFolder}/${config.Name}")
-        //git url: 'https://github.com/jfrogdev/project-examples.git'
-        buildFlowJob(String name, Closure closure = null)
-        
-        }
+        job1.with(
+                {    description('foo') }
+    )
     
  }
 return this;
