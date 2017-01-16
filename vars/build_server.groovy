@@ -49,7 +49,6 @@ def call(body) {
         stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")
         stringParam("ARTIFACTS", "${config.ARTIFACTS_REGEX}","Artifacts (regex)")
         labelParam('SLAVE_LABEL') { defaultValue("${config.SLAVE_LABEL}") }
-        booleanParam('SKIP_TESTS', false, "check to disable tests")        
         booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
     } //end parameters
     // ====================== PROPERTIES =============================
@@ -107,8 +106,7 @@ def call(body) {
             goals('\${MVN_GOALS} -B -X -V')
             mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
             //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
-            localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
-            properties(skipTests: '\${SKIP_TESTS}')
+            localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)            
             mavenInstallation("${config.MVN_VERSION}")
             injectBuildVariables(true)
             rootPOM('\${WORKSPACE}/\${MVN_POM}')
