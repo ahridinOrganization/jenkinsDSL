@@ -115,8 +115,9 @@ def call(body) {
 		    rootPOM('\${WORKSPACE}/\${MVN_POM}')
 		    //providedSettings('central-mirror')
 		}
+		shell('''echo POM_VERSION=$(printf 'VER\t\${project.version}' | mvn help:evaluate | grep '^VER' | cut -f2) > POM_VERSION.txt''')
 		//shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\\[') > POM_VERSION.txt''')
-		//envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
+		envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
 		systemGroovyCommand('''
 				import hudson.model.*
 				//import hudson.util.*
