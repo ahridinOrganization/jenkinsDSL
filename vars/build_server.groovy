@@ -11,7 +11,7 @@ def call(body) {
 		description("Auto generated ${config.NAME} stage-0 job")
                 logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
                 concurrentBuild()
-                quietPeriod(5) 
+                quietPeriod(2) 
                 label("${config.SLAVE_LABEL}")
 		jdk('\${JDK_VERSION}')                  
 		// ====================== SCM =============================
@@ -41,21 +41,13 @@ def call(body) {
                 } //end wrappers
                 // ====================== PARAMETERS =============================
                 parameters {
-                    /*activeChoiceParam('JDK_VERISON') {
-                        filterable()
-                        choiceType('SINGLE_SELECT')
-                        groovyScript {
-                        script('return ["${config.JDK_VERSION}","jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"]')
-                            fallbackScript('return ["jdk6_32bit", "jdk7_32bit","jdk7_64bit","jdk8_64bit"]')
-                            }   
-                    } */
                     //choiceParam('JDK_VERISON', ["${config.JDK_VERSION}", "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
-                    //booleanParam('RUN_TESTS', true, 'uncheck to disable tests')
-		    stringParam("JDK_VERSION", "${config.JDK_VERSION}","JDK Version")
+                    stringParam("JDK_VERSION", "${config.JDK_VERSION}","JDK Version")
 		    stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
                     stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
                     stringParam("TAG_URL", "${config.TAG_URL}","Full SVN URL to tags (without tag version)")                        
 		    stringParam("ARTIFACTS", "${config.ARTIFACTS_REGEX}","Artifacts (regex)")                        
+		    booleanParam('SKIP_TESTS', false, 'check to disable tests')
                     /*listTagsParam('TAG_URL',"${config.TAG_URL}") {
                         credentialsId('c2b9fdc3-7562-4bc4-b4f6-3de05444999e')
                         //tagFilterRegex(/^mytagsfilterregex/)
@@ -73,18 +65,15 @@ def call(body) {
                 }
                 // ====================== PUBLISHERS =============================		
                 publishers {
-                    //archiveArtifacts('build/test-output/**/*.html')
-                    //archiveJunit('**/target/surefire-reports/*.xml')
-                    buildDescription('', '${BUILD_ID}.${NODE_NAME}')
+                    groovyPostBuild("manager.addShortText(manager.build.getEnvironment(manager.listener)[\'NEW_POM_VERSION\'])")
+		    archiveArtifacts('build/**/*.')                    
+		    buildDescription('', '#\${BUILD_ID}.\${POM_VERSION}'.\${NODE_NAME})
                     //analysisCollector { checkstyle() findbugs() pmd() warnings()}                
                     /*extendedEmail {
-                        disabled(true)
                         defaultSubject('Oops')
                         defaultContent('Something broken')
                         contentType('text/html')
-                        //triggers {
-                            //failure { sendTo {   developers() requester()  culprits()}}
-                        //}
+                        triggers { failure { sendTo { developers() requester() culprits() }}}
                     }*/
                 } //end publishers
 		// ====================== CONFIGURE =============================
@@ -105,7 +94,6 @@ def call(body) {
 		}}*/
 		// ====================== STEPS =============================
                 steps {
-                    //systemGroovyCommand(readFileFromWorkspace('disconnect-slave.groovy')) {binding('computerName', 'ubuntu-04') }
                     systemGroovyCommand ('''
 			import hudson.model.*
 			import hudson.util.*
@@ -114,7 +102,7 @@ def call(body) {
 			def parameters = Thread.currentThread().executable?.actions.find{ it instanceof ParametersAction }?.parameters
 			def job = Thread.currentThread().executable.getEnvVars()['JOB_NAME'] 
 			out.println "=" * 25 + job + "=" * 25
-   			parameters.each { println "\t\${it.name}=\t\${it.value}" }
+   			parameters.each { if (\${it.value} != null) println "\t\${it.name}=\t\${it.value}" }
 			out.println "=" * (50 + job.size())
 			''')
                     maven {
@@ -122,25 +110,25 @@ def call(body) {
                         mavenOpts('-XX:MaxPermSize=128m -Xmx768m')
                         //localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
                         localRepository(LocalRepositoryLocation.LOCAL_TO_EXECUTOR)
-                        properties(skipTests: true)                                              
+			properties(skipTests: $\{SKIP_TESTS})                                              
                         mavenInstallation("${config.MVN_VERSION}")
                         injectBuildVariables(true)
                         rootPOM('\${WORKSPACE}/\${MVN_POM}')
                         //providedSettings('central-mirror')
                         } 
+		    shell ('''echo POM_VERSION=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\['` > POM_VERSION.txt''')
+		    envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
 		    systemGroovyCommand('''
 			import hudson.model.*
-			import hudson.util.*
+			//import hudson.util.*
 			hudson = hudson.model.Hudson.instance
-			try {
-        			def version = build.getEnvVars()['POM_VERSION'] 
-                                if (version!=null) 
-					Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
-			} catch(Error e) { out.println e.toString()} ''') 					    	
+			def version = build.getEnvVars()['POM_VERSION']                                 
+			Thread.currentThread().executable.addAction(new ParametersAction([new StringParameterValue("NEW_POM_VERSION", (version.tokenize('-').first()) + "-" + (++version.tokenize('-').last().toInteger()))]))
+			''') 					    	
 		    maven {
 			 goals('build-helper:parse-version -B -X -V')
 			 goals('versions:set -B -X -V')
-			 goals('-DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
+			 //goals('-DnewVersion=\$NEW_POM_VERSION scm:checkin -Dmessage="build version from jenkins job" -DpushChanges -B -X -V')
 			 mavenInstallation("${config.MVN_VERSION}")                       
                         }                                 
                 } //end steps 
