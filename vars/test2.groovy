@@ -1,8 +1,10 @@
 #!groovy
 def myJobFactory(def dslFactory, def jobName) {
-        dslFactory.freeStyleJob(jobName) 
+        dslFactory.freeStyleJob("${config.Name}") 
     }
 
+static def makeMeABasicJob(def context) { context.freeStyleJob() }
+    
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
@@ -11,7 +13,15 @@ def call(body) {
     body.delegate = config
     body()
     
-   
+   def job1 = Utils.makeMeABasicJob(this) //Passing the groovy file class as the resolution context
+    job1.with({
+    //custom stuff
+    scm {
+        svn {
+            //etc....
+                }
+        }
+     })
 
     def myJob = myJobFactory(this, "${config.Name}")
     
