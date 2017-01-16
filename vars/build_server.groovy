@@ -1,20 +1,19 @@
 def call(body) {
-    def myJob
     def config = [:]
     def jobFolder="STAGE-0"
+    def job	
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()	
     node () {
         jobDsl scriptText:"""
-          folder("${jobFolder}")
-          freeStyleJob("${jobFolder}/${config.NAME}") {
+           folder("${jobFolder}")
+           freeStyleJob("${jobFolder}/${config.NAME}") {
 	    description("Auto generated ${config.NAME} build job")
 	    logRotator(21,-1,-1,-1) //(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep)
 	    concurrentBuild()
 	    quietPeriod(2)
 	    label('\${SLAVE_LABEL}')    
-	    jdk('\${JDK_VERSION}')    
 	    // ====================== SCM =============================
 	    scm {
 		svn {
@@ -42,6 +41,7 @@ def call(body) {
 	    } //end wrappers
 	    // ====================== PARAMETERS =============================
 	    parameters {
+		//choiceParam('JDK_VERISON', ["${config.JDK_VERSION}", "jdk7_64bit","jdk7_32bit","jdk8_64bit","jdk6_32bit"], 'JDK')
 		stringParam("JDK_VERSION", "${config.JDK_VERSION}","JDK Version")
 		stringParam("MVN_POM", "${config.MVN_POM}","Root POM name")
 		stringParam("MVN_GOALS", "${config.MVN_GOALS}","Maven goals to execute")
@@ -51,7 +51,8 @@ def call(body) {
 		booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
 	    } //end parameters
 	    // ====================== PROPERTIES =============================
-	    properties {
+		jdk('\${JDK_VERSION}')    
+		properties {
 		rebuild {autoRebuild(false)  }
 		//properties {githubProjectUrl('https://github.com/jenkinsci/job-dsl-plugin')}
 		zenTimestamp('yyyy-MM-dd-HH-mmm')
@@ -114,8 +115,7 @@ def call(body) {
 		    rootPOM('\${WORKSPACE}/\${MVN_POM}')
 		    //providedSettings('central-mirror')
 		}
-		//shell ('''echo POM_VERSION=$(printf 'VER\t\${project.version}' | mvn help:evaluate | grep '^VER' | cut -f2) > POM_VERSION.txt''')
-                //shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\\[') > POM_VERSION.txt''')
+		//shell ('''echo POM_VERSION="\$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\\[') > POM_VERSION.txt''')
 		//envInjectBuilder {propertiesFilePath('POM_VERSION.txt')}
 		systemGroovyCommand('''
 				import hudson.model.*
@@ -132,7 +132,7 @@ def call(body) {
 	    } //end steps
 	} //end freeStyleJob     
 	"""
-	myJob= build job: "${jobFolder}/${config.NAME}"	  
+        job = build job: "${jobFolder}/${config.NAME}"	  
     }   
-    return myJob 
+	return job 
 }
