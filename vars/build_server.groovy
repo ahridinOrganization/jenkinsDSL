@@ -53,9 +53,9 @@ def call(body) {
                         //tagFilterRegex(/^mytagsfilterregex/)
                         defaultValue("${config.TAG_URL}")
                         sortNewestFirst()
-                    }*/            
-                    labelParam('SLAVE_LABEL') { defaultValue("${config.SLAVE_LABEL}") }
-                    booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
+                    }*/           
+                    labelParam('SLAVE_LABEL',"${config.SLAVE_LABEL}")
+		    booleanParam('CLEANUP', true, 'uncheck to disable workspace cleanup')
                 } //end parameters
                  // ====================== PROPERTIES =============================
                 properties {
