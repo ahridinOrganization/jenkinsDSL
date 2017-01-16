@@ -9,14 +9,9 @@ def call(body) {
     println "${config.Name}"
     node () {    
         freeStyleJob("${jobFolder}/${config.Name}")
-        pipelineJob('example') {
-            definition {
-                 cps {
-                      script(readFileFromWorkspace('project-a-workflow.groovy'))
-                    sandbox()
-                  }
-                             }
+        git url: 'https://github.com/jfrogdev/project-examples.git'
+        
+        
         }
-         }
     
  }
