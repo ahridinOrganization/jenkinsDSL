@@ -14,9 +14,9 @@ def call(body) {
         def jobName = "test"
         job(test) {            
             tools {
-        maven "Maven 3.0.4"
-        jdk "Oracle JDK 8u40"
-         }
+                maven "Maven 3.0.4"
+                jdk "Oracle JDK 8u40"
+            }
+        }
     }
-
 }
