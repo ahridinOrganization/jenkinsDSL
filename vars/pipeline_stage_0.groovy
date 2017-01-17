@@ -9,10 +9,14 @@ def call(body) {
         //freeStyleJob("${jobFolder}/${config.NAME}") {
         def workspace = pwd() 
         echo "Hello from pipeline_stage_0.groovy" 
-        pipeline0
         load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline0.groovy"           
         //pipelineScript(config)
-        pipeline0
+        def jobName = "test"
+        job(test) {            
+            tools {
+        maven "Maven 3.0.4"
+        jdk "Oracle JDK 8u40"
+         }
     }
 
 }
