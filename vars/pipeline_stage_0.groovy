@@ -11,8 +11,7 @@ def call(body) {
         echo "Hello from pipeline_stage_0.groovy" 
         //load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline0.groovy"           
         //pipelineScript(config)
-        def jobName = "${config.jobName}"
-        job(test) {            
+        job("${config.jobName}") {            
             tools {
                 maven "Maven 3.0.4"
                 jdk "Oracle JDK 8u40"
