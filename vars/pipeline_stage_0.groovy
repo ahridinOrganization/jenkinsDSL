@@ -5,6 +5,11 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
+    node {       
+        def workspace = pwd() 
+         load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline.groovy" 
+        
+    }
 pipeline {
     // Make sure that the tools we need are installed and on the path.
     tools {
