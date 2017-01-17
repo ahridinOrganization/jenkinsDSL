@@ -6,7 +6,7 @@ def call(body) {
     body.delegate = config
     body()
     node {       
-        workflowJob("test")
+        mavenJob()
         //freeStyleJob("${jobFolder}/${config.NAME}") {
         def workspace = pwd() 
         echo "Hello from pipeline_stage_0.groovy" 
