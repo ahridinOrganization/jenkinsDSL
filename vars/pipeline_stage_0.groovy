@@ -7,7 +7,9 @@ def call(body) {
     body()
     node {       
         def workspace = pwd() 
-         load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipelineScript.groovy"           
+        echo "Hello from groovy" 
+        load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipelineScript.groovy"           
+        pipelineScript(config)
     }
 
 }
