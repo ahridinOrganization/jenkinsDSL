@@ -1,3 +1,10 @@
+def call(body) {
+    def config = [:]
+    def jobFolder="STAGE-0"
+    def job	
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
 pipeline {
     // Make sure that the tools we need are installed and on the path.
     tools {
@@ -29,4 +36,5 @@ pipeline {
         }
     }
 
+}
 }
