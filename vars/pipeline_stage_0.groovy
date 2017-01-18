@@ -26,6 +26,8 @@ def call(body) {
         //freeStyleJob("${jobFolder}/${config.NAME}") {
         def workspace = pwd() 
         echo "Hello from pipeline_stage_0.groovy" 
+        def myJob = freeStyleJob("${config.jobName}")
+
         //load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline0.groovy"           
         //pipelineScript(config)
         runjob(config)
