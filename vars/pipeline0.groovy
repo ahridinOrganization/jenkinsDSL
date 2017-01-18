@@ -6,7 +6,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    
+    println "pipeline0. body"
     node {
         pipeline {
     // Make sure that the tools we need are installed and on the path.
