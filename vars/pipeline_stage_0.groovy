@@ -11,8 +11,12 @@ def call(body) {
         echo "Hello from pipeline_stage_0.groovy" 
         //load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline0.groovy"           
         //pipelineScript(config)
-        workflowJob("testWworkflowJob")
-        buildFlowJob("${config.jobName}") {            
+        def myJob = freeStyleJob('SimpleJob')
+myJob.with {
+    description 'A Simple Job'
+}
+ /       workflowJob("testWworkflowJob")
+  //      buildFlowJob("${config.jobName}") {            
             tools {
                 maven "Maven 3.0.4"
                 jdk "Oracle JDK 8u40"
