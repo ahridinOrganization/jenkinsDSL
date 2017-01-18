@@ -12,10 +12,10 @@ def call(body) {
         //load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline0.groovy"           
         //pipelineScript(config)
         def myJob = freeStyleJob('SimpleJob')
-myJob.with {
-    description 'A Simple Job'
-}
- /       workflowJob("testWworkflowJob")
+        myJob.with {
+            description 'A Simple Job'
+        }
+ //       workflowJob("testWworkflowJob")
   //      buildFlowJob("${config.jobName}") {            
             tools {
                 maven "Maven 3.0.4"
