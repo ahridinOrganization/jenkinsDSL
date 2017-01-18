@@ -1,4 +1,5 @@
-def call(body) {
+def call(Closure body) {
+    {
     def config = [:]
     def jobFolder="STAGE-0"
     def job	
@@ -30,11 +31,11 @@ def call(body) {
         // While there's only one stage here, you can specify as many stages as you like!
         stage("build") {
             steps {
-                echo "hello from stage-0"
+                echo """hello from stage-0 ${config.jobName}"""
                 //bat 'mvn clean install -Dmaven.test.failure.ignore=true'
             }
         }
     }
 
-}
+   }
 }
