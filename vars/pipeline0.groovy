@@ -7,9 +7,9 @@ def call(body) {
     body.delegate = config
     body()
     node {
-        workflowJob("workflowJob")
-        buildFlowJob("${config.Name}", body) // since 1.30
-        pipelineJob('pipelineJob') {
+        //workflowJob("workflowJob-${config.Name}"")
+        //buildFlowJob("buildFlowJob-${config.Name}", body) // since 1.30
+        pipelineJob("pipelineJob-${config.Name}") {
             definition {
                 cps {
                     script('''
