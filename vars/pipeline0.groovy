@@ -1,4 +1,4 @@
-pipeline0{
+pipeline{
     // Make sure that the tools we need are installed and on the path.
     tools {
         maven "Maven 3.0.4"
