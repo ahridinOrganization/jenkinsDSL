@@ -3,7 +3,7 @@ import com.cloudbees.groovy.cps.NonCPS
 
 @NonCPS
 def runjob(Object myconfig) {
-def myJob = freeStyleJob("${config.jobName}")
+def myJob = freeStyleJob("${myconfig.jobName}")
 myJob.with {
     description 'A Simple Job'
     tools {
