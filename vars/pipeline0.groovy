@@ -1,4 +1,4 @@
-def call(Closure body) {
+def call(body) {
     {
     def config = [:]
     def jobFolder="STAGE-0"
