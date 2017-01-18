@@ -2,11 +2,17 @@
 import com.cloudbees.groovy.cps.NonCPS
 
 @NonCPS
-def myMethod(String json) 
+def run() {
 def myJob = freeStyleJob('SimpleJob')
 myJob.with {
     description 'A Simple Job'
+    tools {
+                maven "Maven 3.0.4"
+                jdk "Oracle JDK 8u40"
+            }
+    }
 }
+
 
 
 def call(body) {
@@ -25,10 +31,7 @@ def call(body) {
         run()
         //       workflowJob("testWworkflowJob")
   //      buildFlowJob("${config.jobName}") {            
-            tools {
-                maven "Maven 3.0.4"
-                jdk "Oracle JDK 8u40"
-            }
+            
         }
     }
 
