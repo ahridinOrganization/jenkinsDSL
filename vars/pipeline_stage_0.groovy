@@ -2,8 +2,8 @@
 import com.cloudbees.groovy.cps.NonCPS
 
 @NonCPS
-def run() {
-def myJob = freeStyleJob('SimpleJob')
+def runjob([:] myconfig) {
+def myJob = freeStyleJob("${config.jobName}")
 myJob.with {
     description 'A Simple Job'
     tools {
@@ -28,7 +28,7 @@ def call(body) {
         echo "Hello from pipeline_stage_0.groovy" 
         //load "${workspace}@libs/github.com/ahridinOrganization/jenkinsDSL/vars/pipeline0.groovy"           
         //pipelineScript(config)
-        run()
+        runjob(config)
         //       workflowJob("testWworkflowJob")
   //      buildFlowJob("${config.jobName}") {            
             
