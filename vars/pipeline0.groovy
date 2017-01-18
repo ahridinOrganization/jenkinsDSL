@@ -6,7 +6,9 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    pipeline{
+    
+    node {
+        pipeline{
     // Make sure that the tools we need are installed and on the path.
         tools {
         maven "Maven 3.0.4"
@@ -38,4 +40,5 @@ def call(body) {
     }
 
    }
+    }
 }
