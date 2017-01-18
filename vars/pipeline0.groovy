@@ -1,4 +1,4 @@
-def call(body) {
+/*def call(body) {
     
     def config = [:]
     def jobFolder="STAGE-0"
@@ -7,7 +7,7 @@ def call(body) {
     body.delegate = config
     body()
     
-    node {
+    node {*/
         pipeline{
     // Make sure that the tools we need are installed and on the path.
         tools {
@@ -40,5 +40,5 @@ def call(body) {
     }
 
    }
-    }
-}
+//    }
+//}
