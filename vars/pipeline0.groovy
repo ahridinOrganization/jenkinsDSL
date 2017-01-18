@@ -7,7 +7,6 @@ def call(body) {
     body()
     pipeline{
     // Make sure that the tools we need are installed and on the path.
-        echo "Hello from pipline ${config.jobName}"
         tools {
         maven "Maven 3.0.4"
         jdk "Oracle JDK 8u40"
