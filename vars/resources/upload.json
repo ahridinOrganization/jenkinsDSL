@@ -1,0 +1,9 @@
+{
+  "files": [
+    {
+      "pattern": "**/*.jar,**/*.rpm",
+      "target": "CiscoVideoGuard-Daily/${pom.name}/${newVersion}".toString(),
+      "props": "p1=v1;p2=v2"
+    }
+  ]
+}
