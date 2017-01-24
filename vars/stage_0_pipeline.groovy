@@ -172,7 +172,3 @@ try {
 } finally { node { step([$class: 'LogParserPublisher', parsingRulesPath: 'parser_maven_build.txt', useProjectRule: false])} }
 }
 
-@NonCPS
-def nodeNames() {
-  return jenkins.model.Jenkins.instance.nodes.collect { node -> node.name }
-}
