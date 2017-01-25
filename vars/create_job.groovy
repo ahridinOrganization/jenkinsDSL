@@ -4,13 +4,14 @@ def call(body) {
     def job
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
-    
+    List<String> props = config.collect { "${it.key}=${it.value}" }
+    echo props.toString()
     Map<String, String> predefinedProps = config    
     body()	        
     node () {
         echo config.MAVEN_GOALS   
-        List<String> props = config.collect { "${it.key}=${it.value}" }
-        echo props.toString()
+        
+        
         //environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
