@@ -12,13 +12,6 @@ def call(body) {
         echo props.MAVEN_GOALS
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
-        myJob.with {
-            description 'A Simple Job'
-             definition {
-                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                          parameters {choiceParam('choice', ['a', 'b', 'c'], 'FIXME')}    
-            }
-        }
         jobDsl scriptText:"""
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
