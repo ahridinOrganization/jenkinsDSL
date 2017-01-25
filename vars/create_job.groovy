@@ -2,7 +2,7 @@ def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
     def job    
-    for (i = 0; i < config.size; ++i) {
+    for (i = 0; i < config.size(); ++i) {
         echo config[i]
     }
     body.resolveStrategy = Closure.DELEGATE_FIRST
