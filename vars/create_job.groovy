@@ -44,11 +44,7 @@ def call(body) {
  @NonCPS
 // @NonCPS
 def printList(params) {
-    def jobs = [:]
-    println params
-    params.split(",").each { param ->
-        println "Param: ${param}"
-    }
-     List<String> props = config.collect { "${it.key}=${it.value}" }
+    
+     List<String> props = params.collect { "${it.key}=${it.value}" }
     echo props.toString()
 }
