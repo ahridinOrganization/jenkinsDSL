@@ -15,7 +15,7 @@ def call(body) {
                 {
                     definition {
                         cps {
-                           script(stage_0_pipeline.groovy)
+                           script('vars/stage_0_pipeline.groovy')
                             sandbox()
                         } //end cps
                     } //end definition
