@@ -4,15 +4,11 @@ def call(body) {
     def job
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
-    List<String> props = config.collect { "${it.key}=${it.value}" }
-    echo props.toString()
+    printList(config)
     Map<String, String> predefinedProps = config    
     body()	        
     node () {
-        echo config.MAVEN_GOALS   
-        
-        
-        //environmentVariables {propertiesFile('build.properties')}
+        echo config.MAVEN_GOALS 
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
@@ -44,3 +40,15 @@ def call(body) {
         
     } //end node
 } //end call
+
+ @NonCPS
+// @NonCPS
+def printList(params) {
+    def jobs = [:]
+    println params
+    params.split(",").each { param ->
+        println "Param: ${param}"
+    }
+     List<String> props = config.collect { "${it.key}=${it.value}" }
+    echo props.toString()
+}
