@@ -9,8 +9,8 @@ def call(body) {
     body()	        
     node () {
         echo config.MAVEN_GOALS   
-        for (i = 0; i < predefinedProps.size(); ++i)
-            echo predefinedProps[i] 
+        for (i = 0; i < config.size(); ++i)
+            echo config[i] 
         
         //environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
@@ -19,9 +19,7 @@ def call(body) {
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                          parameters {
-                            predefinedProps(${predefinedProps})  
-                          }  
+                          parameters {   predefinedProps(${predefinedProps}) }  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
