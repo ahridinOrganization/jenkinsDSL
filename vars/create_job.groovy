@@ -10,12 +10,12 @@ def call(body) {
         jobDsl scriptText:"""
            folder("${jobFolder}")
            pipelineJob(${jobFolder}/${config.NAME}") {
-                definition {
-                    cps {
-                        scriptPath('/vars/stage_0_pipeline.groovy')
-                        sandbox()
-                    }
-                }
+                //definition {
+                  //  cps {
+                    //    scriptPath('/vars/stage_0_pipeline.groovy')
+                        //sandbox()
+                    //}
+                //}
            }
         }
     }
