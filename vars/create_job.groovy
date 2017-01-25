@@ -9,9 +9,8 @@ def call(body) {
     body()	        
     node () {
         echo config.MAVEN_GOALS   
-        for (i = 0; i < config.size(); ++i)
-            echo config[i] 
-        
+        List<String> props = config.collect { "${it.key}=${it.value}" }
+        echo props.toString()
         //environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
@@ -19,7 +18,7 @@ def call(body) {
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                          parameters {   predefinedProps(${predefinedProps}) }  
+                          parameters {predefinedProps(${predefinedProps})}  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
