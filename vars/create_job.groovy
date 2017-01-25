@@ -15,10 +15,7 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                            predefinedProps(${config})//propertiesFile
-                            //stringParam('workspaceDirectory', '', 'The workspace where source code is')                            
-                            //predefinedProp('GIT_COMMIT', '$GIT_COMMIT')                            
-                            // currentBuild()
+                            predefinedProps(${config})//propertiesFile                            
                           }  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
