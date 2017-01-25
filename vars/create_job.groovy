@@ -9,7 +9,7 @@ def call(body) {
     body()	        
     node () {
         echo config.MAVEN_GOALS 
-        echo predefinedProps.MAVEN_GOALS
+        echo props.MAVEN_GOALS
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
