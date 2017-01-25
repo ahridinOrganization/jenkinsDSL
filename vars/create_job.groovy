@@ -13,6 +13,15 @@ def call(body) {
         jobDsl scriptText:"""
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
+                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
+                          properties {
+                                ownership {
+                                    primaryOwnerId('User_ID')
+                                    coOwnerIds('User1', 'User2')
+                                    coOwnerIds('User3')
+                                    coOwnerIds('User4')
+                                }
+                            }
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
                               sandbox()
