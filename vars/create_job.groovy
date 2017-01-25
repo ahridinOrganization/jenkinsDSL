@@ -1,7 +1,8 @@
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
-    def job	
+    def job
+    Map<String, String> predefinedPropsMap=config
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()	
@@ -14,7 +15,7 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                            predefinedProps(${config})//propertiesFile                            
+                            predefinedProps(${predefinedPropsMap})//propertiesFile                            
                           }  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
