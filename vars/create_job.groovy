@@ -24,8 +24,7 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                            predefinedProps(${predefinedProps})                          
-                            predefinedProps(['ORI_EXPORT_DIR': 'ORI_EXPORT_DIR'])
+                            predefinedProps(${predefinedProps})  
                           }  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
