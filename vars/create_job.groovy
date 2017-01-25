@@ -11,7 +11,7 @@ def call(body) {
     node () {
         echo config.MAVEN_GOALS   
         
-        environmentVariables {propertiesFile('build.properties')}
+        //environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
