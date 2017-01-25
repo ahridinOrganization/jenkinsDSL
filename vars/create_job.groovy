@@ -4,8 +4,7 @@ def call(body) {
     def job
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
-    printList(config)
-    Map<String, String> props = config    
+    LinkedHashMap<String, String> props = config    
     body()	        
     node () {
         echo config.MAVEN_GOALS 
@@ -17,8 +16,10 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                                predefinedProps(${config})
-                          }
+                                predefinedProp('key1', 'value1')
+                                predefinedProps(${props})
+                                predefinedProps([key2: 'value2', key3: 'value3'])
+                          }                        
                           publishers {aggregateDownstreamTestResults()}
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
