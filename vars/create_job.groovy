@@ -3,6 +3,9 @@ def call(body) {
     def jobFolder="STAGE-0"
     def job
     Map<String, String> predefinedPropsMap=config
+    for(s in config) {
+        println s + ":" + config[s]
+     }
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()	
