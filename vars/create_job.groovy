@@ -5,7 +5,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     printList(config)
-    Map<String, String> predefinedProps = config    
+    Map<String, String> props = config    
     body()	        
     node () {
         echo config.MAVEN_GOALS 
