@@ -15,7 +15,7 @@ def call(body) {
                 {
                     definition {
                         cps {
-script(readFileFromWorkspace("${config.PIPELINE_SCRIPT}"))
+                            script(readFileFromWorkspace("${config.SCRIPT}"))
                             sandbox()
                         } //end cps
                     } //end definition
