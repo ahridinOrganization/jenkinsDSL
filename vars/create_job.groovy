@@ -21,6 +21,6 @@ def call(body) {
                     } //end definition
                } //end pipelinejob
         """        
-        //job = build job: "${jobFolder}/${config.NAME}"	
+        job = build job: "${jobFolder}/${config.NAME}"	
     } //end node
 } //end call
