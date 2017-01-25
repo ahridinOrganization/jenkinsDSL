@@ -13,12 +13,12 @@ def call(body) {
         jobDsl scriptText:"""
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
-                    cps {
-                            script(readFileFromWorkspace("${config.SCRIPT}"))
-                            sandbox()
-                        } //end cps
-                    } //end definition
-               } //end pipelinejob
+                          cps {
+                              script(readFileFromWorkspace("${config.SCRIPT}"))
+                              sandbox()
+                          } //end cps
+                } //end definition
+            } //end pipelinejob
         """        
         //job = build job: "${jobFolder}/${config.NAME}"	
     } //end node
