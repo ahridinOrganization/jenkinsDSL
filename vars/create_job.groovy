@@ -5,16 +5,12 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     
-    Map<String, String> predefinedProps = config
-    //predefinedProps.putAll(config)
-    for (i = 0; i < predefinedProps.size(); ++i) {
-        echo predefinedProps[i]
-    }
-    
+    Map<String, String> predefinedProps = config    
     body()	        
     node () {
         echo config.MAVEN_GOALS   
-        
+        for (i = 0; i < predefinedProps.size(); ++i)
+            echo predefinedProps[i] 
         
         //environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
