@@ -14,14 +14,13 @@ def call(body) {
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                          properties {
-                                ownership {
-                                    primaryOwnerId('User_ID')
-                                    coOwnerIds('User1', 'User2')
-                                    coOwnerIds('User3')
-                                    coOwnerIds('User4')
-                                }
-                            }
+                          parameters {
+                            predefinedProps(${config})//propertiesFile
+                            //stringParam('workspaceDirectory', '', 'The workspace where source code is')                            
+                            //predefinedProp('GIT_COMMIT', '$GIT_COMMIT')                            
+                            // currentBuild()
+                          }  
+                          publishers {aggregateDownstreamTestResults()}
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
                               sandbox()
@@ -30,5 +29,18 @@ def call(body) {
             } //end pipelinejob
         """        
         //job = build job: "${jobFolder}/${config.NAME}"	
+       /* def jobRebase = freeStyleJob("Test")
+        jobRebase.with {
+            publishers {
+              downstreamParameterized {
+                trigger("JobB", 'SUCCESS') {
+                  parameters { // since 1.23
+                    predefinedProp("BRANCH","\${GIT_BRANCH}")
+                  }
+                }
+              }
+            }
+        }*/
+        
     } //end node
 } //end call
