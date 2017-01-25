@@ -16,16 +16,10 @@ def call(body) {
                   //  cps {
                     //    scriptPath('/vars/stage_0_pipeline.groovy')
                         //sandbox()
-                    //}
-                //}
-           //}
-        }
-    }
-}
-
-
-
-
-
-
-
+                    //} //end cps
+                //} end definition
+           //} //end pipelinejob
+        """
+        job = build job: "${jobFolder}/${config.NAME}"	
+    } //end node
+} //end call
