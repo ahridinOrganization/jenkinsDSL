@@ -2,15 +2,15 @@ def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
     def job
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
     
-    Map<String, String> predefinedProps = [:]
-    predefinedProps.putAll(config)
-    
+    Map<String, String> predefinedProps = config
+    //predefinedProps.putAll(config)
     for (i = 0; i < predefinedProps.size(); ++i) {
         echo predefinedProps[i]
     }
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = config
+    
     body()	        
     node () {
         echo config.MAVEN_GOALS   
