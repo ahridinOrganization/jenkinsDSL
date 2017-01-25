@@ -16,9 +16,10 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                                predefinedProp('key1', 'value1')
-                                predefinedProps(${props})
-                                predefinedProps([key2: 'value2', key3: 'value3'])
+                            predefinedProp('GIT_URL', "https://bitbucket.org/${organisation}/${repository}")                                
+                            stringParam('myParameterName', 'my default stringParam value')
+                             //predefinedProps(${props})
+                             //predefinedProps([key2: 'value2', key3: 'value3'])
                           }                        
                           publishers {aggregateDownstreamTestResults()}
                           cps {
