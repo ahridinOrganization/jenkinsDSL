@@ -9,14 +9,14 @@ def call(body) {
     body()	        
     node () {
         echo config.MAVEN_GOALS 
-        
+        echo predefinedProps.MAVEN_GOALS
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                          parameters {predefinedProps(${config})}  
+                          parameters {predefinedProps([${config})]}  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
