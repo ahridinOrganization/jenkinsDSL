@@ -6,8 +6,8 @@ def call(body) {
     body.delegate = config
     body()	
     node () {
-        echo config.NAME
-        echo config.MAIL
+        echo config.NAME   
+        echo config
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
