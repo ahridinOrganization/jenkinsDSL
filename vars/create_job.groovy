@@ -16,7 +16,9 @@ def call(body) {
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                          parameters ([predefinedProps(${config})])
+                          parameters {
+                                predefinedProps(${config})
+                          }
                           publishers {aggregateDownstreamTestResults()}
                           cps {
                               script(readFileFromWorkspace("${config.SCRIPT}"))
