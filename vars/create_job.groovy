@@ -1,16 +1,17 @@
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
-    def job
-    Map<String, String> predefinedPropsMap=config
-    for(s in config) {
-        println ("${s}")
-     }
+    def job    
+    for (i = 0; i < config.size; ++i) {
+        echo config[i]
+    }
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
-    body()	
+    body()	        
     node () {
-        echo config.NAME           
+        echo config.MAVEN_GOALS   
+        
+        environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
