@@ -1,15 +1,20 @@
 def call(body) {
     def config = [:]
     def jobFolder="STAGE-0"
-    def job    
-    for (i = 0; i < config.size(); ++i) {
-        echo config[i]
+    def job
+    
+    Map<String, String> predefinedProps = [:]
+    predefinedProps.putAll(config)
+    
+    for (i = 0; i < predefinedProps.size(); ++i) {
+        echo predefinedProps[i]
     }
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()	        
     node () {
         echo config.MAVEN_GOALS   
+        
         
         //environmentVariables {propertiesFile('build.properties')}
         jobDsl scriptText:"""folder("${jobFolder}")"""
@@ -19,7 +24,8 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                            predefinedProps(${config})                          
+                            predefinedProps(${predefinedProps})                          
+                            predefinedProps(['ORI_EXPORT_DIR': 'ORI_EXPORT_DIR'])
                           }  
                           publishers {aggregateDownstreamTestResults()}
                           cps {
