@@ -6,17 +6,19 @@ def call(body) {
     body.delegate = config
     body()	
     node () {
+        echo config.NAME
+        echo config.MAIL
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
            folder("${jobFolder}")
-           pipelineJob(${jobFolder}/${config.NAME}") {
+           pipelineJob(${jobFolder}/${config.NAME}") //{
                 //definition {
                   //  cps {
                     //    scriptPath('/vars/stage_0_pipeline.groovy')
                         //sandbox()
                     //}
                 //}
-           }
+           //}
         }
     }
 }
