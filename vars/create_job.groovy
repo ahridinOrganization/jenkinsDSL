@@ -5,12 +5,20 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     LinkedHashMap<String, String> props = config    
+    def myJob = pipelineJob('${jobFolder}/${config.NAME}')
     body()	        
     node () {
         echo config.MAVEN_GOALS 
         echo props.MAVEN_GOALS
         jobDsl scriptText:"""folder("${jobFolder}")"""
         //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
+        myJob.with {
+            description 'A Simple Job'
+             definition {
+                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
+                          parameters {choiceParam('choice', ['a', 'b', 'c'], 'FIXME')}    
+            }
+        }
         jobDsl scriptText:"""
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
@@ -30,21 +38,7 @@ def call(body) {
                           } //end cps
                 } //end definition
             } //end pipelinejob
-        """        
-        //job = build job: "${jobFolder}/${config.NAME}"	
-       /* def jobRebase = freeStyleJob("Test")
-        jobRebase.with {
-            publishers {
-              downstreamParameterized {
-                trigger("JobB", 'SUCCESS') {
-                  parameters { // since 1.23
-                    predefinedProp("BRANCH","\${GIT_BRANCH}")
-                  }
-                }
-              }
-            }
-        }*/
-        
+        """                      
     } //end node
 } //end call
 
