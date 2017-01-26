@@ -162,7 +162,7 @@ try {
 } catch (error) {
     node {
         currentBuild.result = "FAILED"
-        echo "ERROR ===> ${error}"
+        echo "ERROR: ${error}"
         emailext (attachLog: true,compressLog: true, mimeType: 'text/html', preSendScript: """msg.addHeader("X-Priority", "1 (Highest)"); msg.addHeader("Importance", "High");""",
             subject: "Attention required: ${env.BUILD_TAG} [${currentBuild.result}!]".toString(),
             body: '${JELLY_SCRIPT,template="html-test"}',
