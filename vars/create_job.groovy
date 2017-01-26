@@ -1,11 +1,11 @@
 def call(body) {
     def config = [:]
-    def jobFolder="STAGE-0"
-    def job
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config      
     body()	 
-    def test="Anna " + config.MAVEN_GOALS
+    def test= "Anna " + config.MAVEN_GOALS
+    def jobFolder="STAGE-0"
+    def job
     node () {
         echo test
         echo config.MAVEN_GOALS 
@@ -18,10 +18,8 @@ def call(body) {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                                     
-//predefinedProp('GIT_URL', "https://github.com/jenkinsci/job-dsl-plugin")                                
-  //                          stringParam('myParameterName', test)
-                             //predefinedProps(${props})
+                             stringParam('myParameterName', test)
+                             //predefinedProps(${config})
                              //predefinedProps([key2: 'value2', key3: 'value3'])
                           }                        
                           cps {
