@@ -7,7 +7,7 @@ def call(body) {
     body()	 
     def test="Anna " + config.MAVEN_GOALS
     node () {
-        dehco test
+        echo test
         echo config.MAVEN_GOALS 
         echo props.MAVEN_GOALS
        //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
