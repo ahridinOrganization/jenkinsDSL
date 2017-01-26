@@ -7,9 +7,7 @@ def call(body) {
     def jobFolder="STAGE-0"
     def job
     node () {
-        echo test
-        echo config.MAVEN_GOALS 
-        
+        echo config.MAVEN_GOALS      
        //jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', targets: 'stage_0_pipeline.groovy', unstableOnDeprecation: true        
         jobDsl scriptText:"""
             folder("${jobFolder}")
@@ -35,7 +33,6 @@ def call(body) {
  @NonCPS
 // @NonCPS
 def printList(params) {
-    
-     List<String> props = params.collect { "${it.key}=${it.value}" }
+    List<String> props = params.collect { "${it.key}=${it.value}" }
     echo props.toString()
 }
