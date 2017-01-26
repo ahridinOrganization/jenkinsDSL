@@ -51,16 +51,17 @@ try {
                             checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', 
                                 url: params.REPO_URL]]])
                         pom = readMavenPom file:"${params.MAVEN_POM}".toString()
-                        echo "===> Incrementing version"
-                        //newVersion=pom.version.split('-')[0]+"-"+(pom.version.split('-')[1].toInteger()+1)
-                        newVersion=pom.version.split('-')[0]+"-"+(pom.version.split('-')[1].toInteger())
+                        if (pom) {
+                            newVersion=pom.version.split('-')[0]+"-"+(pom.version.split('-')[1].toInteger())
+                            //newVersion=pom.version.split('-')[0]+"-"+(pom.version.split('-')[1].toInteger()+1)
+                            descriptor.version = newVersion
+                            descriptor.pomFile = params.MAVEN_POM
+                            descriptor.transform()
+                            pom=readMavenPom file:"${params.MAVEN_POM}".toString()
+                            echo "-"*80 + "\n\tName=\t${pom.name}\n\tURL=\t${pom.getScm().getUrl()}\n\tDeveloper=\t${pom.getDevelopers()[0].getId()} (${pom.getDevelopers()[0].getEmail()})\n\tVersion=\t${pom.version}\n${"-"*80}\n"
+                        }
                         currentBuild.displayName = "#${env.BUILD_NUMBER}.${pom.name} " + ("${newVersion}" != null ? "${newVersion}":"").toString()
                         currentBuild.description = "[node:${env.NODE_NAME}]\t[user:${env.BUILD_USER_ID}]".toString()
-                        echo "=== >current version= " + pom.version + "\tnew version= " + newVersion
-                        descriptor.version = newVersion
-                        descriptor.pomFile = params.MAVEN_POM
-                        descriptor.transform()
-                        pom=readMavenPom file:"${params.MAVEN_POM}".toString()
                         //rtMaven.deployer.addProperty("SVN_REVISION", "${env.SVN_REVISION}").addProperty("compatibility", "1", "2", "3")
                     } catch (error) { throw error }    
                 }   
@@ -163,6 +164,7 @@ try {
     node {
         currentBuild.result = "FAILED"
         echo "ERROR: ${error}"
+        //${pom.getDevelopers()[0].getEmail()}
         emailext (attachLog: true,compressLog: true, mimeType: 'text/html', preSendScript: """msg.addHeader("X-Priority", "1 (Highest)"); msg.addHeader("Importance", "High");""",
             subject: "Attention required: ${env.BUILD_TAG} [${currentBuild.result}!]".toString(),
             body: '${JELLY_SCRIPT,template="html-test"}',
