@@ -6,15 +6,14 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '-1']],
     [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
     parameters([
-        choice(choices: 'CISCO-Artifactory\nSDS-Artifactory', description: '', name: 'ARTIFACTORY'),// choices are a string of newline separated values
         string(name: 'MAVEN_GOALS', defaultValue: 'clean validate test package verify pmd:pmd findbugs:findbugs -B -X -V ', description: ''),
         string(name: 'MAVEN_VERISON', defaultValue: 'Maven 3.0.4', description: ''),
         string(name: 'MAVEN_POM', defaultValue: 'pom.xml', description: ''),
         string(name: 'MAVEN_SETTINGS', defaultValue: 'setting.xml', description: ''),
         string(name: 'JAVA_VERSION', defaultValue: 'jdk7_64bit', description: ''),
         booleanParam(name: 'TEST', defaultValue: false, description: 'Run tests'),
-        booleanParam(name: 'CLEANUP', defaultValue: false, description: 'Clean checkout'),
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Upload to artifactory/docker registry'),
+        booleanParam(name: 'CLEANUP', defaultValue: true, description: 'Clean checkout'),
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Upload to artifactory/docker registry'),
         string(name: 'MAIL', defaultValue: 'ahridin@cisco.com', description: ''),
         string(name: 'REPO_URL', defaultValue: 'https://github3.cisco.com/TestVGE/secure-gateway', description: ''),
         string(name: 'NODE_LABEL', defaultValue: 'vgs', description: ''),
@@ -26,7 +25,7 @@ try {
         try {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             wrap([$class: 'BuildUser']) {
-                def server = Artifactory.server(params.ARTIFACTORY)
+                def server = Artifactory.server("CISCO-Artifactory")
                 def descriptor = Artifactory.mavenDescriptor()
                 def rtMaven = Artifactory.newMavenBuild()
                 def buildInfo = Artifactory.newBuildInfo()
@@ -163,6 +162,7 @@ try {
 } catch (error) {
     node {
         currentBuild.result = "FAILED"
+        echo "ERROR ===> ${error}"
         emailext (attachLog: true,compressLog: true, mimeType: 'text/html', preSendScript: """msg.addHeader("X-Priority", "1 (Highest)"); msg.addHeader("Importance", "High");""",
             subject: "Attention required: ${env.BUILD_TAG} [${currentBuild.result}!]".toString(),
             body: '${JELLY_SCRIPT,template="html-test"}',
