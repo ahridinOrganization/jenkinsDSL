@@ -11,6 +11,7 @@ def call(body) {
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     node () {
+        @Library('github.com/ahridinOrganization/jenkinsDSL') _
         //customConfigFile(String name, Closure configFileClosure = null)       
         jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
