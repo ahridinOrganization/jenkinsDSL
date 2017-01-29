@@ -13,12 +13,6 @@ def call(body) {
     println params
     node () {
         echo pwd()
-        jobDsl targets: ['**/*.groovy','**/${config.SCRIPT}'].join('\n'),
-           removedJobAction: 'DELETE',
-           removedViewAction: 'DELETE',
-           lookupStrategy: 'JENKINS_ROOT',
-           additionalClasspath: [pwd()].join('\n')
-        
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', 
               removedJobAction: 'DISABLE', removedViewAction: 'DELETE',
               additionalClasspath: ['vars'].join('\n'),
