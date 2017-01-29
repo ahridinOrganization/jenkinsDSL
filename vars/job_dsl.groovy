@@ -14,10 +14,10 @@ def call(body) {
     
     node () {
         def exist = fileExists "${config.SCRIPT}"
-    echo exist
+    echo exist.toString()
     exist = fileExists config.SCRIPT
-    echo  exist
-    echo exist
+    echo  exist.toString()
+    
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
