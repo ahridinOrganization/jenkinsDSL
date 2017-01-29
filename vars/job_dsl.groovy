@@ -11,12 +11,13 @@ def call(body) {
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     println params
-    def exist = fileExists "${config.SCRIPT}"
+    
+    node () {
+        def exist = fileExists "${config.SCRIPT}"
     echo fileExists ${config.SCRIPT}
     echo fileExists config.SCRIPT
     echo  "${config.SCRIPT}"
     echo exist
-    node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
@@ -29,7 +30,7 @@ def call(body) {
                             //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
-                              script(readFileFromWorkspace("${config.SCRIPT}"))
+                              script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
                           } //end cps
                 } //end definition
