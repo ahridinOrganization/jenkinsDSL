@@ -9,18 +9,18 @@ def call(body) {
     for (item in config) {           
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
-    node () {    println params
-
+    node () {    
+       println params
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
-        folder("${jobFolder}")
-        pipelineJob("${jobFolder}/${config.NAME}"){        
+            folder("${jobFolder}")
+            pipelineJob("${jobFolder}/${config.NAME}"){        
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
-                            //choiceParam('choice', ['a', 'b', 'c'], 'FIX})
-                          }                                                     ME')
+                            //choiceParam('choice', ['a', 'b', 'c'], 'FIX')
+                          }                                                     
                             //stringParam('myParameterName', ${test
                           cps {
                               script(readFileFromWorkspace(${config.SCRIPT}))
