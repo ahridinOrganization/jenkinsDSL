@@ -12,8 +12,15 @@ def call(body) {
     }       
     println params
     node () {
-       jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', removedJobAction: 'DISABLE',  additionalClasspath: 'vars'
- , removedViewAction: 'DELETE', scriptText:"""
+        step([ $class: 'ExecuteDslScripts',   scriptLocation: [targets: [**/>groovy].join('\n')], removedJobAction: 'DISABLE',
+            removedViewAction: 'DELETE',
+            lookupStrategy: 'JENKINS_ROOT',
+            additionalClasspath: 'vars'
+        ])
+       jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', 
+              removedJobAction: 'DISABLE', removedViewAction: 'DELETE',
+              additionalClasspath: ['vars'].join('\n'),
+              scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
