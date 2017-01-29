@@ -25,7 +25,7 @@ def call(body) {
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')                                                      
                           }                        
                           cps {
-                              script(readFileFromWorkspace(${config.SCRIPT}))
+                              script(readFileFromWorkspace("${config.SCRIPT}"))
                               sandbox()
                           } //end cps
                 } //end definition
