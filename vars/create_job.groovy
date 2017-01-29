@@ -7,11 +7,10 @@ def call(body) {
     def job
     def params
     for (item in config ) {
-        if (item != null) {
-            println "${item.key}" + " " + "${item.value}"
-            params=params+"""stringParam('${item.key}'.toString(),'${item.value}'.toString())\n"""           }
-    }   
-        println params
+        if (item != null)            
+            params=params+"""stringParam('${item.key}.toString()','${item.value}.toString()')\n"""           
+    }       
+    println params
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
@@ -19,7 +18,7 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                             //${params}
+                             ${params}
                              //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                              //stringParam('myParameterName', ${test})
                              //predefinedProps(${config})
@@ -32,6 +31,6 @@ def call(body) {
                 } //end definition
             } //end pipelinejob
         """ 
-        job = build (job:"${jobFolder}/${config.NAME}",config)                     
+        job = build (job:"${jobFolder}/${config.NAME}")                     
     } //end node
 } //end call
