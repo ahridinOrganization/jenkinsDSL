@@ -10,10 +10,9 @@ def call(body) {
         if (item != null)            
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
-    println 
     node () {
        "${WORKSPACE}"
-        customConfigFile(String name, Closure configFileClosure = null)
+        //customConfigFile(String name, Closure configFileClosure = null)
         customConfigFile('my-config') {comment('My important configuration') content('<some-xml/>')}
         jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
