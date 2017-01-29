@@ -20,13 +20,13 @@ def call(body) {
         
         step([
             $class: 'ExecuteDslScripts',
-            scriptLocation: [targets: ["**/${config.SCRIPT}"].join('\n')],
+            scriptLocation: [targets: [**/config.SCRIPT].join('\n')],
             removedJobAction: 'DISABLE',
             removedViewAction: 'DELETE',
             lookupStrategy: 'JENKINS_ROOT',
             additionalClasspath: 'vars'
         ])
-       jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+       jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
 checkout scm                
