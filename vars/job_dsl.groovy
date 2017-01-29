@@ -11,26 +11,13 @@ def call(body) {
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     println params
-    
     node () {
-        def exist = fileExists "job_dsl.groovy"
-    echo exist.toString()
-    exist = fileExists config.SCRIPT
-    echo  exist.toString()
-        
-        step([
-            $class: 'ExecuteDslScripts',
-            scriptLocation: [targets: [**/config.SCRIPT].join('\n')],
-            removedJobAction: 'DISABLE',
-            removedViewAction: 'DELETE',
-            lookupStrategy: 'JENKINS_ROOT',
-            additionalClasspath: 'vars'
-        ])
-       jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+       jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', removedJobAction: 'DISABLE',  additionalClasspath: 'vars'
+ , removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
-            pipelineJob("${jobFolder}/${config.NAME}") {   
-                 definition {
-                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
+            pipelineJob("${jobFolder}/${config.NAME}") {
+                definition {
+                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
