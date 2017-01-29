@@ -9,7 +9,7 @@ def call(body) {
     for (item in config ) {
         if (item != null) {
             println "${item.key}" + " " + "${item.value}"
-            params=params+"""stringParam('${item.key}',${item.value})\n"""           }
+            params=params+"""stringParam('${item.key}','${item.value}')\n"""           }
     }   
         println params
     node () {
