@@ -4,23 +4,24 @@ def call(body) {
     body.delegate = config      
     body()	 
     def job  
-    def params=""    
+    def params="" 
+    def jobFolder="STAGE-0"
     for (item in config) {           
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
-    println params
-    node () {
+    node () {    println params
+
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
-        folder("${config.JOB_FOLDER}")
-            pipelineJob("${config.JOB_FOLDER}/${config.JOB_NAME}") {       
+        folder("${jobFolder}")
+        pipelineJob("${jobFolder}/${config.NAME}"){        
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
-                            //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                            //stringParam('myParameterName', ${test})                             
-                          }                        
+                            //choiceParam('choice', ['a', 'b', 'c'], 'FIX})
+                          }                                                     ME')
+                            //stringParam('myParameterName', ${test
                           cps {
                               script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
@@ -28,6 +29,6 @@ def call(body) {
                 } //end definition
             } //end pipelinejob
         """ 
-        job = build (job:"${config.JOB_FOLDER}/${config.JOB_NAME}")                     
+        job = build (job:"${jobFolder}/${config.NAME}")                     
     } //end node
 } //end call
