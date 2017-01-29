@@ -6,9 +6,8 @@ def call(body) {
     def jobFolder="STAGE-0"
     def job
     def params
-    for ( param in config ) {
-        params=params+"stringParam('${e.key}',${e.value}), "
-        //println "key = ${e.key}, value = ${e.value}"
+    for (item in config ) {
+        params=params+"stringParam('${item.key}',${item.value}), "       
     }    
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
