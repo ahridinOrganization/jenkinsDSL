@@ -8,21 +8,20 @@ def call(body) {
     def params=""
     for (item in config) {
         if (item != null)            
-          params=params+"""stringParam('${item.key.toString()}','${item.value.toString()'})"""           
+          params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
+    println params
     node () {
-        @Library('github.com/ahridinOrganization/jenkinsDSL') _
-        //customConfigFile(String name, Closure configFileClosure = null)       
-        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+       jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
-            //customConfigFile('my-config') {comment('My important configuration') content('<some-xml/>')}
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                            ${params}
+                             ${params}
                             booleanParam('myBool', false)                                                          
-                            //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')                                                      
+                            //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
+                            //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
                               script(readFileFromWorkspace(${config.SCRIPT}))
