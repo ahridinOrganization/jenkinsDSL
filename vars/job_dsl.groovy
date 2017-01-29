@@ -17,7 +17,15 @@ def call(body) {
     echo exist.toString()
     exist = fileExists config.SCRIPT
     echo  exist.toString()
-    
+        checkout scm
+        step([
+            $class: 'ExecuteDslScripts',
+            scriptLocation: [targets: ["**/${config.SCRIPT}"].join('\n')],
+            removedJobAction: 'DISABLE',
+            removedViewAction: 'DELETE',
+            lookupStrategy: 'JENKINS_ROOT',
+            additionalClasspath: 'vars'
+        ])
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
