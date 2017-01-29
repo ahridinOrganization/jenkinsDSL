@@ -12,15 +12,11 @@ def call(body) {
     }       
     println params
     node () {
-        echo pwd()
-       jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', 
-              removedJobAction: 'DISABLE', removedViewAction: 'DELETE',
-              additionalClasspath: ['vars'].join('\n'),
-              scriptText:"""
+       jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
-                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
+                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
