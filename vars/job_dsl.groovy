@@ -14,9 +14,9 @@ def call(body) {
     
     node () {
         def exist = fileExists "${config.SCRIPT}"
-    echo fileExists ${config.SCRIPT}
-    echo fileExists config.SCRIPT
-    echo  "${config.SCRIPT}"
+    echo exist
+    exist = fileExists config.SCRIPT
+    echo  exist
     echo exist
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
