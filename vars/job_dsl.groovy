@@ -16,10 +16,10 @@ def call(body) {
         jobDsl targets: ['**/*.groovy','**/${config.SCRIPT}'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
-           lookupStrategy: 'SEED_JOB',
-           additionalClasspath: ['vars'].join('\n')
+           lookupStrategy: 'JENKINS_ROOT',
+           additionalClasspath: [pwd()].join('\n')
         
-       jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', 
+       jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', 
               removedJobAction: 'DISABLE', removedViewAction: 'DELETE',
               additionalClasspath: ['vars'].join('\n'),
               scriptText:"""
