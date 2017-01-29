@@ -25,7 +25,6 @@ def call(body) {
                             //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
-                              scm
                               script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
                           } //end cps
