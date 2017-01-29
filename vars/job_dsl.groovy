@@ -10,7 +10,7 @@ def call(body) {
         if (item != null)            
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
-    println params
+    println "${WORKSPACE}"
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
