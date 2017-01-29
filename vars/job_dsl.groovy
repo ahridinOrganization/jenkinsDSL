@@ -13,7 +13,6 @@ def call(body) {
     println params
     node () {
         echo pwd()
-        scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}
         jobDsl targets: ['**/*.groovy','**/${config.SCRIPT}'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
