@@ -1,4 +1,3 @@
-@Library('github.com/ahridinOrganization/jenkinsDSL') _ 
 def call(body) {
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -13,7 +12,8 @@ def call(body) {
     }       
     println params
     node () {
-        jobDsl ignoreMissingFiles: true, additionalClasspath: pwd(), lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+        echo pwd()
+        jobDsl ignoreMissingFiles: false, additionalClasspath: pwd(), lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
