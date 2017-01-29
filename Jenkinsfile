@@ -1,4 +1,7 @@
-import hudson.model.*
+echo ""ello
+
+
+/*import hudson.model.*
 import hudson.EnvVars
 import groovy.json.JsonSlurperClassic
 import groovy.json.JsonBuilder
@@ -20,3 +23,5 @@ import java.net.URL
 			)	
 			}
 	}// node
+*/
+
