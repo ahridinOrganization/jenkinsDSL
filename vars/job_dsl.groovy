@@ -12,6 +12,7 @@ def call(body) {
     }       
     println params
     node () {
+        dsl(['job_dsl.groovy'], 'DELETE')
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
