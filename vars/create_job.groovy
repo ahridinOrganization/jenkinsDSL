@@ -8,7 +8,7 @@ def call(body) {
     def params=""
     for (item in config) {
         if (item != null)            
-          params=params+"""stringParam('${item.key.toString()}',${item.value.toString()})\n"""           
+          params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     println params
     node () {
