@@ -11,7 +11,7 @@ def call(body) {
     println params
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
-        folder("${config.JOB}")
+        folder("STAGE-0/${config.JOB}")
             pipelineJob("${config.JOB}") {       
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
@@ -28,6 +28,6 @@ def call(body) {
                 } //end definition
             } //end pipelinejob
         """ 
-        job = build (job:"${config.JOB}")                     
+        job = build (job:"STAGE-0/${config.JOB}")                     
     } //end node
 } //end call
