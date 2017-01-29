@@ -12,7 +12,8 @@ def call(body) {
     }       
     println params
     node () {
-        job_dsl
+       def workspace = pwd()
+       echo workspace
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
