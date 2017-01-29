@@ -19,10 +19,9 @@ def call(body) {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
-                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                             //stringParam('myParameterName', ${test})
-                             //predefinedProps(${config})
-                             //predefinedProps([key2: 'value2', key3: 'value3'])
+                            booleanParam('myBool', false)                                                          
+                            //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
+                            //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
                               script(readFileFromWorkspace(${config.SCRIPT}))
