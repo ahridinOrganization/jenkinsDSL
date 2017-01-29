@@ -11,11 +11,10 @@ def call(body) {
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     node () {
-       "${WORKSPACE}"
-        //customConfigFile(String name, Closure configFileClosure = null)
-        customConfigFile('my-config') {comment('My important configuration') content('<some-xml/>')}
+        //customConfigFile(String name, Closure configFileClosure = null)       
         jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
+            customConfigFile('my-config') {comment('My important configuration') content('<some-xml/>')}
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
