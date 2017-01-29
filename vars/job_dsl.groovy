@@ -12,11 +12,12 @@ def call(body) {
     }       
     println params
     node () {
-        step([ $class: 'ExecuteDslScripts',   scriptLocation: [targets: [**/>groovy].join('\n')], removedJobAction: 'DISABLE',
-            removedViewAction: 'DELETE',
-            lookupStrategy: 'JENKINS_ROOT',
-            additionalClasspath: 'vars'
-        ])
+        jobDsl targets: ['**/*.groovy',${config.SCRIPT}].join('\n'),
+           removedJobAction: 'DELETE',
+           removedViewAction: 'DELETE',
+           lookupStrategy: 'SEED_JOB',
+           additionalClasspath: ['vars'].join('\n')
+        
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', 
               removedJobAction: 'DISABLE', removedViewAction: 'DELETE',
               additionalClasspath: ['vars'].join('\n'),
