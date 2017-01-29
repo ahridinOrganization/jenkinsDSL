@@ -24,7 +24,7 @@ def call(body) {
                             //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
-                              script(readFileFromWorkspace(${config.SCRIPT}))
+                              script(readFileFromWorkspace("**/pipeline_stage_0.groovy"))
                               sandbox()
                           } //end cps
                 } //end definition
