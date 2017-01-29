@@ -12,7 +12,7 @@ def call(body) {
     }       
     println params
     node () {
-       jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+       jobDsl ignoreMissingFiles: true, additionalClasspath: pwd(), lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
