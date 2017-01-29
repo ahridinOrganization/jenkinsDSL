@@ -13,7 +13,7 @@ def call(body) {
     println params
     
     node () {
-        def exist = fileExists "${config.SCRIPT}"
+        def exist = fileExists "job_dsl.groovy"
     echo exist.toString()
     exist = fileExists config.SCRIPT
     echo  exist.toString()
