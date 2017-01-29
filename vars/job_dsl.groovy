@@ -26,7 +26,7 @@ def call(body) {
                             //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
-                              //script(readFileFromWorkspace('\${SCRIPT}'))
+                              script(readFileFromWorkspace('\${SCRIPT}'))
                               sandbox()
                           } //end cps
                 } //end definition
