@@ -27,7 +27,7 @@ def call(body) {
                           }                        
                           cps {
                               cps {
-                              script(readFileFromWorkspace('${config.SCRIPT}'))
+                              script(readFileFromWorkspace("${config.SCRIPT}"))
                               sandbox()
                           } //end cps
                 } //end definition
