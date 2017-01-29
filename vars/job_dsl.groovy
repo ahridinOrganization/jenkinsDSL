@@ -28,9 +28,8 @@ def call(body) {
         ])
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'JENKINS_ROOT', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
-            pipelineJob("${jobFolder}/${config.NAME}") {
-checkout scm                
-definition {
+            pipelineJob("${jobFolder}/${config.NAME}") {   
+                 definition {
                           cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
                           parameters {
                              ${params}
