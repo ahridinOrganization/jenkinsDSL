@@ -5,10 +5,10 @@ def call(body) {
     body()	 
     def jobFolder="STAGE-0"
     def job
-    def params
-    for (item in config ) {
+    def params=""
+    for (item in config) {
         if (item != null)            
-        params=params+"""stringParam('${item.key.toString()}','${item.value.toString()}')\n"""           
+          params=params+"""stringParam('${item.key.toString()}','${item.value.toString()}')\n"""           
     }       
     println params
     node () {
