@@ -8,25 +8,23 @@ def call(body) {
     def params=""
     for (item in config) {
         if (item != null)            
-          params=params+"stringParam('${item.key.toString()}',${item.value.toString()})\n"           
+          params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     println params
     node () {
-       def workspace = pwd()
-       echo workspace
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
-                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
+                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                            stringParam('myParameterName', ${config.NAME})                             
+                            //stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
-                              script(readFileFromWorkspace('\${SCRIPT}'))
+                              script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
                           } //end cps
                 } //end definition
