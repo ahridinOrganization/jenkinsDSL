@@ -14,20 +14,37 @@ def call(body) {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}"){        
-                 definition {
-                            cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                            parameters {
-                              ${params}
-                             booleanParam('myBool', false)                                                          
-                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                             //stringParam('myParameterName', ${test})                             
-                           }                        
-                           cps {
-                               script(readFileFromWorkspace(${config.SCRIPT}))
-                               sandbox()
-                           } //end cps
-                 } //end definition
-             } //end pipelinejob
+                definition {
+                    cpsScm {scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
+                    parameters {
+                             ${params}
+                            booleanParam('myBool', false)                                                          
+                            //choiceParam('choice', ['a', 'b', 'c'], 'FIX')
+
+                          }                                                     
+                            //stringParam('myParameterName', ${test
+                          cps {
+                              script(readFileFromWorkspace(${config.SCRIPT}))
+                              sandbox()
+                          } //end cps            
+                } //end definition
+            } //end pipelinejob
+            pipelineJob("${jobFolder}/${config.NAME}2"){        
+                definition {
+                    cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
+                    parameters {
+                             ${params}
+                            booleanParam('myBool', false)                                                          
+                            //choiceParam('choice', ['a', 'b', 'c'], 'FIX')
+
+                          }                                                     
+                            //stringParam('myParameterName', ${test
+                          cps {
+                              script(readFileFromWorkspace(${config.SCRIPT}))
+                              sandbox()
+                          } //end cps            
+                } //end definition
+            } //end pipelinejob
         """ 
         job = build (job:"${jobFolder}/${config.NAME}")                     
     } //end node
