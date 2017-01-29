@@ -19,7 +19,7 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
-                             ${params}
+                             //${params}
                              //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                              //stringParam('myParameterName', ${test})
                              //predefinedProps(${config})
@@ -32,13 +32,6 @@ def call(body) {
                 } //end definition
             } //end pipelinejob
         """ 
-        job = build (job:"${jobFolder}/${config.NAME}",
-                     MAVEN_GOALS: "${config.MAVEN_GOALS}",
-                     MAVEN_VERISON: "${config.MAVEN_VERISON}",
-                     MAVEN_POM: "${config.MAVEN_POM}",
-                     MAVEN_SETTINGS: "${config.MAVEN_SETTINGS}",
-                     JAVA_VERSION: "${config.JAVA_VERSION}",
-                     TEST: "${config.TEST}",
-                     CLEANUP: "${config.CLEANUP}")
+        job = build (job:"${jobFolder}/${config.NAME}",config)                     
     } //end node
 } //end call
