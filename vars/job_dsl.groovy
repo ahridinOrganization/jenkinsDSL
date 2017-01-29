@@ -13,6 +13,7 @@ def call(body) {
     println params
     node () {
         echo pwd()
+        scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}
         jobDsl targets: ['**/*.groovy','**/${config.SCRIPT}'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
@@ -26,7 +27,7 @@ def call(body) {
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
-                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
+                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
