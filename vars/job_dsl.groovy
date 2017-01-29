@@ -12,7 +12,8 @@ def call(body) {
     }       
     println params
     node () {
-       jobDsl targets: ['**/*.groovy','**/${config.SCRIPT}'].join('\n'),
+        echo pwd()
+        jobDsl targets: ['**/*.groovy','**/${config.SCRIPT}'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',
