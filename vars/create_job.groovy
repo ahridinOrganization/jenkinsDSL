@@ -5,6 +5,12 @@ def call(body) {
     body()	 
     def jobFolder="STAGE-0"
     def job
+    def params
+    for ( param in config ) {
+        params=params+"stringParam('${e.key}',${e.value}), "
+        //println "key = ${e.key}, value = ${e.value}"
+    }
+    def params = 
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
@@ -12,6 +18,7 @@ def call(body) {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
+                             ${params}
                              //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                              //stringParam('myParameterName', ${test})
                              //predefinedProps(${config})
