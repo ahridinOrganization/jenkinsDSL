@@ -3,18 +3,16 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config      
     body()	 
-    def jobFolder="STAGE-0"
-    def job
-    def params=""
-    for (item in config) {
-        if (item != null)            
+    def job    
+    def params=""    
+    for (item in config) {           
           params=params+"stringParam('${item.key.toString()}','${item.value.toString()}')\n"           
     }       
     println params
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
-            folder("${jobFolder}")
-            pipelineJob("${jobFolder}/${config.NAME}") {
+            folder("${config.JOB}")
+            pipelineJob("${config.JOB}") {
                 definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
