@@ -28,6 +28,6 @@ def call(body) {
                 } //end definition
             } //end pipelinejob
         """ 
-        job = build (job:"${jobFolder}/${config.NAME}")                     
+        job = build (job:"${config.JOB}")                     
     } //end node
 } //end call
