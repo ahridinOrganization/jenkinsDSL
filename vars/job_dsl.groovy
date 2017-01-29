@@ -23,7 +23,7 @@ def call(body) {
                             ${params}
                             booleanParam('myBool', false)                                                          
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                            //stringParam('myParameterName', ${test})                             
+                            stringParam('myParameterName', ${test})                             
                           }                        
                           cps {
                               //script(readFileFromWorkspace(${config.SCRIPT}))
