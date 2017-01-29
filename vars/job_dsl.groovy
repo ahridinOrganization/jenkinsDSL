@@ -27,22 +27,7 @@ def call(body) {
                                sandbox()
                            } //end cps
                  } //end definition
-            } //end pipelinejob
-           pipelineJob("${jobFolder}/${config.JOB}") {
-                  definition {
-                            cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
-                            parameters {
-                              ${params}
-                             booleanParam('myBool', false)                                                          
-                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
-                             //stringParam('myParameterName', ${test})                             
-                           }                        
-                           cps {
-                               script(readFileFromWorkspace(${config.SCRIPT}))
-                               sandbox()
-                           } //end cps
-                 } //end definition
-            } //end pipelinejob
+            } //end pipelinejob           
         """ 
         job = build (job:"${jobFolder}/${config.NAME}")                     
     } //end node
