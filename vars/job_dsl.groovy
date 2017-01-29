@@ -12,7 +12,7 @@ def call(body) {
     }       
     println params
     node () {
-        jobDsl targets: ['**/*.groovy',${config.SCRIPT}].join('\n'),
+        jobDsl targets: ['**/*.groovy','${config.SCRIPT}'].join('\n'),
            removedJobAction: 'DELETE',
            removedViewAction: 'DELETE',
            lookupStrategy: 'SEED_JOB',
