@@ -25,7 +25,7 @@ def call(body) {
                              //predefinedProps([key2: 'value2', key3: 'value3'])
                           }                        
                           cps {
-                              script(readFileFromWorkspace('${config.SCRIPT}'))
+                              script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
                           } //end cps
                 } //end definition
