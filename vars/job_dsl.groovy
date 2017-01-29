@@ -12,7 +12,7 @@ def call(body) {
     }       
     println params
     node () {
-       jobDsl ignoreMissingFiles: true, additionalClasspath: pwd(), lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+        jobDsl ignoreMissingFiles: true, additionalClasspath: pwd(), lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
@@ -25,7 +25,7 @@ def call(body) {
                           }                        
                           cps {
                               scm
-                              script(readFileFromWorkspace("${config.SCRIPT}"))
+                              script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
                           } //end cps
                 } //end definition
