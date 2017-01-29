@@ -16,8 +16,8 @@ def call(body) {
             folder("${jobFolder}")
             //customConfigFile('my-config') {comment('My important configuration') content('<some-xml/>')}
             pipelineJob("${jobFolder}/${config.NAME}") {
-                definition {
-                          scm 
+scm                
+definition {
                           cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                             ${params}
