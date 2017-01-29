@@ -8,7 +8,7 @@ def call(body) {
     def params
     for (item in config ) {
         println "${item.key}" + " " + "${item.value}"
-        params=params+"""stringParam('${item.key}',${item.value})\, """           
+        params=params+"""stringParam('${item.key}',${item.value})/, """           
     }    
     node () {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
