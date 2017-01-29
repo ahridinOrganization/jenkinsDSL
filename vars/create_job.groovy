@@ -25,12 +25,12 @@ def call(body) {
             } //end pipelinejob
         """ 
         job = build (job:"${jobFolder}/${config.NAME}",
-                     MAVEN_GOALS: ${config.MAVEN_GOALS},
-                     MAVEN_VERISON: ${config.MAVEN_VERISON},
-                     MAVEN_POM: ${config.MAVEN_POM},
-                     MAVEN_SETTINGS: ${config.MAVEN_SETTINGS},
-                     JAVA_VERSION: ${config.JAVA_VERSION},
-                     TEST: ${config.TEST},
-                     CLEANUP: ${config.CLEANUP})
+                     MAVEN_GOALS: "${config.MAVEN_GOALS}",
+                     MAVEN_VERISON: "${config.MAVEN_VERISON}",
+                     MAVEN_POM: "${config.MAVEN_POM}",
+                     MAVEN_SETTINGS: "${config.MAVEN_SETTINGS}",
+                     JAVA_VERSION: "${config.JAVA_VERSION}",
+                     TEST: "${config.TEST}",
+                     CLEANUP: "${config.CLEANUP}")
     } //end node
 } //end call
