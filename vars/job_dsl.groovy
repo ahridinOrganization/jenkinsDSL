@@ -14,7 +14,9 @@ def call(body) {
        jobDsl ignoreMissingFiles: true, lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}"){        
-                
+                definition {
+                          
+                } //end definition
             } //end pipelinejob
         """ 
         job = build (job:"${jobFolder}/${config.NAME}")                     
