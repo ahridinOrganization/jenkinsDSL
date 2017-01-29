@@ -28,10 +28,3 @@ def call(body) {
         """                      
     } //end node
 } //end call
-
- @NonCPS
-// @NonCPS
-def printList(params) {
-    List<String> props = params.collect { "${it.key}=${it.value}" }
-    echo props.toString()
-}
