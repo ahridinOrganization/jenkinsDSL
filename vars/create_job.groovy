@@ -8,7 +8,7 @@ def call(body) {
     def params
     for (item in config ) {
         println "${item.key}" + " " + "${item.value}"
-        params=params+"""stringParam('${item.key}',${item.value}) """           
+        params=params+"""stringParam('${item.key}',${item.value})\n"""           
     }   
         println params
     node () {
