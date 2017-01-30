@@ -26,9 +26,9 @@ def call(body) {
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                             //stringParam('myParameterName', ${test})                             
                           }    
-                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}
+                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}
                           cps {
-                              //script(readFileFromWorkspace(${config.SCRIPT}))
+                              script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
                           } //end cps
                 } //end definition
