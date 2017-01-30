@@ -12,11 +12,11 @@ properties([
         string(name: 'MAVEN_POM', defaultValue: 'pom.xml', description: ''),
         string(name: 'MAVEN_SETTINGS', defaultValue: 'setting.xml', description: ''),
         string(name: 'JAVA_VERSION', defaultValue: 'jdk7_64bit', description: ''),
-        booleanParam(name: 'TEST', defaultValue: false, description: 'Run tests'),
-        booleanParam(name: 'CLEANUP', defaultValue: false, description: 'Clean checkout'),
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Upload to artifactory/docker registry'),
+        booleanParam(name: 'TEST', defaultValue: true, description: 'Run tests'),
+        booleanParam(name: 'CLEANUP', defaultValue: true, description: 'Clean checkout'),
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Upload to artifactory/docker registry'),
         string(name: 'MAIL', defaultValue: 'ahridin@cisco.com', description: ''),
-        string(name: 'REPO_URL', defaultValue: 'https://github3.cisco.com/TestVGE/secure-gateway', description: ''),
+        string(name: 'REPO_URL', defaultValue: '', description: ''),
         string(name: 'NODE_LABEL', defaultValue: 'drm', description: ''),
     ])
    ])
