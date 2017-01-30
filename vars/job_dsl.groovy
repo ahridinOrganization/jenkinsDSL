@@ -13,8 +13,6 @@ def call(body) {
     println params
     node () {
         echo pwd()
-        git '…'
-        pipeline = load '${config.SCRIPT}'
         //additionalClasspath: pwd()/,
         checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', 
                                 url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
