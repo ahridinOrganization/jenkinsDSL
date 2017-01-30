@@ -3,7 +3,6 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config      
     body()	 
-    def jobFolder="STAGE-0"
     def job
     def params=""
     for (item in config) {
@@ -17,8 +16,8 @@ def call(body) {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
         jobDsl ignoreMissingFiles: false,  lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:
         """
-            folder("${jobFolder}")
-            pipelineJob("${jobFolder}/${config.NAME}") {
+            folder("${config.JOB_FOLDER}")
+            pipelineJob("${config.JOB_FOLDER}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
                           parameters {
@@ -34,6 +33,6 @@ def call(body) {
                 } //end definition
             } //end pipelinejob
         """ 
-        job = build (job:"${jobFolder}/${config.NAME}")                     
+        job = build (job:"${config.JOB_FOLDER}/${config.NAME}")                     
     } //end node
 } //end call
