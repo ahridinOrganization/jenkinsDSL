@@ -14,19 +14,19 @@ def call(body) {
     node () {
         echo pwd()
         //additionalClasspath: pwd()/,
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', 
-                                url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
-        jobDsl ignoreMissingFiles: false,  lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
+        jobDsl ignoreMissingFiles: false,  lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:
+        """
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
-                          parameters {
-                             ${params}
-                            booleanParam('myBool', false)                                                          
+                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
+                          //parameters {
+                            // ${params}
+                            //booleanParam('myBool', false)                                                          
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                             //stringParam('myParameterName', ${test})                             
-                          }    
-                          cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}
+                          //}                        
                           cps {
                               script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
