@@ -21,12 +21,12 @@ def call(body) {
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
                           cpsScm { scm {git('https://github.com/ahridinOrganization/jenkinsDSL')}}
-                          //parameters {
-                            // ${params}
+                          parameters {
+                             ${params}
                             //booleanParam('myBool', false)                                                          
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                             //stringParam('myParameterName', ${test})                             
-                          //}                        
+                          }                        
                           cps {
                               script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
