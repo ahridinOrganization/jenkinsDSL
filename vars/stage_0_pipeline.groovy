@@ -1,6 +1,7 @@
+import org.apache.maven.model.Model;
+
 def pom=null
 def newVersion=null
-
 
 properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '-1']],
@@ -12,23 +13,24 @@ properties([
         string(name: 'MAVEN_SETTINGS', defaultValue: 'setting.xml', description: ''),
         string(name: 'JAVA_VERSION', defaultValue: 'jdk7_64bit', description: ''),
         booleanParam(name: 'TEST', defaultValue: false, description: 'Run tests'),
-        booleanParam(name: 'CLEANUP', defaultValue: true, description: 'Clean checkout'),
-        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Upload to artifactory/docker registry'),
+        booleanParam(name: 'CLEANUP', defaultValue: false, description: 'Clean checkout'),
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Upload to artifactory/docker registry'),
         string(name: 'MAIL', defaultValue: 'ahridin@cisco.com', description: ''),
         string(name: 'REPO_URL', defaultValue: 'https://github3.cisco.com/TestVGE/secure-gateway', description: ''),
-        string(name: 'NODE_LABEL', defaultValue: 'vgs', description: ''),
+        string(name: 'NODE_LABEL', defaultValue: 'drm', description: ''),
     ])
    ])
 timestamps {
 try {
     node (params.NODE_LABEL) {
         try {
+            timeout(time: 180, unit: 'MINUTES') {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             wrap([$class: 'BuildUser']) {
                 def server = Artifactory.server("CISCO-Artifactory")
                 def descriptor = Artifactory.mavenDescriptor()
-                def rtMaven = Artifactory.newMavenBuild()
                 def buildInfo = Artifactory.newBuildInfo()
+                def rtMaven = Artifactory.newMavenBuild()
                 rtMaven.deployer releaseRepo:'cisco-spvss-staging', snapshotRepo:'cisco-spvss-staging', server: server
                 //rtMaven.resolver releaseRepo:'repo', snapshotRepo:'repo', server: server
                 rtMaven.deployer.deployArtifacts = (params.DEPLOY) ? true : false
@@ -64,7 +66,8 @@ try {
                         currentBuild.description = "[node:${env.NODE_NAME}]\t[user:${env.BUILD_USER_ID}]".toString()
                         //rtMaven.deployer.addProperty("SVN_REVISION", "${env.SVN_REVISION}").addProperty("compatibility", "1", "2", "3")
                     } catch (error) { throw error }    
-                }   
+                } 
+               
                 stage('Build'){
                     try {
                         echo "="*80 + "\nBuilding ${newVersion}...".toString() + "\n" + "="*80
@@ -81,6 +84,7 @@ try {
                         archiveArtifacts allowEmptyArchive: true, artifacts: "**/*${pom.name}-${newVersion}*,**/logs.zip".toString(), caseSensitive: false, excludes: '**/*.xml,**/*-sources*', fingerprint: true
                     } catch (error) { throw error }
                 }
+                
                 stage('Code Quality') {
                     try {
                     echo "="*80 + "\nCode Analysis...".toString() + "\n" + "="*80
@@ -118,10 +122,12 @@ try {
                 }*/
         }//end BuildUser
         }//end withCredentials
+        }//end timeout
         } catch (error) { throw error }
     }
     node ("drm") {   
         try {
+            timeout(time: 180, unit: 'MINUTES') {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             wrap([$class: 'BuildUser']) {
             stage ('Dockerize') {  //deploy via artifactory directly and now with maven
@@ -144,7 +150,7 @@ try {
         				    echo "using project_name=general"
         				fi
         				./build.sh push
-    			        fi"""
+    			        """
                     //server.upload(uploadSpec)
                     //server.publishBuildInfo buildInfo
                     //buildInfo.retention maxBuilds: 10, maxDays: 7, doNotDiscardBuilds: ["3", "4"], deleteBuildArtifacts: true
@@ -155,20 +161,21 @@ try {
                     //rtMaven.run pom: "${params.MAVEN_POM}".toString(), goals: "build-helper:parse-version versions:set -DnewVersion=${newVersion} versions:commit scm:checkin -Dusername=${env.USERNAME} -Dpassword=${env.PASSWORD} -Dmessage='Build: Version update by jenkins (${env.BUILD_ID})'-DpushChanges".toString()
                 } catch (error) { throw error }
             }
-            stage('DummyStage') {}
             }//end BuildUser
             }//end withCredentials
+            }//end timeout
         } catch (error) { throw error }
     }
 } catch (error) {
     node {
+        def mailto=(params.MAIL==null || params.MAIL=="")? "${pom.getDevelopers()[0].getEmail()}":params.MAIL
+        echo "ERROR: ${error} (${error.getCauses()[0].getUser()})"
         currentBuild.result = "FAILED"
-        echo "ERROR: ${error}"
-        //${pom.getDevelopers()[0].getEmail()}
         emailext (attachLog: true,compressLog: true, mimeType: 'text/html', preSendScript: """msg.addHeader("X-Priority", "1 (Highest)"); msg.addHeader("Importance", "High");""",
             subject: "Attention required: ${env.BUILD_TAG} [${currentBuild.result}!]".toString(),
             body: '${JELLY_SCRIPT,template="html-test"}',
-            to:"${params.MAIL}".toString(),
+            //${pom.getDevelopers()[0].getEmail()}
+            to:"${mailto}".toString(),
             recipientProviders: [[$class: 'CulpritsRecipientProvider'],[$class: 'RequesterRecipientProvider'],[$class: 'FirstFailingBuildSuspectsRecipientProvider']]        )
         }
 } finally { node { step([$class: 'LogParserPublisher', parsingRulesPath: 'parser_maven_build.txt', useProjectRule: false])} }
