@@ -13,7 +13,12 @@ def call(body) {
     println params
     node () {
         echo pwd()
-        jobDsl ignoreMissingFiles: false, additionalClasspath: pwd(), lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
+        git '…'
+        pipeline = load '${config.SCRIPT}'
+        //additionalClasspath: pwd()/,
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', 
+                                url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
+        jobDsl ignoreMissingFiles: false,  lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:"""
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
