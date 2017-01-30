@@ -17,13 +17,13 @@ def call(body) {
             folder("${jobFolder}")
             pipelineJob("${jobFolder}/${config.NAME}") {
                 definition {
-                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}}
                           parameters {
                              ${params}
                             booleanParam('myBool', false)                                                          
                             //choiceParam('choice', ['a', 'b', 'c'], 'FIXME')
                             //stringParam('myParameterName', ${test})                             
-                          }                        
+                          }    
+                          cpsScm { scm {git('https://github.com/jenkinsci/job-dsl-plugin.git')}
                           cps {
                               //script(readFileFromWorkspace(${config.SCRIPT}))
                               sandbox()
