@@ -13,7 +13,7 @@ def call(body) {
     node () {
         echo pwd()
         //additionalClasspath: pwd()/,
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c2b9fdc3-7562-4bc4-b4f6-3de05444999e', url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']],doGenerateSubmoduleConfigurations: false, extensions: [],submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${config.CREDENTIALS_ID}", url: "https://github.com/ahridinOrganization/jenkinsDSL"]]])
         jobDsl ignoreMissingFiles: false,  lookupStrategy: 'SEED_JOB', removedJobAction: 'DISABLE', removedViewAction: 'DELETE', scriptText:
         """
             folder("${config.JOB_FOLDER}")
